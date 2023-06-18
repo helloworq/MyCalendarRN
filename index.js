@@ -8,5 +8,6 @@ import {name as appName} from './app.json';
 import MyCalendar from './src/Calendar.js'
 import MyTimelineListView from './src/MyListView'
 import MyDynamicListView from './src/MyDynamicListView'
+import MyImageListView from './src/MyImageListView'
 
-AppRegistry.registerComponent(appName, () => MyDynamicListView);
+AppRegistry.registerComponent(appName, () => MyImageListView);
