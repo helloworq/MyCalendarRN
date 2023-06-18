@@ -9,5 +9,7 @@ import MyCalendar from './src/Calendar.js'
 import MyTimelineListView from './src/MyListView'
 import MyDynamicListView from './src/MyDynamicListView'
 import MyImageListView from './src/MyImageListView'
+import MyMomentView from './src/MyMoment'
+import ImageShow from './src/ImageShow'
 
-AppRegistry.registerComponent(appName, () => MyImageListView);
+AppRegistry.registerComponent(appName, () => MyMomentView);
