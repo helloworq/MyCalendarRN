@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
     "add-dom-event-listener": "^1.1.0",
     "antd-mobile": "^5.31.1",
     "antd-mobile-icons": "^0.3.0",
@@ -24,6 +26,8 @@
     "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-lightbox": "^0.8.1",
+    "react-native-safe-area-context": "^4.5.3",
+    "react-native-screens": "^3.21.1",
     "react-native-timeline-flatlist": "^0.8.0"
   },
   "devDependencies": {
