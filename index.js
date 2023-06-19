@@ -12,7 +12,8 @@ import MyImageListView from './src/MyImageListView'
 import MyMomentView from './src/MyMoment'
 import ImageShow from './src/ImageShow'
 import MyRW from './src/ReadWriteFile';
+import TimelineCalendar from './src/TimelineCalendar'
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () =>Root);
+AppRegistry.registerComponent(appName, () => TimelineCalendar);
