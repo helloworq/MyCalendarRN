@@ -13,13 +13,52 @@ import {
 
 const datas = [
     {
-        url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+        url: 'https://t7.baidu.com/it/u=3631608752,3069876728&fm=193&f=GIF',
     },
     {
         url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
     },
     {
+        url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3631608752,3069876728&fm=193&f=GIF',
+    },
+    {
         url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3631608752,3069876728&fm=193&f=GIF',
+    },
+    {
+        url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
+    },
+    {
+        url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
     },
 ]
 const screenW = Dimensions.get('window').width;
@@ -34,37 +73,39 @@ const keyExtractor = (item, index) => {
     return item.uri + index
 }
 
-const Pops = (funcs) => {
-    const [close, setClose] = useState(true)
-
-    return (
-        <>
-            <Modal
-                onRequestClose={() => {
-                    setClose(!close)
-                    funcs(true)
-                }}
-                transparent={true}
-                visible={close}
-            >
-                <ImageViewer imageUrls={datas} />
-            </Modal>
-        </>
-    )
-}
 const MyMomentView = () => {
     const [title, setTitle] = useState()
     const [data, setData] = useState(datas)
     const [block, setBlock] = useState()
-    const [flag, setFlag] = useState(true)
-
+    const [index, setIndex] = useState(0)
+    const [currImg, setCurrImg] = useState(null)
+    const [close, setClose] = useState(false)
 
     function renderRow(rowData) {
         return (
             <>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={close}
+                    //onShow={() => { console.log("load image -> " + currImg) }}
+                    onRequestClose={() => {
+                        setClose(false)
+                    }}
+                >
+                    {/* <ImageViewer imageUrls={data} index={index} useNativeDriver={true} /> */}
+                    <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
+                </Modal>
                 <TouchableOpacity
                     onPress={() => {
-                        setFlag(!flag)
+                        setClose(true)
+                        setIndex(rowData.index)
+                        setCurrImg(rowData.item.url)
+                    }}
+                    onLongPress={() => {
+                        data.splice(rowData.index, 1)
+                        let newData = data.slice()//解决数据更新，页面不刷新的问题
+                        setData(newData)
                     }}
                     activeOpacity={0.8}>
                     <View style={styles.innerViewStyle}>
@@ -75,7 +116,7 @@ const MyMomentView = () => {
         )
     }
 
-    const codeBlock = (
+    return (
         <View style={styles.container}>
             <FlatList
                 renderItem={renderRow}
@@ -87,8 +128,6 @@ const MyMomentView = () => {
             />
         </View>
     )
-
-    return flag ? codeBlock : <Pops func={setFlag} />;
 }
 
 const styles = StyleSheet.create({
