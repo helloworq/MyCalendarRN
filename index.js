@@ -11,5 +11,6 @@ import MyDynamicListView from './src/MyDynamicListView'
 import MyImageListView from './src/MyImageListView'
 import MyMomentView from './src/MyMoment'
 import ImageShow from './src/ImageShow'
+import MyRW from './src/ReadWriteFile';
 
-AppRegistry.registerComponent(appName, () => MyMomentView);
+AppRegistry.registerComponent(appName, () => MyRW);
