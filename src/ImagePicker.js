@@ -1,17 +1,22 @@
 import { React, useState } from 'react'
 import { PermissionsAndroid, Platform, Text, View, Button } from 'react-native'
-import { launchImageLibrary } from 'react-native-image-picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import MyMomentView from './MyMoment'
 
-const MyImagePicker = () => {
-    // You can also use as a promise without 'callback':
+const MyImagePicker = ({ navigation }) => {
     return (
         <>
-            <Button title='打开相册' onClick={() =>
-                launchImageLibrary('library', {
-                    selectionLimit: 1,
-                    mediaType: 'photo',
-                    includeBase64: false,
-                })} />
+            <Button title='打开相册' onPress={() => {
+                console.log("尝试开启")
+
+                ImageCropPicker.openPicker({ multiple: true })
+                    .then(images => {
+                        navigation.navigate('MyMoment', {
+                            'datas': images
+                        })
+                        //console.log(images)
+                    })
+            }} />
         </>
     )
 }
