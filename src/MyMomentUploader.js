@@ -14,155 +14,7 @@ import {
     Button
 } from 'react-native'
 
-// const datas = [
-//     {
-//         url: 'https://t7.baidu.com/it/u=3631608752,3069876728&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3631608752,3069876728&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3631608752,3069876728&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3988344443,4282949406&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
-//     },
-//     {
-//         url: 'https://t7.baidu.com/it/u=3713375227,571533122&fm=193&f=GIF',
-//     },
-// ]
 const screenW = Dimensions.get('window').width;
-// const datas = [
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262405000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120004.jpg",
-//         "size": 123267,
-//         "width": 960
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262401000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120000.jpg",
-//         "size": 123267,
-//         "width": 960
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262402000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120001.jpg",
-//         "size": 123267,
-//         "width": 960
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262405000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120002_1.jpg",
-//         "size": 123267,
-//         "width": 960
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262955000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120914.jpg",
-//         "size": 123254,
-//         "width": 960
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262390000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_115948.jpg",
-//         "size": 123159,
-//         "width": 960
-//     },
-//     {
-//         "height": 480,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262981000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120941.jpg",
-//         "size": 29685,
-//         "width": 480
-//     },
-//     {
-//         "height": 480,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262979000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120939.jpg",
-//         "size": 29739,
-//         "width": 480
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262404000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120002.jpg",
-//         "size": 123267,
-//         "width": 960
-//     },
-//     {
-//         "height": 480,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262980000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120940.jpg",
-//         "size": 29392,
-//         "width": 480
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262421000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120020.jpg",
-//         "size": 123337,
-//         "width": 960
-//     },
-//     {
-//         "height": 960,
-//         "mime": "image/jpeg",
-//         "modificationDate": "1687262970000",
-//         "path": "file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120929.jpg",
-//         "size": 123282,
-//         "width": 960
-//     }
-// ]
 
 // 一些常量设置
 const cols = 3; // 列数
@@ -186,7 +38,7 @@ const keyExtractor = (item, index) => {
     return item.path + index
 }
 
-const MyMomentView = ({ route, navigation }) => {
+const MyMomentUploader = ({ route, navigation }) => {
     const { datas } = route.params
 
     const [text, onChangeText] = useState("666")
@@ -305,4 +157,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MyMomentView
+export default MyMomentUploader

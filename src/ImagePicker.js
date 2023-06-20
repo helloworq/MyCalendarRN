@@ -1,7 +1,7 @@
 import { React, useState } from 'react'
 import { PermissionsAndroid, Platform, Text, View, Button } from 'react-native'
 import ImageCropPicker from 'react-native-image-crop-picker';
-import MyMomentView from './MyMoment'
+import MyMomentUploader from './MyMomentUploader'
 
 const MyImagePicker = ({ navigation }) => {
     return (
@@ -11,7 +11,7 @@ const MyImagePicker = ({ navigation }) => {
 
                 ImageCropPicker.openPicker({ multiple: true })
                     .then(images => {
-                        navigation.navigate('MyMoment', {
+                        navigation.navigate('MyMomentUploader', {
                             'datas': images
                         })
                         //console.log(images)

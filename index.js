@@ -9,7 +9,7 @@ import MyCalendar from './src/Calendar.js'
 import MyTimelineListView from './src/MyListView'
 import MyDynamicListView from './src/MyDynamicListView'
 import MyImageListView from './src/MyImageListView'
-import MyMomentView from './src/MyMoment'
+import MyMomentUploader from './src/MyMomentUploader'
 import ImageShow from './src/ImageShow'
 import MyRW from './src/ReadWriteFile';
 import TimelineCalendar from './src/TimelineCalendar'
