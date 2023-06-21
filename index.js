@@ -19,4 +19,4 @@ import MyImagePicker from './src/ImagePicker';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyRWMoment);

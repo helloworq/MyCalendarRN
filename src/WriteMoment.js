@@ -1,17 +1,20 @@
 import React, { Component, useState } from 'react';
 import { Button, TextInput,PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
+import {loadData,getData} from './util/FileUtil'
 
-var path = RNFS.DocumentDirectoryPath+'/MyData'
+var path = RNFS.DocumentDirectoryPath+'/MyData/'
 
 function getCurrentYMD() {
     const d = new Date();
     return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay()
 }
+
 function getCurrentTime() {
     const d = new Date();
-    return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+    return d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds()
 }
+
 
 const MyRWMoment = () => {
     const [text, onChangeText] = useState()
@@ -29,7 +32,13 @@ const MyRWMoment = () => {
                 // RNFS.mkdir(getCurrentYMD)
                 // RNFS.mkdir(getCurrentTime)
 
-                RNFS.mkdir(path+'/'+getCurrentYMD()).catch((e)=>console.log(e))
+                loadData('2023-5-3')
+                // function receiver(r){
+                //     console.log(r)
+                // }
+
+                // const a = RNFS.readFile('/data/user/0/com.mycalendar/files/MyData/2023-5-3/2-16-58/data.json')
+                // .then((t) => receiver(t))
 
                 // RNFS.copyFile(
                 //     'file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120941.jpg',

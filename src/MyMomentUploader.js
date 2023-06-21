@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
-import RNFS from 'react-native-fs'
+import { uploadMoment } from './util/FileUtil'
 
 import {
     TextInput,
@@ -22,17 +22,6 @@ const left = 10; // 左右边距
 const top = 10; // 上下边距
 const ImageWH = (screenW - (cols + 1) * left) / cols; // 图片大小
 
-var path = RNFS.DocumentDirectoryPath + '/MyData/'
-
-function getCurrentYMD() {
-    const d = new Date();
-    return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay()
-}
-
-function getCurrentTime() {
-    const d = new Date();
-    return d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds()
-}
 
 const keyExtractor = (item, index) => {
     return item.path + index
@@ -112,24 +101,7 @@ const MyMomentUploader = ({ route, navigation }) => {
                 />
             </View>
             <View>
-                <Button onPress={() => {
-                    folderYMD = getCurrentYMD()
-                    folderTime = getCurrentTime()
-
-                    RNFS.mkdir(path + folderYMD)
-                    RNFS.mkdir(path + folderYMD + '/' + folderTime)
-                    RNFS.writeFile(path + folderYMD + '/' + folderTime + '/data.json', text)
-
-                    data.forEach(element => {
-                        RNFS.copyFile(element.path,
-                            'file://' + path + folderYMD
-                            + '/' + folderTime + element.path.slice(element.path.lastIndexOf('/')))
-                        console.log(element.path)
-                        console.log(path + folderYMD
-                            + '/' + folderTime + element.path.slice(element.path.lastIndexOf('/')))
-                    });
-
-                }} title='发表' />
+                <Button onPress={() => { uploadMoment(text, data) }} title='发表' />
             </View>
         </>
     )

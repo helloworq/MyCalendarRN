@@ -1,27 +1,113 @@
-import RNFS from 'react-native-fs'
-import { TurboModuleRegistry } from 'react-native/types'
+import RNFS, { readFile } from 'react-native-fs'
 
-var folder = '/MyData'
-var path = RNFS.DocumentDirectoryPath + folder
+const folder = '/MyData/'
+const path = RNFS.DocumentDirectoryPath + folder
+const dataName = '/data.json'
+const filePrefix = 'file://'
 
-export function readText(fileRelativePath) {
-    RNFS.readFile(path + '/' + fileRelativePath)
+export function uploadMoment(text, imgs) {
+    const saved = mkdir()
+
+    RNFS.writeFile(saved + dataName, text)
+
+    imgs.forEach(element => {
+        RNFS.copyFile(element.path,
+            filePrefix + saved + element.path.slice(element.path.lastIndexOf('/')))
+    });
+
+}
+
+
+
+export function loadData(ymd) {
+    let res = []
+    let dirs = []
+    let pL = []
+
+    RNFS.readDir(path + ymd)
+        .then((ymdR) => {
+            ymdR.forEach(ymdEle => {
+                if (ymdEle.isDirectory()) {
+                    dirs.push(ymdEle)
+                }
+            })
+            return dirs
+        })
+        .then((dirs) => {
+            dirs.forEach(ymdEle => {
+                let p =
+                    RNFS.readDir(path + ymd + '/' + ymdEle.name)
+                        .then((timeR) => {
+                            let temp = {}
+                            let imgs = []
+                            timeR.forEach(timeEle => {
+                                if ('/' + timeEle.name === dataName) {
+                                    // RNFS.readFile(timeEle.path).then((t) => function () {
+                                    //     console.log(111111)
+                                    //     temp['description'] = t
+                                    // })
+                                    temp['description'] = readText(timeEle.path)
+                                    temp['time'] = ymdEle.name
+                                    temp['title'] = ymdEle.name
+                                }
+                                imgs.push(timeEle.path)
+                            })
+
+                            temp['imageUrl'] = imgs
+                            res.push(temp)
+                            return temp
+                        })
+                pL.push(p)
+            })
+        })
+        .then((r) => Promise.all(pL).then(() => { console.log() }))
+}
+
+function mkdir() {
+    const folderYMD = getCurrentYMD()
+    const folderTime = getCurrentTime()
+
+    RNFS.mkdir(path + folderYMD)
+    RNFS.mkdir(path + folderYMD + '/' + folderTime)
+    return path + folderYMD + '/' + folderTime;
+}
+
+function getCurrentYMD() {
+    const d = new Date();
+    return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay()
+}
+
+function getCurrentTime() {
+    const d = new Date();
+    return d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds()
+}
+
+function readText(fileRelativePath) {
+    RNFS.readFile(fileRelativePath).then((r) => console.log(r))
+    const r = Promise.all(RNFS.readFile(fileRelativePath)).then((r) => console.log(r))
+    console.log(r)
+    console.log(JSON.stringify(r))
+    return r;
+}
+
+function readTextV2(fileRelativePath) {
+    RNFS.readFile(fileRelativePath)
         .then((success) => { console.log('读取内容=>', success) })
         .catch((err => { console.log(err.message) }))
 }
 
-export function writeText(fileRelativePath, text) {
+function writeText(fileRelativePath, text) {
     RNFS.writeFile(path + '/' + fileRelativePath, text)
         .then((success) => { console.log('已写入\n') })
         .catch((err => { console.log(err.message) }))
 }
 
-export function appendText(fileRelativePath, text) {
+function appendText(fileRelativePath, text) {
     RNFS.appendFile(path + '/' + fileRelativePath, text)
         .then((success) => { console.log('已追加写入\n') })
         .catch((err => { console.log(err.message) }))
 }
 
-export function readDirs(path) {
+function readDirs(path) {
     RNFS.readdir(path).then((r) => console.log(r))
 }
