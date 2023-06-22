@@ -8,7 +8,7 @@ const MyCalendar = ({ navigation }) => {
       <Agenda
         onDayPress={day => {
           setSelected(day.dateString)
-          console.log(day.year + '-' + day.month + '-' + day.day)
+
           navigation.navigate('MyDynamicListView', {
             'param': day.year + '-' + day.month + '-' + day.day
           })

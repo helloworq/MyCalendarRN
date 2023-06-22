@@ -48,7 +48,9 @@ export function loadData(ymd) {
                                 }
                                 temp['time'] = ymdEle.name
                                 temp['title'] = ymdEle.name
-                                imgs.push(filePrefix + timeEle.path)
+                                if (timeEle.path.indexOf(dataName) === -1) {
+                                    imgs.push(filePrefix + timeEle.path)
+                                }
                             })
 
                             temp['imageUrl'] = imgs
@@ -82,7 +84,7 @@ function getCurrentTime() {
 
 export function readText(fileRelativePath) {
     let res
-    let r = Promise.all(RNFS.readFile(fileRelativePath)).then((r)=>res=r)
+    let r = Promise.all(RNFS.readFile(fileRelativePath)).then((r) => res = r)
     console.log(res)
     console.log(JSON.stringify(res))
     return JSON.stringify(r);

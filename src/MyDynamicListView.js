@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { loadData, getData,readText } from './util/FileUtil'
+import { loadData, getData, readText } from './util/FileUtil'
 
 import {
     StyleSheet,
@@ -7,7 +7,8 @@ import {
     View,
     RefreshControl,
     ActivityIndicator,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
 
@@ -51,7 +52,6 @@ const MyDynamicListView = ({ route, navigation }) => {
     const [initData, setInitData] = useState(false)
 
     useEffect(() => {
-        console.log("----",JSON.stringify (param))
         loadData(param).then((r) => setTdata(r))
     }, [])
 
@@ -99,7 +99,7 @@ const MyDynamicListView = ({ route, navigation }) => {
     function renderDetail(rowData, sectionID, rowID) {
         let title = <Text style={[styles.title]}>{rowData.title}</Text>
         var desc = null
-        console.log("image =>", rowData?.imageUrl[1])
+
         if (rowData.description)
             desc = (
                 <View style={styles.descriptionContainer}>
@@ -109,10 +109,20 @@ const MyDynamicListView = ({ route, navigation }) => {
             )
 
         return (
-            <View style={{ flex: 1 }}>
-                {title}
-                {desc}
-            </View>
+            <>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('MyMomentViewer', {
+                            'param': rowData
+                        })
+                    }}
+                >
+                    <View style={{ flex: 1 }}>
+                        {title}
+                        {desc}
+                    </View>
+                </TouchableOpacity>
+            </>
         )
     }
 

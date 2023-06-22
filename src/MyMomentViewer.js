@@ -22,62 +22,40 @@ const left = 10; // 左右边距
 const top = 10; // 上下边距
 const ImageWH = (screenW - (cols + 1) * left) / cols; // 图片大小
 
-var path = RNFS.DocumentDirectoryPath + '/MyData/'
-
-function getCurrentYMD() {
-    const d = new Date();
-    return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay()
-}
-
-function getCurrentTime() {
-    const d = new Date();
-    return d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds()
-}
-
 const keyExtractor = (item, index) => {
     return item.path + index
 }
 
 const MyMomentViewer = ({ route, navigation }) => {
-    const { datas } = route.params
+    const { param } = route.params
 
-    const [text, onChangeText] = useState("666")
-    const [data, setData] = useState(datas)
+    const [text, onChangeText] = useState(param.description)
+    const [data, setData] = useState(param)
     const [index, setIndex] = useState(0)
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
 
-    function renderRow(rowData) {
-        console.log(rowData)
-
+    function renderRow(rowData) {        
         return (
             <>
                 <Modal
                     animationType="fade"
                     transparent={true}
                     visible={close}
-                    //onShow={() => { console.log("load image -> " + currImg) }}
                     onRequestClose={() => {
                         setClose(false)
                     }}
                 >
-                    {/* <ImageViewer imageUrls={data} index={index} useNativeDriver={true} /> */}
                     <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
                 </Modal>
                 <TouchableOpacity
                     onPress={() => {
                         setClose(true)
-                        setIndex(rowData.index)
-                        setCurrImg(rowData.item.path)
-                    }}
-                    onLongPress={() => {
-                        data.splice(rowData.index, 1)
-                        let newData = data.slice()//解决数据更新，页面不刷新的问题
-                        setData(newData)
+                        setCurrImg(rowData.item)
                     }}
                     activeOpacity={0.8}>
                     <View style={styles.innerViewStyle}>
-                        <Image source={{ uri: rowData.item.path }} style={styles.iconStyle} />
+                        <Image source={{ uri: rowData.item }} style={styles.iconStyle} />
                     </View>
                 </TouchableOpacity>
             </>
@@ -91,7 +69,7 @@ const MyMomentViewer = ({ route, navigation }) => {
                     editable={false}
                     maxLength={400}
                     multiline={true}
-                    onChangeText={text => onChangeText(text)}
+                    onChangeText={text => { onChangeText(text) }}
                     value={text}
                     style={{
                         marginTop: 20,
@@ -105,33 +83,13 @@ const MyMomentViewer = ({ route, navigation }) => {
             <View style={styles.container}>
                 <FlatList
                     renderItem={renderRow}
-                    data={data}
+                    data={data.imageUrl}
                     keyExtractor={keyExtractor}
                     numColumns={cols}
                     columnWrapperStyle={styles.columnStyle}
                     horizontal={false}
                 />
             </View>
-            {/* <View>
-                <Button onPress={() => {
-                    folderYMD = getCurrentYMD()
-                    folderTime = getCurrentTime()
-
-                    RNFS.mkdir(path + folderYMD)
-                    RNFS.mkdir(path + folderYMD + '/' + folderTime)
-                    RNFS.writeFile(path + folderYMD + '/' + folderTime + '/data.json', text)
-
-                    data.forEach(element => {
-                        RNFS.copyFile(element.path,
-                            'file://' + path + folderYMD
-                            + '/' + folderTime + element.path.slice(element.path.lastIndexOf('/')))
-                        console.log(element.path)
-                        console.log(path + folderYMD
-                            + '/' + folderTime + element.path.slice(element.path.lastIndexOf('/')))
-                    });
-
-                }} title='发表' />
-            </View> */}
         </>
     )
 }

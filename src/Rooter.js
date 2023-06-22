@@ -7,6 +7,7 @@ import Calendar from './Calendar'
 import MyDynamicListView from './MyDynamicListView'
 import MyMomentUploader from './MyMomentUploader'
 import MyImagePicker from './ImagePicker';
+import MyMomentViewer from './MyMomentViewer';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ const Rooter = () => {
                 <Stack.Screen name="Calendar" component={Calendar} />
                 <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} />
                 <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} />
+                <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} />
             </Stack.Navigator>
         </NavigationContainer>
     );
