@@ -1,4 +1,4 @@
-import RNFS, { readFile } from 'react-native-fs'
+import RNFS, { readFile, unlink } from 'react-native-fs'
 
 const folder = '/MyData/'
 const path = RNFS.ExternalDirectoryPath + folder
@@ -14,6 +14,22 @@ export function uploadMoment(text, imgs) {
         RNFS.copyFile(element.path,
             filePrefix + saved + element.path.slice(element.path.lastIndexOf('/')))
     });
+
+}
+
+export function removeData(ymd, time) {
+    dataPath = path + ymd + '/' + time
+    RNFS.exists(dataPath).then((exist) => {
+        console.log('exist => ', exist, dataPath)
+        if (exist) {
+            RNFS.readDir(dataPath).then(dir => {
+                dir.forEach(ele => {
+                    console.log("delete => ", ele.path)
+                    RNFS.unlink(ele.path)
+                })
+            }).then(() => RNFS.unlink(dataPath))
+        }
+    })
 
 }
 

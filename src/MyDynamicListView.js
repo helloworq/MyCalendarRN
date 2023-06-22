@@ -23,8 +23,6 @@ const MyDynamicListView = ({ route, navigation }) => {
     const [initData, setInitData] = useState(false)
 
     useEffect(() => {
-        //loadData(param).then((r) => setTdata(r))
-
         loadData(param).then((r) => {
             let count = 0
             for (let i = 0; i < r.length; i++) {
@@ -99,7 +97,8 @@ const MyDynamicListView = ({ route, navigation }) => {
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('MyMomentViewer', {
-                            'param': rowData
+                            'param': rowData,
+                            'ymd': param,
                         })
                     }}
                 >

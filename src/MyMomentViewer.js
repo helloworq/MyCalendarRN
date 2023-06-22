@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFS from 'react-native-fs'
+import { removeData } from './util/FileUtil'
 
 import {
     TextInput,
@@ -11,7 +12,8 @@ import {
     TouchableOpacity,
     Image,
     Modal,
-    Button
+    Button,
+    Text
 } from 'react-native'
 
 const screenW = Dimensions.get('window').width;
@@ -68,9 +70,12 @@ const MyMomentViewer = ({ route, navigation }) => {
 
     return (
         <>
-            <View>
+            <View style={{
+                flexDirection: 'column',
+                flex: 1,
+            }}>
                 <TextInput
-                    editable={false}
+                    editable={true}
                     maxLength={400}
                     multiline={true}
                     onChangeText={text => { onChangeText(text) }}
@@ -79,20 +84,28 @@ const MyMomentViewer = ({ route, navigation }) => {
                         marginTop: 20,
                         marginLeft: 10,
                         marginRight: 10,
-                        borderColor: '#1e343f',
-                        borderWidth: 0.5,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#bebebe',
                     }}
                 />
-            </View>
-            <View style={styles.container}>
-                <FlatList
-                    renderItem={renderRow}
-                    data={data.imageUrl}
-                    keyExtractor={keyExtractor}
-                    numColumns={cols}
-                    columnWrapperStyle={styles.columnStyle}
-                    horizontal={false}
-                />
+                <View>
+                    <View>
+                        <FlatList
+                            renderItem={renderRow}
+                            data={data.imageUrl}
+                            keyExtractor={keyExtractor}
+                            numColumns={cols}
+                            columnWrapperStyle={styles.columnStyle}
+                            horizontal={false}
+                        />
+                    </View>
+                    <View style={{ marginTop: 10, alignItems: 'flex-end' }}>
+                        <Text style={{ color: '#686868' }} onPress={() => {
+                            removeData(route?.params?.ymd, route?.params?.param?.time)
+                            //需要年/时间字段
+                        }}>删除</Text>
+                    </View>
+                </View>
             </View>
         </>
     )
