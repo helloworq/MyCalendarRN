@@ -106,7 +106,8 @@ const MyMomentViewer = ({ route, navigation }) => {
                                 {route?.params?.ymd + ' ' + route?.params?.param?.time}
                             </Text>
                             <FontAwesome onPress={() => {
-                                removeData(route?.params?.ymd, route?.params?.param?.time)
+                                console.log(route?.params?.ymd + ' ' + route?.params?.param?.time)
+                                //removeData(route?.params?.ymd, route?.params?.param?.time)
                             }} name="trash" size={20} color="#110" />
                         </View>
 

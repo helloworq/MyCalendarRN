@@ -88,15 +88,30 @@ function mkdir() {
     return path + folderYMD + '/' + folderTime;
 }
 
+function getNow() {
+    const date = new Date()
+    // 目标时区，东8区
+    const targetTimezone = -8;
+    // 当前时区与中时区时差，以min为维度
+    const dif = date.getTimezoneOffset();
+    // 本地时区时间 + 本地时区时差  = 中时区时间
+    // 目标时区时间 + 目标时区时差 = 中时区时间
+    // 目标时区时间 = 本地时区时间 + 本地时区时差 - 目标时区时差
+    // 东8区时间
+    const east9time = date.getTime() + dif * 60 * 1000 - (targetTimezone * 60 * 60 * 1000);
+    return new Date(east9time);
+}
+
+
 function getCurrentYMD() {
-    const d = new Date();
+    const d = getNow();
     return d.getFullYear() + "-"
         + (d.getMonth() + 1).toString().padStart(2, '0') + "-"
         + (d.getDate()).toString().padStart(2, '0')
 }
 
 function getCurrentTime() {
-    const d = new Date();
+    const d = getNow();
     return (d.getHours() + 8).toString().padStart(2, '0') + "-"
         + (d.getMinutes()).toString().padStart(2, '0') + "-"
         + (d.getSeconds()).toString().padStart(2, '0')

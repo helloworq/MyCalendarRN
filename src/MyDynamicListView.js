@@ -86,7 +86,7 @@ const MyDynamicListView = ({ route, navigation }) => {
         if (rowData.description)
             desc = (
                 <View style={styles.descriptionContainer}>
-                    <Image source={{ uri: rowData?.imageUrl[1] }} style={styles.image} />
+                    <Image source={{ uri: rowData?.imageUrl[0] }} style={styles.image} />
                     <Text style={[styles.textDescription]}>{rowData?.description}</Text>
                 </View>
             )
