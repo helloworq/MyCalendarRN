@@ -10,7 +10,7 @@ const MyCalendar = ({ navigation }) => {
           setSelected(day.dateString)
 
           navigation.navigate('MyDynamicListView', {
-            'param': day.year + '-' + day.month + '-' + day.day
+            'param': day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
           })
         }}
         markedDates={{

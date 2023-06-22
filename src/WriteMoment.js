@@ -1,9 +1,9 @@
 import React, { Component, useState } from 'react';
-import { Button, TextInput,PermissionsAndroid } from 'react-native'
+import { Button, TextInput, PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
-import {loadData,getData} from './util/FileUtil'
+import { loadData, getData } from './util/FileUtil'
 
-var path = RNFS.ExternalDirectoryPath+'/MyData/'
+var path = RNFS.ExternalDirectoryPath + '/MyData/'
 
 function getCurrentYMD() {
     const d = new Date();
@@ -28,6 +28,14 @@ const MyRWMoment = () => {
             <Button onPress={() => { console.log(path) }} title='上传图片' />
 
             <Button onPress={() => {
+
+                const zone = 8
+                const d = new Date();
+                const f = (d.getHours() + 8).toString().padStart(2, '0') + "-"
+                    + (d.getMinutes()).toString().padStart(2, '0') + "-"
+                    + (d.getSeconds()).toString().padStart(2, '0')
+                console.log(f)
+
                 // RNFS.readdir(path).then((r) => console.log(r))
                 // RNFS.mkdir(getCurrentYMD)
                 // RNFS.mkdir(getCurrentTime)
@@ -45,8 +53,8 @@ const MyRWMoment = () => {
                 //     'file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/14-56-32/IMG_20230620_120941.jpg'  )
                 //     .then((success) => { console.log('已追加写入\n') })
                 //     .catch((err => { console.log(err.message) }))
-                
-                
+
+
             }} title='发表' />
 
             <Button onPress={() => {
