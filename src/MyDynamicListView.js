@@ -12,7 +12,6 @@ import {
     TouchableOpacity
 } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
-import res from 'antd-mobile-icons/es/AaOutline';
 
 const MyDynamicListView = ({ route, navigation }) => {
     const { param } = route.params
@@ -81,7 +80,7 @@ const MyDynamicListView = ({ route, navigation }) => {
     }
 
     function renderDetail(rowData, sectionID, rowID) {
-        let title = <Text style={[styles.title]}>{rowData.title}</Text>
+        //let title = <Text style={[styles.title]}>{rowData.title}</Text>
         var desc = null
 
         if (rowData.description)
@@ -94,7 +93,7 @@ const MyDynamicListView = ({ route, navigation }) => {
 
         return (
             <>
-                <TouchableOpacity
+                <TouchableOpacity style={{ marginBottom: 35 }}
                     onPress={() => {
                         navigation.navigate('MyMomentViewer', {
                             'param': rowData,
@@ -103,7 +102,6 @@ const MyDynamicListView = ({ route, navigation }) => {
                     }}
                 >
                     <View style={{ flex: 1 }}>
-                        {title}
                         {desc}
                     </View>
                 </TouchableOpacity>
@@ -112,11 +110,12 @@ const MyDynamicListView = ({ route, navigation }) => {
     }
 
     return <Timeline
+        style={styles.container}
         data={tdata}
-        circleColor='rgb(145,156,219)'
-        lineColor='rgb(45,56,19)'
-        timeStyle={{ textAlign: 'center', backgroundColor: '#ff9797', color: 'white', padding: 5, borderRadius: 13 }}
-        descriptionStyle={{ color: 'gray' }}
+        circleColor='rgba(0,0,0,0)'
+        lineColor='#bebebe'
+        timeStyle={{ textAlign: 'center', backgroundColor: '#f6f7e5', color: 'black', padding: 5, borderRadius: 13 }}
+        //descriptionStyle={{ color: 'gray' }}
         innerCircle={'icon'}
 
         options={{
@@ -138,7 +137,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        paddingTop: 65,
         backgroundColor: 'white'
     },
     list: {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFS from 'react-native-fs'
 import { removeData } from './util/FileUtil'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 import {
     TextInput,
@@ -99,11 +100,16 @@ const MyMomentViewer = ({ route, navigation }) => {
                             horizontal={false}
                         />
                     </View>
-                    <View style={{ marginTop: 10, alignItems: 'flex-end' }}>
-                        <Text style={{ color: '#686868' }} onPress={() => {
-                            removeData(route?.params?.ymd, route?.params?.param?.time)
-                            //需要年/时间字段
-                        }}>删除</Text>
+                    <View style={{ marginTop: 10, marginRight: 10, alignItems: 'flex-end' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ marginRight: 10 }}>
+                                {route?.params?.ymd + ' ' + route?.params?.param?.time}
+                            </Text>
+                            <FontAwesome onPress={() => {
+                                removeData(route?.params?.ymd, route?.params?.param?.time)
+                            }} name="trash" size={20} color="#110" />
+                        </View>
+
                     </View>
                 </View>
             </View>
