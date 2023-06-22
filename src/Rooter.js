@@ -14,11 +14,11 @@ const Rooter = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="MyImagePicker" component={MyImagePicker} />
-                <Stack.Screen name="Calendar" component={Calendar} />
-                <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} />
-                <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} />
-                <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} />
+                <Stack.Screen name="MyImagePicker" component={MyImagePicker} options={{ title: "Dashboard" }} />
+                <Stack.Screen name="Calendar" component={Calendar} options={{ title: "Calendar" }} />
+                <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} options={{ title: "动态列表" }} />
+                <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ title: "UP" }} />
+                <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ title: "轨迹" }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

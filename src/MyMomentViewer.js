@@ -14,7 +14,8 @@ import {
     Image,
     Modal,
     Button,
-    Text
+    Text,
+    ToastAndroid
 } from 'react-native'
 
 const screenW = Dimensions.get('window').width;
@@ -106,8 +107,8 @@ const MyMomentViewer = ({ route, navigation }) => {
                                 {route?.params?.ymd + ' ' + route?.params?.param?.time}
                             </Text>
                             <FontAwesome onPress={() => {
-                                console.log(route?.params?.ymd + ' ' + route?.params?.param?.time)
-                                //removeData(route?.params?.ymd, route?.params?.param?.time)
+                                removeData(route?.params?.ymd, route?.params?.param?.time)
+                                ToastAndroid.show('已删除，退出列表再进入将刷新', ToastAndroid.SHORT);
                             }} name="trash" size={20} color="#110" />
                         </View>
 

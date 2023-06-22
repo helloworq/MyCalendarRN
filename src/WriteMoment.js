@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Button, TextInput, PermissionsAndroid } from 'react-native'
+import { Button, TextInput, PermissionsAndroid, ToastAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
 import { loadData, getData, removeData } from './util/FileUtil'
 
@@ -27,6 +27,29 @@ function getTimeByZone(timezone = 8, date) {
     return targetDate
 }
 
+// const showToast = () => {
+//     ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT);
+//   };
+
+//   const showToastWithGravity = () => {
+//     ToastAndroid.showWithGravity(
+//       'All Your Base Are Belong To Us',
+//       ToastAndroid.SHORT,
+//       ToastAndroid.CENTER,
+//     );
+//   };
+
+//   const showToastWithGravityAndOffset = () => {
+//     ToastAndroid.showWithGravityAndOffset(
+//       'A wild toast appeared!',
+//       ToastAndroid.LONG,
+//       ToastAndroid.BOTTOM,
+//       25,
+//       50,
+//     );
+//   };
+
+
 const MyRWMoment = () => {
     const [text, onChangeText] = useState()
 
@@ -41,6 +64,7 @@ const MyRWMoment = () => {
             <Button onPress={() => {
 
                 //removeData('2023-06-22', '14-14-32')
+                //ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT);
 
 
                 // RNFS.readdir(path).then((r) => console.log(r))

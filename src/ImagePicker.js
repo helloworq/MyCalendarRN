@@ -2,25 +2,30 @@ import { React, useState } from 'react'
 import { PermissionsAndroid, Platform, Text, View, Button } from 'react-native'
 import ImageCropPicker from 'react-native-image-crop-picker';
 import MyMomentUploader from './MyMomentUploader'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const MyImagePicker = ({ navigation }) => {
     return (
         <>
-            <Button title='打开相册' onPress={() => {
-                console.log("尝试开启")
-
-                ImageCropPicker.openPicker({ multiple: true })
-                    .then(images => {
-                        navigation.navigate('MyMomentUploader', {
-                            'datas': images
-                        })
-                        //console.log(images)
-                    })
-            }} />
-
-            <Button title='打开日历' onPress={() => {
-                navigation.navigate('Calendar')
-            }} />
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                    <FontAwesome onPress={() => {
+                        ImageCropPicker.openPicker({ multiple: true })
+                            .then(images => {
+                                navigation.navigate('MyMomentUploader', {
+                                    'datas': images
+                                })
+                            })
+                    }} name="upload" size={100} color="#110" />
+                    <Text>UP</Text>
+                </View>
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                    <FontAwesome onPress={() => {
+                        navigation.navigate('Calendar')
+                    }} name="list-alt" size={100} color="#110" />
+                    <Text>轨迹</Text>
+                </View>
+            </View>
         </>
     )
 }

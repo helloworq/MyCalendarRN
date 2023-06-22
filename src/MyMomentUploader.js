@@ -11,7 +11,8 @@ import {
     TouchableOpacity,
     Image,
     Modal,
-    Button
+    Button,
+    ToastAndroid
 } from 'react-native'
 
 const screenW = Dimensions.get('window').width;
@@ -101,7 +102,10 @@ const MyMomentUploader = ({ route, navigation }) => {
                 />
             </View>
             <View>
-                <Button onPress={() => { uploadMoment(text, data) }} title='发表' />
+                <Button onPress={() => {
+                    uploadMoment(text, data)
+                    ToastAndroid.show('已上传', ToastAndroid.SHORT);
+                }} title='发表' />
             </View>
         </>
     )
