@@ -17,6 +17,10 @@ const MyImagePicker = ({ navigation }) => {
                         //console.log(images)
                     })
             }} />
+
+            <Button title='打开日历' onPress={() => {
+                navigation.navigate('Calendar')
+            }} />
         </>
     )
 }

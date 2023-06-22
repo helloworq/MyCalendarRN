@@ -1,7 +1,7 @@
 import RNFS, { readFile } from 'react-native-fs'
 
 const folder = '/MyData/'
-const path = RNFS.DocumentDirectoryPath + folder
+const path = RNFS.ExternalDirectoryPath + folder
 const dataName = '/data.json'
 const filePrefix = 'file://'
 
@@ -17,14 +17,12 @@ export function uploadMoment(text, imgs) {
 
 }
 
-
-
 export function loadData(ymd) {
     let res = []
     let dirs = []
     let pL = []
 
-    RNFS.readDir(path + ymd)
+    return RNFS.readDir(path + ymd)
         .then((ymdR) => {
             ymdR.forEach(ymdEle => {
                 if (ymdEle.isDirectory()) {
@@ -46,11 +44,11 @@ export function loadData(ymd) {
                                     //     console.log(111111)
                                     //     temp['description'] = t
                                     // })
-                                    temp['description'] = readText(timeEle.path)
-                                    temp['time'] = ymdEle.name
-                                    temp['title'] = ymdEle.name
+                                    temp['description'] = timeEle.path
                                 }
-                                imgs.push(timeEle.path)
+                                temp['time'] = ymdEle.name
+                                temp['title'] = ymdEle.name
+                                imgs.push(filePrefix + timeEle.path)
                             })
 
                             temp['imageUrl'] = imgs
@@ -60,7 +58,7 @@ export function loadData(ymd) {
                 pL.push(p)
             })
         })
-        .then((r) => Promise.all(pL).then(() => { console.log() }))
+        .then((r) => Promise.all(pL))
 }
 
 function mkdir() {
@@ -82,12 +80,12 @@ function getCurrentTime() {
     return d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds()
 }
 
-function readText(fileRelativePath) {
-    RNFS.readFile(fileRelativePath).then((r) => console.log(r))
-    const r = Promise.all(RNFS.readFile(fileRelativePath)).then((r) => console.log(r))
-    console.log(r)
-    console.log(JSON.stringify(r))
-    return r;
+export function readText(fileRelativePath) {
+    let res
+    let r = Promise.all(RNFS.readFile(fileRelativePath)).then((r)=>res=r)
+    console.log(res)
+    console.log(JSON.stringify(res))
+    return JSON.stringify(r);
 }
 
 function readTextV2(fileRelativePath) {

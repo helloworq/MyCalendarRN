@@ -1,20 +1,24 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Agenda } from 'react-native-calendars'
 
-const MyCalendar = () => {
+const MyCalendar = ({ navigation }) => {
   const [selected, setSelected] = useState('');
   return (
     <>
       <Agenda
         onDayPress={day => {
-          setSelected(day.dateString);
+          setSelected(day.dateString)
+          console.log(day.year + '-' + day.month + '-' + day.day)
+          navigation.navigate('MyDynamicListView', {
+            'param': day.year + '-' + day.month + '-' + day.day
+          })
         }}
         markedDates={{
-          '2023-03-01': {selected: true, marked: true, selectedColor: 'blue'},
-          '2023-03-02': {marked: true},
-          '2023-03-03': {selected: true, marked: true, selectedColor: 'blue'}
+          '2023-03-01': { selected: true, marked: true, selectedColor: 'blue' },
+          '2023-03-02': { marked: true },
+          '2023-03-03': { selected: true, marked: true, selectedColor: 'blue' }
         }}
-        />
+      />
     </>
   )
 }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {loadData,getData} from './util/FileUtil'
+import React, { useState, useEffect } from 'react';
+import { loadData, getData,readText } from './util/FileUtil'
 
 import {
     StyleSheet,
@@ -11,36 +11,56 @@ import {
 } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
 
-const datas = [
-    { time: '09:00', title: 'Archery Training', description: 'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ' },
-    { time: '10:45', title: 'Play Badminton', description: 'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.', imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240419/1f553dee-0fe4-11e7-8638-6025682232b1.jpg' },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png'), },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png'), imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240419/1f553dee-0fe4-11e7-8638-6025682232b1.jpg' },
-    { time: '12:00', title: 'Lunch', icon: require('../img/1.png') },
-    { time: '14:00', title: 'Watch Soccer', description: 'Team sport played between two teams of eleven players with a spherical ball. ' },
-    { time: '16:30', title: 'Go to Fitness center', description: 'Look out for the Best Gym & Fitness Centers around me :)' },
-]
+// const datas = [
+//     {
+//         "description":"dasdasdsadsadasdsadsadasdasdasdasdsadsadsa",
+//         "imageUrl": [
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/data.json",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/IMG_20230620_120020.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/IMG_20230620_120914.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/IMG_20230620_120929.jpg"
+//         ],
+//         "time": "15-27-4",
+//         "title": "15-27-4"
+//     },
+//     {
+//         "description":"dasdasdsadsadasdsadsadasdasdasdasdsadsadsa",
+//         "imageUrl": [
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/data.json",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_115948.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120004.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120000.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120001.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120002.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120002_1.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120020.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120914.jpg",
+//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120929.jpg"
+//         ],
+//         "time": "15-27-33",
+//         "title": "15-27-33"
+//     }
+// ]
 
-const MyDynamicListView = () => {
+const MyDynamicListView = ({ route, navigation }) => {
+    const { param } = route.params
+
     const [refreshing, setRefreshing] = useState(false)
     const [waiting, setWaiting] = useState(true)
-    const [tdata, setTdata] = useState(datas)
+    const [tdata, setTdata] = useState()
+    const [initData, setInitData] = useState(false)
+
+    useEffect(() => {
+        console.log("----",JSON.stringify (param))
+        loadData(param).then((r) => setTdata(r))
+    }, [])
 
     function onRefresh() {
         setRefreshing(true)
         //refresh to initial data
         setTimeout(() => {
             //refresh to initial data
-            setTdata(datas)
+            setTdata(tdata)
             setRefreshing(false)
         }, 2000);
     }
@@ -51,20 +71,20 @@ const MyDynamicListView = () => {
         //setWaiting(true)
 
         //fetch and concat data
-        setTimeout(() => {
-            //refresh to initial data
-            var data = tdata.concat(
-                [
-                    { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-                    { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-                    { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-                    { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-                    { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' }
-                ]
-            )
-            //setWaiting(false)
-            setTdata(data)
-        }, 2000);
+        // setTimeout(() => {
+        //     //refresh to initial data
+        //     var data = tdata.concat(
+        //         [
+        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
+        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
+        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
+        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
+        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' }
+        //         ]
+        //     )
+        //     //setWaiting(false)
+        //     setTdata(data)
+        // }, 2000);
         //}
     }
 
@@ -79,11 +99,12 @@ const MyDynamicListView = () => {
     function renderDetail(rowData, sectionID, rowID) {
         let title = <Text style={[styles.title]}>{rowData.title}</Text>
         var desc = null
+        console.log("image =>", rowData?.imageUrl[1])
         if (rowData.description)
             desc = (
                 <View style={styles.descriptionContainer}>
-                    <Image source={{ uri: rowData?.imageUrl }} style={styles.image} />
-                    <Text style={[styles.textDescription]}>{rowData?.description}</Text>
+                    <Image source={{ uri: rowData?.imageUrl[1] }} style={styles.image} />
+                    <Text style={[styles.textDescription]}>{readText(rowData?.description)}</Text>
                 </View>
             )
 
@@ -102,6 +123,7 @@ const MyDynamicListView = () => {
         timeStyle={{ textAlign: 'center', backgroundColor: '#ff9797', color: 'white', padding: 5, borderRadius: 13 }}
         descriptionStyle={{ color: 'gray' }}
         innerCircle={'icon'}
+
         options={{
             style: { paddingTop: 5 },
             refreshControl: (

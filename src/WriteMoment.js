@@ -3,7 +3,7 @@ import { Button, TextInput,PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
 import {loadData,getData} from './util/FileUtil'
 
-var path = RNFS.DocumentDirectoryPath+'/MyData/'
+var path = RNFS.ExternalDirectoryPath+'/MyData/'
 
 function getCurrentYMD() {
     const d = new Date();
@@ -32,7 +32,7 @@ const MyRWMoment = () => {
                 // RNFS.mkdir(getCurrentYMD)
                 // RNFS.mkdir(getCurrentTime)
 
-                loadData('2023-5-3')
+                //loadData('2023-5-3')
                 // function receiver(r){
                 //     console.log(r)
                 // }
