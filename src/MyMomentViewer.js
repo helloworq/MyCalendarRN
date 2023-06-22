@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import RNFS from 'react-native-fs'
 
@@ -35,7 +35,11 @@ const MyMomentViewer = ({ route, navigation }) => {
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
 
-    function renderRow(rowData) {        
+    useEffect(() => {
+        RNFS.readFile(text).then((r) => onChangeText(r))
+    }, [])
+
+    function renderRow(rowData) {
         return (
             <>
                 <Modal

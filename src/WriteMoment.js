@@ -28,13 +28,23 @@ const MyRWMoment = () => {
             <Button onPress={() => { console.log(path) }} title='上传图片' />
 
             <Button onPress={() => {
+                obj = [
+                    {
+                        "description": "/storage/emulated/0/Android/data/com.mycalendar/files/MyData/2023-06-22/14-11-47/data.json",
+                        "time": "14-11-47",
+                        "title": "14-11-47",
+                    },
+                    {
+                        "description": "/storage/emulated/0/Android/data/com.mycalendar/files/MyData/2023-06-22/14-14-32/data.json",
+                        "time": "14-14-32",
+                        "title": "14-14-32",
+                    }
+                ]
 
-                const zone = 8
-                const d = new Date();
-                const f = (d.getHours() + 8).toString().padStart(2, '0') + "-"
-                    + (d.getMinutes()).toString().padStart(2, '0') + "-"
-                    + (d.getSeconds()).toString().padStart(2, '0')
-                console.log(f)
+                obj[0]['description'] = '666'
+                console.log(obj)
+                
+                
 
                 // RNFS.readdir(path).then((r) => console.log(r))
                 // RNFS.mkdir(getCurrentYMD)

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { loadData, getData, readText } from './util/FileUtil'
+import { loadData } from './util/FileUtil'
+import RNFS from 'react-native-fs'
 
 import {
     StyleSheet,
@@ -11,37 +12,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
-
-// const datas = [
-//     {
-//         "description":"dasdasdsadsadasdsadsadasdasdasdasdsadsadsa",
-//         "imageUrl": [
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/data.json",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/IMG_20230620_120020.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/IMG_20230620_120914.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-4/IMG_20230620_120929.jpg"
-//         ],
-//         "time": "15-27-4",
-//         "title": "15-27-4"
-//     },
-//     {
-//         "description":"dasdasdsadsadasdsadsadasdasdasdasdsadsadsa",
-//         "imageUrl": [
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/data.json",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_115948.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120004.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120000.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120001.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120002.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120002_1.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120020.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120914.jpg",
-//             "file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/15-27-33/IMG_20230620_120929.jpg"
-//         ],
-//         "time": "15-27-33",
-//         "title": "15-27-33"
-//     }
-// ]
+import res from 'antd-mobile-icons/es/AaOutline';
 
 const MyDynamicListView = ({ route, navigation }) => {
     const { param } = route.params
@@ -52,7 +23,22 @@ const MyDynamicListView = ({ route, navigation }) => {
     const [initData, setInitData] = useState(false)
 
     useEffect(() => {
-        loadData(param).then((r) => setTdata(r))
+        //loadData(param).then((r) => setTdata(r))
+
+        loadData(param).then((r) => {
+            let count = 0
+            for (let i = 0; i < r.length; i++) {
+                RNFS.readFile(r[i]['description'])
+                    .then((t) => {
+                        r[i]['description'] = t
+                        count = count + 1
+                        if (count === r.length) {
+                            setTdata(r)
+                        }
+                    })
+            }
+        })
+        //将description的路径转为文件内数据
     }, [])
 
     function onRefresh() {
@@ -104,7 +90,7 @@ const MyDynamicListView = ({ route, navigation }) => {
             desc = (
                 <View style={styles.descriptionContainer}>
                     <Image source={{ uri: rowData?.imageUrl[1] }} style={styles.image} />
-                    <Text style={[styles.textDescription]}>{readText(rowData?.description)}</Text>
+                    <Text style={[styles.textDescription]}>{rowData?.description}</Text>
                 </View>
             )
 
