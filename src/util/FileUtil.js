@@ -91,7 +91,7 @@ function mkdir() {
 function getNow() {
     const date = new Date()
     // 目标时区，东8区
-    const targetTimezone = -8;
+    const targetTimezone = 0;
     // 当前时区与中时区时差，以min为维度
     const dif = date.getTimezoneOffset();
     // 本地时区时间 + 本地时区时差  = 中时区时间
