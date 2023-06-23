@@ -3,8 +3,8 @@ import { Image } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
 
 const datas = [
-    { time: '09:00', title: 'Archery Training', description: 'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ', lineColor: '#009688', icon: require('../img/1.png') },
-    { time: '10:45', title: 'Play Badminton', description: 'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.', icon: require('../img/2.png') },
+    { time: '09:00', title: 'Archery Training', description: 'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ', lineColor: '#009688', },
+    { time: '10:45', title: 'Play Badminton', description: 'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.', },
     {
         time: '12:00', title: 'Custom rendered icon', icon: <Image
             style={{ width: 20, height: 20 }}

@@ -12,7 +12,7 @@ const images = [{
 }, {
     url: '',
     props: {
-        source: require('../img/1.png')
+        source: require('../../img/1.png')
     }
 }]
 

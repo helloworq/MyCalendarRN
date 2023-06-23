@@ -1,7 +1,6 @@
 import { React, useState } from 'react'
-import { PermissionsAndroid, Platform, Text, View, Button } from 'react-native'
+import { Text, View, } from 'react-native'
 import ImageCropPicker from 'react-native-image-crop-picker';
-import MyMomentUploader from './MyMomentUploader'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 const MyImagePicker = ({ navigation }) => {
