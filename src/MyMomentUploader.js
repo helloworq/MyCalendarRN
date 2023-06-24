@@ -31,7 +31,7 @@ const keyExtractor = (item, index) => {
 const MyMomentUploader = ({ route, navigation }) => {
     const { datas } = route.params
 
-    const [text, onChangeText] = useState("666")
+    const [text, onChangeText] = useState()
     const [data, setData] = useState(datas)
     const [index, setIndex] = useState(0)
     const [currImg, setCurrImg] = useState(null)
@@ -81,13 +81,14 @@ const MyMomentUploader = ({ route, navigation }) => {
                     maxLength={400}
                     multiline={true}
                     onChangeText={text => onChangeText(text)}
+                    placeholder={'不错呀，又来打卡啦'}
                     value={text}
                     style={{
                         marginTop: 20,
                         marginLeft: 10,
                         marginRight: 10,
-                        borderColor: '#1e343f',
-                        borderWidth: 0.5,
+                        borderBottomColor: '#bebebe',
+                        borderBottomWidth: 1
                     }}
                 />
             </View>
