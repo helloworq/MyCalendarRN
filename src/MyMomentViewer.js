@@ -39,10 +39,6 @@ const MyMomentViewer = ({ route, navigation }) => {
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
 
-    useEffect(() => {
-        RNFS.readFile(text).then((r) => onChangeText(r))
-    }, [])
-
     function renderRow(rowData) {
         return (
             <>
@@ -104,10 +100,10 @@ const MyMomentViewer = ({ route, navigation }) => {
                     <View style={{ marginTop: 10, marginRight: 10, alignItems: 'flex-end' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ marginRight: 10 }}>
-                                {route?.params?.ymd + ' ' + route?.params?.param?.time}
+                                {param.date + ' ' + param.time}
                             </Text>
                             <FontAwesome onPress={() => {
-                                removeData(route?.params?.ymd, route?.params?.param?.time)
+                                removeData(param.date, param.timeSplit)
                                 ToastAndroid.show('已删除，退出列表再进入将刷新', ToastAndroid.SHORT);
                             }} name="trash" size={20} color="#110" />
                         </View>

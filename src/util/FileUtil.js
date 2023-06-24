@@ -8,13 +8,32 @@ const filePrefix = 'file://'
 export function uploadMoment(text, imgs) {
     const saved = mkdir()
 
+    text = generateMoment(saved, text)
     RNFS.writeFile(saved + dataName, text)
 
     imgs.forEach(element => {
         RNFS.copyFile(element.path,
             filePrefix + saved + element.path.slice(element.path.lastIndexOf('/')))
     });
+}
 
+export function split2Colon(t) { return t.replaceAll('-', ':') }
+export function colon2Split(t) { return t.replaceAll(':', '-') }
+
+function generateMoment(path, text) {
+    let positionFirst = path.lastIndexOf('/') + 1
+    let time = path.slice(positionFirst)
+    time = time.replaceAll('-', ':')
+
+    path = path.slice(0, positionFirst - 1)
+
+    let date = path.slice(path.lastIndexOf('/') + 1)
+    let obj = {}
+    obj['time'] = time
+    obj['date'] = date
+    obj['datetime'] = date + ' ' + time
+    obj['moment'] = text
+    return JSON.stringify(obj)
 }
 
 export function removeData(ymd, time) {
@@ -60,9 +79,11 @@ export function loadData(ymd) {
                                     //     console.log(111111)
                                     //     temp['description'] = t
                                     // })
-                                    temp['description'] = timeEle.path
+                                    temp['dataPath'] = timeEle.path
                                 }
-                                temp['time'] = ymdEle.name
+                                temp['time'] = split2Colon(ymdEle.name)
+                                temp['date'] = ymd
+                                temp['timeSplit'] = ymdEle.name
                                 temp['title'] = ymdEle.name
                                 if (timeEle.path.indexOf(dataName) === -1) {
                                     imgs.push(filePrefix + timeEle.path)

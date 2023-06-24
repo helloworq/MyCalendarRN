@@ -25,9 +25,10 @@ const MyDynamicListView = ({ route, navigation }) => {
         loadData(param).then((r) => {
             let count = 0
             for (let i = 0; i < r.length; i++) {
-                RNFS.readFile(r[i]['description'])
+                RNFS.readFile(r[i]['dataPath'])
                     .then((t) => {
-                        r[i]['description'] = t
+                        t = JSON.parse(t)
+                        r[i]['description'] = t.moment
                         count = count + 1
                         if (count === r.length) {
                             setTdata(r)
@@ -80,7 +81,6 @@ const MyDynamicListView = ({ route, navigation }) => {
     }
 
     function renderDetail(rowData, sectionID, rowID) {
-        //let title = <Text style={[styles.title]}>{rowData.title}</Text>
         var desc = null
 
         if (rowData.description)
@@ -97,7 +97,6 @@ const MyDynamicListView = ({ route, navigation }) => {
                     onPress={() => {
                         navigation.navigate('MyMomentViewer', {
                             'param': rowData,
-                            'ymd': param,
                         })
                     }}
                 >
