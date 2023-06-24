@@ -60,9 +60,9 @@ const ContritutionGraph = () => {
                     <Text> 历史</Text>
                 </View>
 
-                <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 30 }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text onPress={()=>console.log(66)}>前进 </Text>
+                        <Text onPress={() => console.log(66)}>前进 </Text>
                         <FontAwesome onPress={() => {
                             console.log('-------------')
                             setCurrent(dayjs(current).add(7, 'day').toDate())
