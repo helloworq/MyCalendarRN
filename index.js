@@ -14,7 +14,7 @@ import ImageShow from './src/utilCodeBlock/ImageShow'
 import Rooter from './src/Rooter';
 import MyRWMoment from './src/utilCodeBlock/MyRWMoment';
 import MyImagePicker from './src/ImagePicker';
-import ContritutionGraph from './src/utilCodeBlock/ContributionGraph';
+import MyContritutionGraph from './src/MyContributionGraph';
 import Layout from './src/utilCodeBlock/layout/Layout'
 
 import Root from './src/router/Root'

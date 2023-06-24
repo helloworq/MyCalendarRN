@@ -4,7 +4,7 @@ import { ContributionGraph } from 'react-native-chart-kit';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import dayjs from 'dayjs'
 import RNFS from 'react-native-fs'
-import { loadFolder } from '../util/FileUtil'
+import { loadFolder } from './util/FileUtil'
 
 const chartConfig = {
     backgroundGradientFrom: '#ffffff',
@@ -16,7 +16,7 @@ const chartConfig = {
     strokeWidth: 5,
 };
 
-const ContritutionGraph = (data) => {
+const MyContritutionGraph = (data) => {
     const [current, setCurrent] = useState(dayjs().toDate())
 
     return (
@@ -62,4 +62,4 @@ const ContritutionGraph = (data) => {
     )
 }
 
-export default ContritutionGraph
+export default MyContritutionGraph

@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react'
 import { Text, View, } from 'react-native'
 import ImageCropPicker from 'react-native-image-crop-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import ContritutionGraph from './utilCodeBlock/ContributionGraph';
+import MyContritutionGraph from './MyContributionGraph';
 import RNFS from 'react-native-fs'
 import { loadFolder } from './util/FileUtil'
 
@@ -57,7 +57,7 @@ const MyImagePicker = ({ navigation }) => {
                 </View>
 
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <ContritutionGraph data={contributionGraphData} />
+                    <MyContritutionGraph data={contributionGraphData} />
                 </View>
             </View>
         </>
