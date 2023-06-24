@@ -52,6 +52,11 @@ export function removeData(ymd, time) {
 
 }
 
+export function loadFolder() {
+    //加载自定义目录下的数据，供热力图使用，查看年内每天的数据量
+    return RNFS.readDir(path)
+}
+
 export function loadData(ymd) {
     let res = []
     let dirs = []
@@ -136,32 +141,4 @@ function getCurrentTime() {
     return (d.getHours() + 8).toString().padStart(2, '0') + "-"
         + (d.getMinutes()).toString().padStart(2, '0') + "-"
         + (d.getSeconds()).toString().padStart(2, '0')
-}
-
-export function readText(fileRelativePath) {
-    let res
-    let r = Promise.all(RNFS.readFile(fileRelativePath)).then((r) => res = r)
-    return JSON.stringify(r);
-}
-
-function readTextV2(fileRelativePath) {
-    RNFS.readFile(fileRelativePath)
-        .then((success) => { console.log('读取内容=>', success) })
-        .catch((err => { console.log(err.message) }))
-}
-
-function writeText(fileRelativePath, text) {
-    RNFS.writeFile(path + '/' + fileRelativePath, text)
-        .then((success) => { console.log('已写入\n') })
-        .catch((err => { console.log(err.message) }))
-}
-
-function appendText(fileRelativePath, text) {
-    RNFS.appendFile(path + '/' + fileRelativePath, text)
-        .then((success) => { console.log('已追加写入\n') })
-        .catch((err => { console.log(err.message) }))
-}
-
-function readDirs(path) {
-    RNFS.readdir(path).then((r) => console.log(r))
 }

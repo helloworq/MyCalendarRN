@@ -1,10 +1,35 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { Text, View, } from 'react-native'
 import ImageCropPicker from 'react-native-image-crop-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import ContritutionGraph from './utilCodeBlock/ContributionGraph';
+import RNFS from 'react-native-fs'
+import { loadFolder } from './util/FileUtil'
 
 const MyImagePicker = ({ navigation }) => {
+    const [contributionGraphData, setContributionGraphData] = useState([{}])
+
+    useEffect(() => {
+        let res = []
+        loadFolder().then((dirs) => {
+            const length = dirs.length
+            let count = 0
+            for (let i = 0; i < length; i++) {
+                let element = dirs[i]
+                let temp = {}
+                temp['date'] = element.name
+                RNFS.readdir(element.path).then((r) => {
+                    count = count + 1
+                    temp['count'] = r.length
+                    res.push(temp)
+                    if (count === length) {
+                        setContributionGraphData(res)
+                    }
+                })
+            }
+        })
+    }, [])
+
     return (
         <>
             <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -32,7 +57,7 @@ const MyImagePicker = ({ navigation }) => {
                 </View>
 
                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <ContritutionGraph />
+                    <ContritutionGraph data={contributionGraphData} />
                 </View>
             </View>
         </>
