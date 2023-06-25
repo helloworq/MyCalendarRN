@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity,  View, Button, Dimensions } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Button, Dimensions } from "react-native";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { ProgressChart, ContributionGraph } from 'react-native-chart-kit';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const MyProgressBar = () => {
     const [fill, setFill] = useState(0)
@@ -46,6 +47,19 @@ const MyProgressBar = () => {
         { date: "2023-04-30", count: 4 }
     ];
 
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState([]);
+    const [items, setItems] = useState([
+        { label: 'Spain', value: 'spain' },
+        { label: 'Madrid', value: 'madrid' },
+        { label: 'Barcelona', value: 'barcelona', },
+
+        { label: 'Italy', value: 'italy' },
+        { label: 'Rome', value: 'rome', },
+
+        { label: 'Finland', value: 'finland' }
+    ]);
+
     function atRange(value) {
         let range = Object.keys(ColorMap);
         for (let i = 0; i < range.length; i++) {
@@ -69,11 +83,31 @@ const MyProgressBar = () => {
                 console.log(atRange(newValue), newValue)
             }} />
 
+            <View style={{ zIndex: 1 }}>
+                <DropDownPicker
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+
+
+                    style={{
+                        backgroundColor: '#ffffe5',
+                        borderWidth: 0,
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#bebebe'
+                    }}
+                    dropDownContainerStyle={{ backgroundColor: '#ffffe5' }}
+                    zIndex={1}
+                />
+            </View>
 
             <ProgressChart
                 data={data}
                 width={Dimensions.get("window").width}
-                height={220}
+                height={200}
                 strokeWidth={15}
                 radius={32}
                 chartConfig={chartConfig}
@@ -92,7 +126,7 @@ const MyProgressBar = () => {
 
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#ffffe5' }}>
                 <AnimatedCircularProgress
-                    size={120}
+                    size={100}
                     width={10}
                     fill={fill}
                     tintColor={atRange(fill)}
@@ -113,7 +147,7 @@ const MyProgressBar = () => {
                     }
                 />
                 <AnimatedCircularProgress
-                    size={120}
+                    size={100}
                     width={10}
                     fill={fill}
                     tintColor={atRange(fill)}
@@ -134,7 +168,7 @@ const MyProgressBar = () => {
                     }
                 />
                 <AnimatedCircularProgress
-                    size={120}
+                    size={100}
                     width={10}
                     fill={fill}
                     tintColor={atRange(fill)}
@@ -146,7 +180,7 @@ const MyProgressBar = () => {
                         return (
                             <>
                                 <Text>
-                                    Coding打卡
+                                    拉屎打卡
                                 </Text>
                                 <Text>{Math.round(num)}
                                 </Text>
@@ -155,7 +189,7 @@ const MyProgressBar = () => {
                     }
                 />
                 <AnimatedCircularProgress
-                    size={180}
+                    size={120}
                     width={10}
                     fill={fill}
                     tintColor={atRange(fill)}
@@ -176,7 +210,7 @@ const MyProgressBar = () => {
                     }
                 />
                 <AnimatedCircularProgress
-                    size={120}
+                    size={100}
                     width={10}
                     fill={fill}
                     tintColor={atRange(fill)}
