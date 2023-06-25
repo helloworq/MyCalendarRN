@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Button, Dimensions } from "react-native";
+import { StyleSheet, Text, TouchableOpacity,  View, Button, Dimensions } from "react-native";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { ProgressChart, ContributionGraph } from 'react-native-chart-kit';
 
@@ -100,7 +100,17 @@ const MyProgressBar = () => {
                     backgroundColor="#c2c2d6"
                     tintTransparency={true}
                     padding={10}
-                    children={(num) => <Text>{Math.round(num)}</Text>}
+                    children={(num) => {
+                        return (
+                            <>
+                                <Text>
+                                    上班打卡
+                                </Text>
+                                <Text>{Math.round(num)}
+                                </Text>
+                            </>)
+                    }
+                    }
                 />
                 <AnimatedCircularProgress
                     size={120}
@@ -111,7 +121,17 @@ const MyProgressBar = () => {
                     backgroundColor="#c2c2d6"
                     tintTransparency={true}
                     padding={10}
-                    children={(num) => <Text>{Math.round(num)}</Text>}
+                    children={(num) => {
+                        return (
+                            <>
+                                <Text>
+                                    下班打卡
+                                </Text>
+                                <Text>{Math.round(num)}
+                                </Text>
+                            </>)
+                    }
+                    }
                 />
                 <AnimatedCircularProgress
                     size={120}
@@ -122,7 +142,17 @@ const MyProgressBar = () => {
                     backgroundColor="#c2c2d6"
                     tintTransparency={true}
                     padding={10}
-                    children={(num) => <Text>{Math.round(num)}</Text>}
+                    children={(num) => {
+                        return (
+                            <>
+                                <Text>
+                                    Coding打卡
+                                </Text>
+                                <Text>{Math.round(num)}
+                                </Text>
+                            </>)
+                    }
+                    }
                 />
                 <AnimatedCircularProgress
                     size={180}
@@ -133,7 +163,17 @@ const MyProgressBar = () => {
                     backgroundColor="#c2c2d6"
                     tintTransparency={true}
                     padding={10}
-                    children={(num) => <Text>{Math.round(num)}</Text>}
+                    children={(num) => {
+                        return (
+                            <>
+                                <Text>
+                                    学习打卡
+                                </Text>
+                                <Text>{Math.round(num)}
+                                </Text>
+                            </>)
+                    }
+                    }
                 />
                 <AnimatedCircularProgress
                     size={120}
@@ -144,7 +184,17 @@ const MyProgressBar = () => {
                     backgroundColor="#c2c2d6"
                     tintTransparency={true}
                     padding={10}
-                    children={(num) => <Text>{Math.round(num)}</Text>}
+                    children={(num) => {
+                        return (
+                            <>
+                                <Text>
+                                    健身打卡
+                                </Text>
+                                <Text>{Math.round(num)}
+                                </Text>
+                            </>)
+                    }
+                    }
                 />
             </View>
         </>
