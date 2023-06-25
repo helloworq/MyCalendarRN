@@ -20,4 +20,4 @@ import MyProgressBar from './src/utilCodeBlock/MyProgressBar';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyProgressBar);
