@@ -34,6 +34,10 @@ const MyImagePicker = ({ navigation }) => {
         <>
             <View style={{ flex: 1, flexDirection: 'column' }}>
 
+                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                    <MyContritutionGraph data={contributionGraphData} />
+                </View>
+
                 <View style={{ flex: 2, flexDirection: 'row' }}>
                     <View style={{ flex: 1, alignItems: 'center' }}>
                         <FontAwesome onPress={() => {
@@ -54,10 +58,6 @@ const MyImagePicker = ({ navigation }) => {
                         }} name="list-alt" size={100} color="#110" />
                         <Text>轨迹</Text>
                     </View>
-                </View>
-
-                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <MyContritutionGraph data={contributionGraphData} />
                 </View>
             </View>
         </>
