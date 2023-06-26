@@ -17,7 +17,8 @@ import MyImagePicker from './src/ImagePicker';
 import MyContritutionGraph from './src/MyContributionGraph';
 import Layout from './src/utilCodeBlock/layout/Layout'
 import MyProgressBar from './src/utilCodeBlock/MyProgressBar';
+import MyAddTags from './src/utilCodeBlock/MyAddTags';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => MyProgressBar);
+AppRegistry.registerComponent(appName, () => MyAddTags);
