@@ -21,4 +21,4 @@ import MyAddTags from './src/utilCodeBlock/MyAddTags';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyProgressBar);

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Button, Dimensions, ScrollView } from "react-native";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { ProgressChart, ContributionGraph } from 'react-native-chart-kit';
-import DropDownPicker from 'react-native-dropdown-picker';
+import dayjs from 'dayjs'
+import { SelectList } from 'react-native-dropdown-select-list'
 
 const MyProgressBar = () => {
     const [fill, setFill] = useState(0)
     const [color, setColor] = useState(0)
+    const [selected, setSelected] = useState("");
 
     // each value represents a goal ring in Progress chart
     const data = {
@@ -70,6 +72,16 @@ const MyProgressBar = () => {
         return ColorMap[range[range.length - 1]];
     }
 
+    const dropData = [
+        { key: '1', value: '2023' },
+        { key: '2', value: '2024' },
+        { key: '3', value: '2025' },
+        { key: '4', value: '2026' },
+        { key: '5', value: '2027' },
+        { key: '6', value: '2028' },
+        { key: '7', value: '2029' },
+    ]
+
     return (
         <>
             <ScrollView>
@@ -84,25 +96,33 @@ const MyProgressBar = () => {
                     console.log(atRange(newValue), newValue)
                 }} />
 
-                <View style={{ zIndex: 1 }}>
-                    <DropDownPicker
-                        open={open}
-                        value={value}
-                        items={items}
-                        setOpen={setOpen}
-                        setValue={setValue}
-                        setItems={setItems}
-
-
-                        style={{
+                <View style={{ flexDirection: 'row', backgroundColor: '#ffffe5' }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{
+                            marginLeft: 5,
+                            fontSize: 20,
                             backgroundColor: '#ffffe5',
-                            borderWidth: 0,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#bebebe'
-                        }}
-                        dropDownContainerStyle={{ backgroundColor: '#ffffe5' }}
-                        zIndex={1}
-                    />
+                            fontWeight: 'bold',
+                        }}>Summary</Text>
+                    </View>
+                    <View style={{ marginLeft: 65, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                        <SelectList
+                            setSelected={(val) => setSelected(val)}
+                            data={dropData}
+                            save="value"
+                            placeholder="选择年份"
+                            search={false}
+                            boxStyles={{ alignItems: 'flex-end' }}
+                        />
+                        <SelectList
+                            setSelected={(val) => setSelected(val)}
+                            data={dropData}
+                            save="value"
+                            placeholder="选择Tag"
+                            search={false}
+                            boxStyles={{ marginLeft: 10 }}
+                        />
+                    </View>
                 </View>
 
                 <ProgressChart
@@ -116,6 +136,22 @@ const MyProgressBar = () => {
                     withCustomBarColorFromData={true}
                 />
 
+                <View style={{ flexDirection: 'row', backgroundColor: '#ffffe5' }}>
+                    <Text style={{
+                        marginLeft: 5,
+                        fontSize: 20,
+                        backgroundColor: '#ffffe5',
+                        fontWeight: 'bold',
+                    }}>Active List</Text>
+                    <SelectList
+                        setSelected={(val) => setSelected(val)}
+                        data={dropData}
+                        save="value"
+                        placeholder="选择Tag"
+                        search={false}
+                    />
+                </View>
+
                 <ContributionGraph
                     values={commitsData}
                     endDate={new Date()}
@@ -124,6 +160,13 @@ const MyProgressBar = () => {
                     height={220}
                     chartConfig={chartConfig}
                 />
+
+                <Text style={{
+                    marginLeft: 5,
+                    fontSize: 20,
+                    backgroundColor: '#ffffe5',
+                    fontWeight: 'bold',
+                }}>Today {dayjs().format('YYYY-MM-DD')}</Text>
 
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#ffffe5' }}>
                     <AnimatedCircularProgress
