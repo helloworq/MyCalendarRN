@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Button, Dimensions } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Button, Dimensions, ScrollView } from "react-native";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { ProgressChart, ContributionGraph } from 'react-native-chart-kit';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -72,165 +72,167 @@ const MyProgressBar = () => {
 
     return (
         <>
-            <Button title="Cilck Add" onPress={() => {
-                const newValue = fill + 10
-                setFill(newValue)
-                console.log(atRange(newValue), newValue)
-            }} />
-            <Button title="Cilck Substract" onPress={() => {
-                const newValue = fill - 10
-                setFill(newValue)
-                console.log(atRange(newValue), newValue)
-            }} />
+            <ScrollView>
+                <Button title="Cilck Add" onPress={() => {
+                    const newValue = fill + 10
+                    setFill(newValue)
+                    console.log(atRange(newValue), newValue)
+                }} />
+                <Button title="Cilck Substract" onPress={() => {
+                    const newValue = fill - 10
+                    setFill(newValue)
+                    console.log(atRange(newValue), newValue)
+                }} />
 
-            <View style={{ zIndex: 1 }}>
-                <DropDownPicker
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
+                <View style={{ zIndex: 1 }}>
+                    <DropDownPicker
+                        open={open}
+                        value={value}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        setItems={setItems}
 
 
-                    style={{
-                        backgroundColor: '#ffffe5',
-                        borderWidth: 0,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#bebebe'
-                    }}
-                    dropDownContainerStyle={{ backgroundColor: '#ffffe5' }}
-                    zIndex={1}
-                />
-            </View>
+                        style={{
+                            backgroundColor: '#ffffe5',
+                            borderWidth: 0,
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#bebebe'
+                        }}
+                        dropDownContainerStyle={{ backgroundColor: '#ffffe5' }}
+                        zIndex={1}
+                    />
+                </View>
 
-            <ProgressChart
-                data={data}
-                width={Dimensions.get("window").width}
-                height={200}
-                strokeWidth={15}
-                radius={32}
-                chartConfig={chartConfig}
-                hideLegend={false}
-                withCustomBarColorFromData={true}
-            />
+                <ProgressChart
+                    data={data}
+                    width={Dimensions.get("window").width}
+                    height={200}
+                    strokeWidth={15}
+                    radius={32}
+                    chartConfig={chartConfig}
+                    hideLegend={false}
+                    withCustomBarColorFromData={true}
+                />
 
-            <ContributionGraph
-                values={commitsData}
-                endDate={new Date()}
-                numDays={105}
-                width={Dimensions.get("window").width}
-                height={220}
-                chartConfig={chartConfig}
-            />
+                <ContributionGraph
+                    values={commitsData}
+                    endDate={new Date()}
+                    numDays={105}
+                    width={Dimensions.get("window").width}
+                    height={220}
+                    chartConfig={chartConfig}
+                />
 
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#ffffe5' }}>
-                <AnimatedCircularProgress
-                    size={100}
-                    width={10}
-                    fill={fill}
-                    tintColor={atRange(fill)}
-                    rotation={0}
-                    backgroundColor="#c2c2d6"
-                    tintTransparency={true}
-                    padding={10}
-                    children={(num) => {
-                        return (
-                            <>
-                                <Text>
-                                    上班打卡
-                                </Text>
-                                <Text>{Math.round(num)}
-                                </Text>
-                            </>)
-                    }
-                    }
-                />
-                <AnimatedCircularProgress
-                    size={100}
-                    width={10}
-                    fill={fill}
-                    tintColor={atRange(fill)}
-                    rotation={0}
-                    backgroundColor="#c2c2d6"
-                    tintTransparency={true}
-                    padding={10}
-                    children={(num) => {
-                        return (
-                            <>
-                                <Text>
-                                    下班打卡
-                                </Text>
-                                <Text>{Math.round(num)}
-                                </Text>
-                            </>)
-                    }
-                    }
-                />
-                <AnimatedCircularProgress
-                    size={100}
-                    width={10}
-                    fill={fill}
-                    tintColor={atRange(fill)}
-                    rotation={0}
-                    backgroundColor="#c2c2d6"
-                    tintTransparency={true}
-                    padding={10}
-                    children={(num) => {
-                        return (
-                            <>
-                                <Text>
-                                    拉屎打卡
-                                </Text>
-                                <Text>{Math.round(num)}
-                                </Text>
-                            </>)
-                    }
-                    }
-                />
-                <AnimatedCircularProgress
-                    size={120}
-                    width={10}
-                    fill={fill}
-                    tintColor={atRange(fill)}
-                    rotation={0}
-                    backgroundColor="#c2c2d6"
-                    tintTransparency={true}
-                    padding={10}
-                    children={(num) => {
-                        return (
-                            <>
-                                <Text>
-                                    学习打卡
-                                </Text>
-                                <Text>{Math.round(num)}
-                                </Text>
-                            </>)
-                    }
-                    }
-                />
-                <AnimatedCircularProgress
-                    size={100}
-                    width={10}
-                    fill={fill}
-                    tintColor={atRange(fill)}
-                    rotation={0}
-                    backgroundColor="#c2c2d6"
-                    tintTransparency={true}
-                    padding={10}
-                    children={(num) => {
-                        return (
-                            <>
-                                <Text>
-                                    健身打卡
-                                </Text>
-                                <Text>{Math.round(num)}
-                                </Text>
-                            </>)
-                    }
-                    }
-                />
-            </View>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#ffffe5' }}>
+                    <AnimatedCircularProgress
+                        size={150}
+                        width={10}
+                        fill={fill}
+                        tintColor={atRange(fill)}
+                        rotation={0}
+                        backgroundColor="#c2c2d6"
+                        tintTransparency={true}
+                        padding={10}
+                        children={(num) => {
+                            return (
+                                <>
+                                    <Text>
+                                        上班打卡
+                                    </Text>
+                                    <Text>{Math.round(num)}
+                                    </Text>
+                                </>)
+                        }
+                        }
+                    />
+                    <AnimatedCircularProgress
+                        size={150}
+                        width={10}
+                        fill={fill}
+                        tintColor={atRange(fill)}
+                        rotation={0}
+                        backgroundColor="#c2c2d6"
+                        tintTransparency={true}
+                        padding={10}
+                        children={(num) => {
+                            return (
+                                <>
+                                    <Text>
+                                        下班打卡
+                                    </Text>
+                                    <Text>{Math.round(num)}
+                                    </Text>
+                                </>)
+                        }
+                        }
+                    />
+                    <AnimatedCircularProgress
+                        size={150}
+                        width={10}
+                        fill={fill}
+                        tintColor={atRange(fill)}
+                        rotation={0}
+                        backgroundColor="#c2c2d6"
+                        tintTransparency={true}
+                        padding={10}
+                        children={(num) => {
+                            return (
+                                <>
+                                    <Text>
+                                        拉屎打卡
+                                    </Text>
+                                    <Text>{Math.round(num)}
+                                    </Text>
+                                </>)
+                        }
+                        }
+                    />
+                    <AnimatedCircularProgress
+                        size={220}
+                        width={10}
+                        fill={fill}
+                        tintColor={atRange(fill)}
+                        rotation={0}
+                        backgroundColor="#c2c2d6"
+                        tintTransparency={true}
+                        padding={10}
+                        children={(num) => {
+                            return (
+                                <>
+                                    <Text>
+                                        学习打卡
+                                    </Text>
+                                    <Text>{Math.round(num)}
+                                    </Text>
+                                </>)
+                        }
+                        }
+                    />
+                    <AnimatedCircularProgress
+                        size={150}
+                        width={10}
+                        fill={fill}
+                        tintColor={atRange(fill)}
+                        rotation={0}
+                        backgroundColor="#c2c2d6"
+                        tintTransparency={true}
+                        padding={10}
+                        children={(num) => {
+                            return (
+                                <>
+                                    <Text>
+                                        健身打卡
+                                    </Text>
+                                    <Text>{Math.round(num)}
+                                    </Text>
+                                </>)
+                        }
+                        }
+                    />
+                </View>
+            </ScrollView>
         </>
     )
 }

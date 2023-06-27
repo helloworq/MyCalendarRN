@@ -3,6 +3,7 @@ import RNFS, { readFile, unlink } from 'react-native-fs'
 const folder = '/MyData/'
 const path = RNFS.ExternalDirectoryPath + folder
 const dataName = '/data.json'
+const tagsPath = RNFS.ExternalDirectoryPath + '/Extra/tags.txt'
 const filePrefix = 'file://'
 
 export function uploadMoment(text, imgs) {
@@ -141,4 +142,37 @@ function getCurrentTime() {
     return (d.getHours() + 8).toString().padStart(2, '0') + "-"
         + (d.getMinutes()).toString().padStart(2, '0') + "-"
         + (d.getSeconds()).toString().padStart(2, '0')
+}
+
+
+//-----------
+export function writeTags(Tag) {
+
+    // Tag = {
+    //     1: ['#上班打卡', 'alarm-check', false],
+    //     2: ['#下班打卡', 'alarm-off', false],
+    //     3: ['#拉屎打卡', 'emoticon-poop', false],
+    //     4: ['#按时吃饭打卡', 'food-variant', false],
+    //     5: ['#力量训练打卡', 'arm-flex-outline', false],
+    //     6: ['#跑步打卡', 'run-fast', true],
+    // }
+
+    return RNFS.writeFile(tagsPath, JSON.stringify(Tag))
+}
+
+export function writeTags4Me() {
+    Tag = {
+        1: ['#上班打卡', 'alarm-check', false],
+        2: ['#下班打卡', 'alarm-off', false],
+        3: ['#拉屎打卡', 'emoticon-poop', false],
+        4: ['#按时吃饭打卡', 'food-variant', false],
+        5: ['#力量训练打卡', 'arm-flex-outline', false],
+        6: ['#跑步打卡', 'run-fast', true],
+    }
+
+    return RNFS.writeFile(tagsPath, JSON.stringify(Tag))
+}
+
+export function loadTags() {
+    return RNFS.readFile(tagsPath)
 }

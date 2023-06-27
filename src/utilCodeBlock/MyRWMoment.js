@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { Button, TextInput, PermissionsAndroid, ToastAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
-import { loadData, getData, removeData,loadFolder } from '../util/FileUtil'
+import { loadData, getData, removeData,loadFolder,loadTags,writeTags, writeTags4Me } from '../util/FileUtil'
 
 var path = RNFS.ExternalDirectoryPath + '/MyData/'
 
@@ -17,27 +17,13 @@ const MyRWMoment = () => {
             <Button onPress={() => { console.log(path) }} title='上传图片' />
 
             <Button onPress={() => {
-                let res = []
-                console.log(loadFolder().then((dirs) => {
-                    const length = dirs.length
-                    let count = 0
-                    for (let i = 0; i < length; i++) {
-                        let element = dirs[i]
-                        let temp = {}
-                        temp['date'] = element.name
-                        RNFS.readdir(element.path).then((r) => {
-                            count = count + 1
-                            temp['count'] = r.length
-                            res.push(temp)
-                            if (count === length) {
-                                console.log(res)
-                            }
-                        })
-                    }
-                }))
+                
                 //removeData('2023-06-22', '14-14-32')
                 //ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT);
 
+                writeTags4Me().then(()=>console.log('Done'))
+
+                //loadTags().then((r)=>console.log(r))
 
                 // RNFS.readdir(path).then((r) => console.log(r))
                 // RNFS.mkdir(getCurrentYMD)
