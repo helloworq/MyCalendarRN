@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { uploadMoment } from './util/FileUtil'
+import { uploadMoment, loadTags } from './util/FileUtil'
+import { Chip } from 'react-native-paper';
 
 import {
     TextInput,
@@ -32,13 +33,36 @@ const MyMomentUploader = ({ route, navigation }) => {
     const { datas } = route.params
 
     const [text, onChangeText] = useState()
+    const [tags, setTags] = useState([{}])
     const [data, setData] = useState(datas)
     const [index, setIndex] = useState(0)
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
 
+    useEffect(() => {
+        loadTags().then((r) => { setTags(JSON.parse(r)) })
+    }, [])
+
+    function renderTag() {
+        return Object.keys(tags).map(t =>
+            <Chip
+                icon={tags[t][1]}
+                mode={tags[t][2] ? 'flat' : 'outlined'}
+                style={{
+                    padding: 2,
+                    marginBottom: 10,
+                    marginRight: 10,
+                }}
+                onPress={() => {
+                    tags[t][2] = !tags[t][2]
+                    let newData = JSON.parse(JSON.stringify(tags))
+                    setTags(newData)
+                }}
+            >{tags[t][0]}</Chip>
+        )
+    }
+
     function renderRow(rowData) {
-        console.log(rowData)
 
         return (
             <>
@@ -87,12 +111,16 @@ const MyMomentUploader = ({ route, navigation }) => {
                         marginTop: 20,
                         marginLeft: 10,
                         marginRight: 10,
+                        marginBottom: 10,
                         borderBottomColor: '#bebebe',
                         borderBottomWidth: 1
                     }}
                 />
             </View>
             <View style={styles.container}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+                    {renderTag()}
+                </View>
                 <FlatList
                     renderItem={renderRow}
                     data={data}
@@ -104,7 +132,8 @@ const MyMomentUploader = ({ route, navigation }) => {
             </View>
             <View>
                 <Button onPress={() => {
-                    uploadMoment(text, data)
+                    const _tags = Object.values(tags).filter((e) => e[2] === true)
+                    uploadMoment(text, data, _tags)
                     ToastAndroid.show('已上传', ToastAndroid.SHORT);
                 }} title='发表' />
             </View>

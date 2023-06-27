@@ -24,11 +24,7 @@ const MyAddTags = () => {
                     marginBottom: 10,
                     marginRight: 10,
                 }}
-                onPress={() => {
-                    data[t][2] = !data[t][2]
-                    let newData = JSON.parse(JSON.stringify(data))
-                    setData(newData)
-                }}
+                onPress={() => {}}
                 onLongPress={() => {
                     delete data[t]
                     let newData = JSON.parse(JSON.stringify(data))

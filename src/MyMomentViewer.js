@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
-import RNFS from 'react-native-fs'
-import { removeData } from './util/FileUtil'
+import { removeData,} from './util/FileUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { Chip } from 'react-native-paper';
 
 import {
     TextInput,
@@ -13,7 +13,6 @@ import {
     TouchableOpacity,
     Image,
     Modal,
-    Button,
     Text,
     ToastAndroid
 } from 'react-native'
@@ -38,6 +37,24 @@ const MyMomentViewer = ({ route, navigation }) => {
     const [index, setIndex] = useState(0)
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
+
+    function renderTag() {
+        const tags = data.tags
+        console.log('----', tags)
+
+        return tags.map(t =>
+            <Chip
+                icon={t[1]}
+                mode={t[2] ? 'flat' : 'outlined'}
+                style={{
+                    padding: 2,
+                    marginBottom: 10,
+                    marginRight: 10,
+                }}
+                onPress={() => { }}
+            >{t[0]}</Chip>
+        )
+    }
 
     function renderRow(rowData) {
         return (
@@ -82,12 +99,16 @@ const MyMomentViewer = ({ route, navigation }) => {
                         marginTop: 20,
                         marginLeft: 10,
                         marginRight: 10,
+                        marginBottom: 10,
                         borderBottomWidth: 1,
                         borderBottomColor: '#bebebe',
                     }}
                 />
                 <View>
                     <View>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
+                            {renderTag()}
+                        </View>
                         <FlatList
                             renderItem={renderRow}
                             data={data.imageUrl}

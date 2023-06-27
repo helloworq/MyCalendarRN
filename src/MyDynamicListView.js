@@ -29,6 +29,7 @@ const MyDynamicListView = ({ route, navigation }) => {
                     .then((t) => {
                         t = JSON.parse(t)
                         r[i]['description'] = t.moment
+                        r[i]['tags'] = t.tags
                         count = count + 1
                         if (count === r.length) {
                             setTdata(r)
@@ -47,29 +48,6 @@ const MyDynamicListView = ({ route, navigation }) => {
             setTdata(tdata)
             setRefreshing(false)
         }, 2000);
-    }
-
-    function onEndReached() {
-        console.log("到达底部了")
-        //if (!waiting) {
-        //setWaiting(true)
-
-        //fetch and concat data
-        // setTimeout(() => {
-        //     //refresh to initial data
-        //     var data = tdata.concat(
-        //         [
-        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' },
-        //             { time: '18:00', title: 'Load more data', description: 'append event at bottom of timeline' }
-        //         ]
-        //     )
-        //     //setWaiting(false)
-        //     setTdata(data)
-        // }, 2000);
-        //}
     }
 
     function renderFooter() {
@@ -126,7 +104,6 @@ const MyDynamicListView = ({ route, navigation }) => {
                 />
             ),
             renderFooter: renderFooter,
-            onEndReached: onEndReached
         }}
         renderDetail={renderDetail}
     />

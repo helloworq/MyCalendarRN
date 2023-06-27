@@ -1,4 +1,4 @@
-import RNFS, { readFile, unlink } from 'react-native-fs'
+import RNFS from 'react-native-fs'
 
 const folder = '/MyData/'
 const path = RNFS.ExternalDirectoryPath + folder
@@ -6,10 +6,10 @@ const dataName = '/data.json'
 const tagsPath = RNFS.ExternalDirectoryPath + '/Extra/tags.txt'
 const filePrefix = 'file://'
 
-export function uploadMoment(text, imgs) {
+export function uploadMoment(text, imgs, tags) {
     const saved = mkdir()
 
-    text = generateMoment(saved, text)
+    text = generateMoment(saved, text, tags)
     RNFS.writeFile(saved + dataName, text)
 
     imgs.forEach(element => {
@@ -21,7 +21,7 @@ export function uploadMoment(text, imgs) {
 export function split2Colon(t) { return t.replaceAll('-', ':') }
 export function colon2Split(t) { return t.replaceAll(':', '-') }
 
-function generateMoment(path, text) {
+function generateMoment(path, text, tags) {
     let positionFirst = path.lastIndexOf('/') + 1
     let time = path.slice(positionFirst)
     time = time.replaceAll('-', ':')
@@ -34,6 +34,7 @@ function generateMoment(path, text) {
     obj['date'] = date
     obj['datetime'] = date + ' ' + time
     obj['moment'] = text
+    obj['tags'] = tags
     return JSON.stringify(obj)
 }
 
