@@ -180,3 +180,10 @@ export function writeTags4Me() {
 export function loadTags() {
     return RNFS.readFile(tagsPath)
 }
+
+export function momentTagStatistics(year) {
+    //统计动态中的tag信息,按年统计，如果后续数据量过大影响加载性能，考虑使用一个文本单独记录统计信息
+    RNFS.readDir(path + year)
+        .then((r) => { })
+
+}

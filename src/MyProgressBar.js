@@ -3,7 +3,7 @@ import { Text, View, Button, Dimensions, ScrollView } from "react-native";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { ProgressChart } from 'react-native-chart-kit';
 import dayjs from 'dayjs'
-import { loadFolder } from './util/FileUtil'
+import { loadFolder, loadTags } from './util/FileUtil'
 import RNFS from 'react-native-fs'
 import { SelectList } from 'react-native-dropdown-select-list'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -12,8 +12,8 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 
 const MyProgressBar = ({ navigation }) => {
     const [fill, setFill] = useState(0)
-    const [color, setColor] = useState(0)
     const [selected, setSelected] = useState("");
+    const [tags, setTags] = useState([])
     const [contributionGraphData, setContributionGraphData] = useState([{}])
 
     useEffect(() => {
@@ -34,6 +34,22 @@ const MyProgressBar = ({ navigation }) => {
                     }
                 })
             }
+        })
+        //加载tag数据
+        loadTags().then((r) => {
+            console.log('rrr', r)
+            let res = []
+            const obj = JSON.parse(r)
+            Object.keys(obj).forEach((e) => {
+                let temp = {}
+
+                temp['key'] = e
+                temp['value'] = obj[e][0]
+                res.push(temp)
+                console.log(temp)
+            })
+
+            setTags(res)
         })
     }, [])
     // each value represents a goal ring in Progress chart
@@ -71,14 +87,10 @@ const MyProgressBar = ({ navigation }) => {
         return ColorMap[range[range.length - 1]];
     }
 
-    const dropData = [
+    const dropDataYear = [
         { key: '1', value: '2023' },
         { key: '2', value: '2024' },
         { key: '3', value: '2025' },
-        { key: '4', value: '2026' },
-        { key: '5', value: '2027' },
-        { key: '6', value: '2028' },
-        { key: '7', value: '2029' },
     ]
 
     return (
@@ -93,10 +105,10 @@ const MyProgressBar = ({ navigation }) => {
                             fontWeight: 'bold',
                         }}>Summary</Text>
                     </View>
-                    <View style={{ marginLeft: 65, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                    <View style={{ marginLeft: 30, flexDirection: 'row', justifyContent: 'flex-end' }}>
                         <SelectList
                             setSelected={(val) => setSelected(val)}
-                            data={dropData}
+                            data={dropDataYear}
                             save="value"
                             placeholder="选择年份"
                             search={false}
@@ -104,7 +116,7 @@ const MyProgressBar = ({ navigation }) => {
                         />
                         <SelectList
                             setSelected={(val) => setSelected(val)}
-                            data={dropData}
+                            data={tags}
                             save="value"
                             placeholder="选择Tag"
                             search={false}
@@ -134,7 +146,7 @@ const MyProgressBar = ({ navigation }) => {
 
                 <MyContritutionGraph data={contributionGraphData} />
 
-                <View style={{ flexDirection: 'row', }}>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <Text style={{
                         marginLeft: 5,
                         fontSize: 20,
@@ -145,7 +157,7 @@ const MyProgressBar = ({ navigation }) => {
                     }} name="calendar" size={20} color="#110" style={{ marginLeft: 50 }} />
                 </View>
 
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
+                {/* <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
                     <AnimatedCircularProgress
                         size={350}
                         width={10}
@@ -166,7 +178,7 @@ const MyProgressBar = ({ navigation }) => {
                                 </>)
                         }}
                     />
-                </View>
+                </View> */}
             </ScrollView >
             <Button title="记录一下吧！" onPress={() => {
                 ImageCropPicker.openPicker({ multiple: true })
