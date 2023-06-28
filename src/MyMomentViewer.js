@@ -40,7 +40,6 @@ const MyMomentViewer = ({ route, navigation }) => {
 
     function renderTag() {
         const tags = data.tags
-        console.log('----', tags)
 
         return tags.map(t =>
             <Chip

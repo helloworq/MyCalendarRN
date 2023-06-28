@@ -61,20 +61,6 @@ const MyProgressBar = ({ navigation }) => {
         100: 'green'
     }
 
-    const commitsData = [
-        { date: "2023-05-02", count: 1 },
-        { date: "2023-05-03", count: 2 },
-        { date: "2023-05-04", count: 3 },
-        { date: "2023-05-05", count: 4 },
-        { date: "2023-05-06", count: 5 },
-        { date: "2023-06-30", count: 2 },
-        { date: "2023-01-31", count: 3 },
-        { date: "2023-06-01", count: 2 },
-        { date: "2023-04-02", count: 4 },
-        { date: "2023-04-05", count: 2 },
-        { date: "2023-04-30", count: 4 }
-    ];
-
     function atRange(value) {
         let range = Object.keys(ColorMap);
         for (let i = 0; i < range.length; i++) {
@@ -147,14 +133,6 @@ const MyProgressBar = ({ navigation }) => {
 
 
                 <MyContritutionGraph data={contributionGraphData} />
-                {/* <ContributionGraph
-                    values={commitsData}
-                    endDate={new Date()}
-                    numDays={105}
-                    width={Dimensions.get("window").width}
-                    height={220}
-                    chartConfig={chartConfig}
-                /> */}
 
                 <View style={{ flexDirection: 'row', }}>
                     <Text style={{

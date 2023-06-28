@@ -15,11 +15,12 @@ export function uploadMoment(text, imgs, tags) {
     imgs.forEach(element => {
         RNFS.copyFile(element.path,
             filePrefix + saved + element.path.slice(element.path.lastIndexOf('/')))
-    });
+    })
 }
 
 export function split2Colon(t) { return t.replaceAll('-', ':') }
 export function colon2Split(t) { return t.replaceAll(':', '-') }
+function getYearFromYMD(ymd) { return ymd.split('-')[0] }
 
 function generateMoment(path, text, tags) {
     let positionFirst = path.lastIndexOf('/') + 1
@@ -39,31 +40,31 @@ function generateMoment(path, text, tags) {
 }
 
 export function removeData(ymd, time) {
-    dataPath = path + ymd + '/' + time
+    dataPath = path + getYearFromYMD(ymd) + '/' + ymd + '/' + time
     RNFS.exists(dataPath).then((exist) => {
-        console.log('exist => ', exist, dataPath)
         if (exist) {
             RNFS.readDir(dataPath).then(dir => {
                 dir.forEach(ele => {
-                    console.log("delete => ", ele.path)
+                    //console.log("delete => ", ele.path)
                     RNFS.unlink(ele.path)
                 })
             }).then(() => RNFS.unlink(dataPath))
         }
     })
-
 }
 
 export function loadFolder() {
     //加载自定义目录下的数据，供热力图使用，查看年内每天的数据量
-    return RNFS.readDir(path)
+    return RNFS.readDir(path + new Date().getFullYear())
 }
 
 export function loadData(ymd) {
     let res = []
     let dirs = []
     let pL = []
+    const ymdV2 = ymd
 
+    ymd = getYearFromYMD(ymd) + '/' + ymd
     return RNFS.readDir(path + ymd)
         .then((ymdR) => {
             ymdR.forEach(ymdEle => {
@@ -89,7 +90,7 @@ export function loadData(ymd) {
                                     temp['dataPath'] = timeEle.path
                                 }
                                 temp['time'] = split2Colon(ymdEle.name)
-                                temp['date'] = ymd
+                                temp['date'] = ymdV2
                                 temp['timeSplit'] = ymdEle.name
                                 temp['title'] = ymdEle.name
                                 if (timeEle.path.indexOf(dataName) === -1) {
@@ -108,12 +109,14 @@ export function loadData(ymd) {
 }
 
 function mkdir() {
+    const currentYear = new Date().getFullYear()
     const folderYMD = getCurrentYMD()
     const folderTime = getCurrentTime()
 
-    RNFS.mkdir(path + folderYMD)
-    RNFS.mkdir(path + folderYMD + '/' + folderTime)
-    return path + folderYMD + '/' + folderTime;
+    RNFS.mkdir(path + currentYear)
+    RNFS.mkdir(path + currentYear + '/' + folderYMD)
+    RNFS.mkdir(path + currentYear + '/' + folderYMD + '/' + folderTime)
+    return path + currentYear + '/' + folderYMD + '/' + folderTime;
 }
 
 function getNow() {

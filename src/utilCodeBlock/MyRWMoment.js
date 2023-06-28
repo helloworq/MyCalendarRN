@@ -17,52 +17,10 @@ const MyRWMoment = () => {
             <Button onPress={() => { console.log(path) }} title='上传图片' />
 
             <Button onPress={() => {
-                
-                //removeData('2023-06-22', '14-14-32')
-                //ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT);
 
-                writeTags4Me().then(()=>console.log('Done'))
-
-                //loadTags().then((r)=>console.log(r))
-
-                // RNFS.readdir(path).then((r) => console.log(r))
-                // RNFS.mkdir(getCurrentYMD)
-                // RNFS.mkdir(getCurrentTime)
-
-                //loadData('2023-5-3')
-                // function receiver(r){
-                //     console.log(r)
-                // }
-
-                // const a = RNFS.readFile('/data/user/0/com.mycalendar/files/MyData/2023-5-3/2-16-58/data.json')
-                // .then((t) => receiver(t))
-
-                // RNFS.copyFile(
-                //     'file:///storage/emulated/0/DCIM/Camera/IMG_20230620_120941.jpg',
-                //     'file:///data/user/0/com.mycalendar/files/MyData/2023-5-2/14-56-32/IMG_20230620_120941.jpg'  )
-                //     .then((success) => { console.log('已追加写入\n') })
-                //     .catch((err => { console.log(err.message) }))
 
 
             }} title='发表' />
-
-            <Button onPress={() => {
-                RNFS.writeFile(path + '/data.json', text + '\n')
-                    .then((success) => { console.log('已写入\n') })
-                    .catch((err => { console.log(err.message) }))
-            }} title='write' />
-
-            <Button onPress={() => {
-                RNFS.readFile(path + '/data.json')
-                    .then((success) => { console.log('读取内容=>', success) })
-                    .catch((err => { console.log(err.message) }))
-            }} title='read' />
-
-            <Button onPress={() => {
-                RNFS.appendFile(path + '/data.json', text + '\n')
-                    .then((success) => { console.log('已追加写入\n') })
-                    .catch((err => { console.log(err.message) }))
-            }} title='append' />
         </>
     )
 }
