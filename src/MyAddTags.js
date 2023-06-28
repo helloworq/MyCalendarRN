@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, View, Button, ScrollView, ToastAndroid } from "react-native";
 import { Chip } from 'react-native-paper';
-import { writeTags, loadTags } from '../util/FileUtil'
+import { writeTags, loadTags } from './util/FileUtil'
 
 const MyAddTags = () => {
     //text icon disable暂不提供自增tag的功能，因为缺少图标对应

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Agenda } from 'react-native-calendars'
+import { Calendar } from 'react-native-calendars'
 
 const MyCalendar = ({ navigation }) => {
   return (
     <>
-      <Agenda
+      <Calendar
         onDayPress={day => {
           navigation.navigate('MyDynamicListView', {
             'param': day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')

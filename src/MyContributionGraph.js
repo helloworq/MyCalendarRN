@@ -7,9 +7,9 @@ import RNFS from 'react-native-fs'
 import { loadFolder } from './util/FileUtil'
 
 const chartConfig = {
-    backgroundGradientFrom: '#ffffff',
+    backgroundGradientFrom: '#ffffe5',
     backgroundGradientFromOpacity: 1,
-    backgroundGradientTo: "#ffffff",
+    backgroundGradientTo: "#ffffe5",
     backgroundGradientToOpacity: 1,
     color: (opacity = 5) => `rgba(0, 200, 0, ${opacity})`,
     labelColor: (opacity = 1) => '#000000',

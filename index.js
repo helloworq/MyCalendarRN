@@ -16,9 +16,9 @@ import MyRWMoment from './src/utilCodeBlock/MyRWMoment';
 import MyImagePicker from './src/ImagePicker';
 import MyContritutionGraph from './src/MyContributionGraph';
 import Layout from './src/utilCodeBlock/layout/Layout'
-import MyProgressBar from './src/utilCodeBlock/MyProgressBar';
-import MyAddTags from './src/utilCodeBlock/MyAddTags';
+import MyProgressBar from './src/MyProgressBar';
+import MyAddTags from './src/MyAddTags';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => MyProgressBar);
+AppRegistry.registerComponent(appName, () => Rooter);

@@ -8,17 +8,21 @@ import MyDynamicListView from './MyDynamicListView'
 import MyMomentUploader from './MyMomentUploader'
 import MyImagePicker from './ImagePicker';
 import MyMomentViewer from './MyMomentViewer';
+import MyProgressBar from './MyProgressBar';
+import MyAddTags from './MyAddTags';
 
 const Rooter = () => {
-    const Stack = createNativeStackNavigator();
+    const Stack = createNativeStackNavigator()
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="MyImagePicker" component={MyImagePicker} options={{ title: "Dashboard" }} />
+                <Stack.Screen name="MyProgressBar" component={MyProgressBar} options={{ title: "进度条" }} />
+                {/* <Stack.Screen name="MyImagePicker" component={MyImagePicker} options={{ title: "Dashboard" }} /> */}
                 <Stack.Screen name="Calendar" component={Calendar} options={{ title: "Calendar" }} />
                 <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} options={{ title: "动态列表" }} />
                 <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ title: "UP" }} />
                 <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ title: "轨迹" }} />
+                <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ title: "标签" }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
