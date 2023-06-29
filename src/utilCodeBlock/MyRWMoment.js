@@ -25,8 +25,8 @@ const MyRWMoment = () => {
             <Button onPress={() => {
 
 
-               let a = momentTagStatistics(2023, '#上班打卡')
-console.log(a)
+               
+console.log(dayjs().year())
 
 
 
