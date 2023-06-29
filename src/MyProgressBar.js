@@ -54,9 +54,9 @@ const MyProgressBar = ({ navigation }) => {
     }, [])
     // each value represents a goal ring in Progress chart
     const data = {
-        labels: ['今日', '本周', '本月', '本年', '全部'], // optional
-        data: [0.3, 0.6, 0.8, 0.1, 0.2],
-        colors: ['#4dff4d', 'blue', 'yellow', 'green', 'red']
+        labels: ['今日', '本周', '本月', '本年'], // optional
+        data: [0.3, 0.6, 0.8, 0.1],
+        colors: ['#4dff4d', 'blue', 'yellow', 'green']
     };
 
     const chartConfig = {

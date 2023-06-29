@@ -1,4 +1,7 @@
 import RNFS from 'react-native-fs'
+import dayjs from 'dayjs';
+import isLeapYear from 'dayjs/plugin/isLeapYear'
+
 
 const folder = '/MyData/'
 const path = RNFS.ExternalDirectoryPath + folder
@@ -181,9 +184,102 @@ export function loadTags() {
     return RNFS.readFile(tagsPath)
 }
 
-export function momentTagStatistics(year) {
+export function momentTagStatistics(year, tag) {
     //统计动态中的tag信息,按年统计，如果后续数据量过大影响加载性能，考虑使用一个文本单独记录统计信息
+    let res = null
     RNFS.readDir(path + year)
-        .then((r) => { })
+        .then((r) => {
+            let temp = []
+            r.forEach((e) => { temp.push(e.path) })
+            return temp
+        }).then((r) => {
+            let pL = []
+            r.forEach((e) => {
+                let p = RNFS.readDir(e)
+                pL.push(p)
+            })
+            return pL
+        }).then((r) => {
+            Promise.all(r).then((r) => {
+                let pL = []
+                r = getPathFromArray(r)
+                r.forEach((e) => {
+                    let p = RNFS.readFile(e + '/data.json')
+                    pL.push(p)
+                })
+                return pL
+            }).then((r) =>
+                Promise.all(r).then((r) => {
+                    res =statistics(r, tag)
+                }))
+        })
+        return res
+}
 
+function getPathFromArray(array) {
+    let res = []
+    array.forEach(e => {
+        e.forEach((e) => res.push(e.path))
+    })
+    return res
+}
+
+
+function statistics(data, tag) {
+    //全部  本年  本月  本周  今日
+    //示例入参
+    // [
+    //     "{\"time\":\"15:56:07\",\"date\":\"2023-06-28\",\"datetime\":\"2023-06-28 15:56:07\",\"moment\":\"1111\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true]]}",
+    //     "{\"time\":\"10:36:56\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:36:56\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+    //     "{\"time\":\"10:36:59\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:36:59\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+    //     "{\"time\":\"10:37:04\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:04\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+    //     "{\"time\":\"10:37:07\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:07\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+    //     "{\"time\":\"10:37:10\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:10\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+    //     "{\"time\":\"10:37:12\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:12\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}"
+    // ]
+
+    //实例返回值
+    // const data = {
+    //     labels: ['今日', '本周', '本月', '本年', '全部'], // optional
+    //     data: [0.3, 0.6, 0.8, 0.1, 0.2],
+    //     colors: ['#4dff4d', 'blue', 'yellow', 'green', 'red']
+    // };
+    dayjs.extend(isLeapYear)
+    const cur = dayjs()
+    data = data.map(e => JSON.parse(e))
+
+    const unit = ['year', 'month', 'week']
+
+    //年
+    const yearRate = data.length / (isLeapYear ? 366 : 365)
+    //月
+    let recordMonth = {}
+    data.filter((e) => {
+        return dayjs(e['date']).isAfter(cur.startOf('month'))
+            && dayjs(e['date']).isBefore(cur.endOf('month'))
+    }).forEach((ele) => {
+        const tags = ele['tags']
+        tags.forEach((e) => e.forEach((e) => { if (e === tag) recordMonth[ele['date']] = true }))
+    })
+    const monthRate = Object.keys(recordMonth).length / cur.daysInMonth()
+    //周
+    let recordWeek = {}
+    data.filter((e) => {
+        return dayjs(e['date']).isAfter(cur.startOf('week').add(1, 'day'))
+            && dayjs(e['date']).isBefore(cur.endOf('week').add(1, 'day'))
+    }).forEach((ele) => {
+        const tags = ele['tags']
+        tags.forEach((e) => e.forEach((e) => { if (e === tag) recordWeek[ele['date']] = true }))
+    })
+    const weekRate = Object.keys(recordWeek).length / 7
+    //今天
+    const today = Object.keys(recordWeek).indexOf(cur.format('YYYY-MM-DD')) != -1 ? 1 : 0
+
+    const res = {
+        labels: ['今日', '本周', '本月', '本年'], // optional
+        data: [today, weekRate, monthRate, yearRate],
+        colors: ['#4dff4d', 'blue', 'yellow', 'green']
+    };
+
+    return res
 }
