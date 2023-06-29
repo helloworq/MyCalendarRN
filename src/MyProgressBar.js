@@ -3,7 +3,7 @@ import { Text, View, Button, Dimensions, ScrollView } from "react-native";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { ProgressChart } from 'react-native-chart-kit';
 import dayjs from 'dayjs'
-import { loadFolder, loadTags } from './util/FileUtil'
+import { loadFolder, loadTags, getPathFromArray, statistics,loadYearFolder } from './util/FileUtil'
 import RNFS from 'react-native-fs'
 import { SelectList } from 'react-native-dropdown-select-list'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -12,8 +12,14 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 
 const MyProgressBar = ({ navigation }) => {
     const [fill, setFill] = useState(0)
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState("")
+    const [year, setYear] = useState(dayjs().year());
     const [tags, setTags] = useState([])
+    const [data, setData] = useState({
+        labels: ['今日', '本周', '本月', '本年'], // optional
+        data: [0,0,0,0],
+        colors: ['#4dff4d', 'blue', 'yellow', 'green']
+    })
     const [contributionGraphData, setContributionGraphData] = useState([{}])
 
     useEffect(() => {
@@ -37,7 +43,6 @@ const MyProgressBar = ({ navigation }) => {
         })
         //加载tag数据
         loadTags().then((r) => {
-            console.log('rrr', r)
             let res = []
             const obj = JSON.parse(r)
             Object.keys(obj).forEach((e) => {
@@ -46,18 +51,50 @@ const MyProgressBar = ({ navigation }) => {
                 temp['key'] = e
                 temp['value'] = obj[e][0]
                 res.push(temp)
-                console.log(temp)
             })
 
             setTags(res)
         })
     }, [])
     // each value represents a goal ring in Progress chart
-    const data = {
-        labels: ['今日', '本周', '本月', '本年'], // optional
-        data: [0.3, 0.6, 0.8, 0.1],
-        colors: ['#4dff4d', 'blue', 'yellow', 'green']
-    };
+    // const data = {
+    //     labels: ['今日', '本周', '本月', '本年'], // optional
+    //     data: [0.3, 0.6, 0.8, 0.1],
+    //     colors: ['#4dff4d', 'blue', 'yellow', 'green']
+    // };
+
+    function momentTagStatistics(year, tag) {
+        //统计动态中的tag信息,按年统计，如果后续数据量过大影响加载性能，考虑使用一个文本单独记录统计信息
+
+        //RNFS.readDir(path + year)
+        loadYearFolder(year)
+            .then((r) => {
+                let temp = []
+                r.forEach((e) => { temp.push(e.path) })
+                return temp
+            }).then((r) => {
+                let pL = []
+                r.forEach((e) => {
+                    let p = RNFS.readDir(e)
+                    pL.push(p)
+                })
+                return pL
+            }).then((r) => { 
+                Promise.all(r).then((r) => {
+                    let pL = []
+                    r = getPathFromArray(r)
+                    r.forEach((e) => {
+                        let p = RNFS.readFile(e + '/data.json')
+                        pL.push(p)
+                    })
+                    return pL
+                }).then((r) =>
+                    Promise.all(r).then((r) => {
+                        const res = statistics(r, tag)
+                        setData(res)
+                    }))
+            })
+    }
 
     const chartConfig = {
         backgroundGradientFrom: '#ffffe5',
@@ -107,7 +144,7 @@ const MyProgressBar = ({ navigation }) => {
                     </View>
                     <View style={{ marginLeft: 30, flexDirection: 'row', justifyContent: 'flex-end' }}>
                         <SelectList
-                            setSelected={(val) => setSelected(val)}
+                            setSelected={(v) => setYear(v)}
                             data={dropDataYear}
                             save="value"
                             placeholder="选择年份"
@@ -115,7 +152,7 @@ const MyProgressBar = ({ navigation }) => {
                             boxStyles={{ alignItems: 'flex-end' }}
                         />
                         <SelectList
-                            setSelected={(val) => setSelected(val)}
+                            setSelected={(val) => momentTagStatistics(year, val)}
                             data={tags}
                             save="value"
                             placeholder="选择Tag"

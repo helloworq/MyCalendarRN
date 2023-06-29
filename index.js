@@ -21,4 +21,4 @@ import MyAddTags from './src/MyAddTags';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => MyRWMoment);
+AppRegistry.registerComponent(appName, () => Rooter);

@@ -186,7 +186,7 @@ export function loadTags() {
 
 export function momentTagStatistics(year, tag) {
     //统计动态中的tag信息,按年统计，如果后续数据量过大影响加载性能，考虑使用一个文本单独记录统计信息
-    let res = null
+
     RNFS.readDir(path + year)
         .then((r) => {
             let temp = []
@@ -210,13 +210,12 @@ export function momentTagStatistics(year, tag) {
                 return pL
             }).then((r) =>
                 Promise.all(r).then((r) => {
-                    res =statistics(r, tag)
+                    statistics(r, tag)
                 }))
         })
-        return res
 }
 
-function getPathFromArray(array) {
+export function getPathFromArray(array) {
     let res = []
     array.forEach(e => {
         e.forEach((e) => res.push(e.path))
@@ -224,8 +223,11 @@ function getPathFromArray(array) {
     return res
 }
 
+export function loadYearFolder(year) {
+    return RNFS.readDir(path + year)
+}
 
-function statistics(data, tag) {
+export function statistics(data, tag) {
     //全部  本年  本月  本周  今日
     //示例入参
     // [
@@ -248,10 +250,14 @@ function statistics(data, tag) {
     const cur = dayjs()
     data = data.map(e => JSON.parse(e))
 
-    const unit = ['year', 'month', 'week']
-
     //年
-    const yearRate = data.length / (isLeapYear ? 366 : 365)
+    let recordYear = {}
+    //const yearRate = yearArray.filter((value, index) => yearArray.indexOf(value) === index).length / (isLeapYear ? 366 : 365)
+    data.forEach((ele) => {
+        const tags = ele['tags']
+        tags.forEach((e) => e.forEach((e) => { if (e === tag) recordYear[ele['date']] = true }))
+    })
+    const yearRate = Object.keys(recordYear).length / (isLeapYear ? 366 : 365)
     //月
     let recordMonth = {}
     data.filter((e) => {
@@ -280,6 +286,5 @@ function statistics(data, tag) {
         data: [today, weekRate, monthRate, yearRate],
         colors: ['#4dff4d', 'blue', 'yellow', 'green']
     };
-
     return res
 }
