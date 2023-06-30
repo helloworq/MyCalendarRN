@@ -19,7 +19,7 @@ const MyProgressBar = ({ navigation }) => {
         colors: ['#4dff4d', 'blue', 'yellow', 'green']
     })
     const [contributionGraphData, setContributionGraphData] = useState([{}])
-    const [todayTags, setTodayTags] = useState([[]])
+    const [todayTags, setTodayTags] = useState({})
 
     useEffect(() => {
         let res = []

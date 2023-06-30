@@ -11,6 +11,9 @@ const filePrefix = 'file://'
 
 export function uploadMoment(text, imgs, tags) {
     const saved = mkdir()
+    if (text==='' || text===null||text===undefined){
+        text = '   '
+    }
 
     text = generateMoment(saved, text, tags)
     RNFS.writeFile(saved + dataName, text)
