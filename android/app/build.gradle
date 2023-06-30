@@ -95,6 +95,7 @@ android {
 
     namespace "com.mycalendar"
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.mycalendar"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

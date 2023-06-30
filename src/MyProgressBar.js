@@ -179,14 +179,34 @@ const MyProgressBar = ({ navigation }) => {
 
 
             </ScrollView >
-            <Button title="记录一下吧！" onPress={() => {
-                ImageCropPicker.openPicker({ multiple: true })
-                    .then(images => {
-                        navigation.navigate('MyMomentUploader', {
-                            'datas': images
+            <View style={{ flexDirection: 'row' }}>
+                <View>
+                    <Button title="拍照记录" color={'green'} onPress={() => {
+                        ImageCropPicker.openCamera({
+                            width: Dimensions.get('window').width,
+                            height: Dimensions.get('window').height,
+                        }).then(images => {
+                            images = Array.isArray(images) ? images : [images]
+                            navigation.navigate('MyMomentUploader', {
+                                'datas': images
+                            })
                         })
-                    })
-            }} />
+                    }} />
+                </View>
+
+                <View style={{ flex: 1 }}>
+                    <Button title="从相册选择" onPress={() => {
+                        ImageCropPicker.openPicker({
+                            multiple: true
+                        }).then(images => {
+                            navigation.navigate('MyMomentUploader', {
+                                'datas': images
+                            })
+                        })
+                    }} />
+                </View>
+            </View>
+
         </>
     )
 }
