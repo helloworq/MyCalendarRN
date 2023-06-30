@@ -297,7 +297,7 @@ export function statistics(data, tag) {
     let curDayTag = {}
     data.filter((e) => cur.format('YYYY-MM-DD') === e['date'])
         .map((e) => e['tags'])
-        .forEach((e) => curDayTag[e[0]] = e)
+        .forEach((e) => e.forEach((e) => curDayTag[e[0]] = e))
 
     //组装数据返回
     let newRes = {}

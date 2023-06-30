@@ -20,6 +20,7 @@ const MyAddTags = () => {
     function renderTag() {
         return Object.keys(data).map(t =>
             <Chip
+                key={t}
                 icon={data[t][1]}
                 mode={data[t][2] ? 'flat' : 'outlined'}
                 style={{
@@ -29,7 +30,7 @@ const MyAddTags = () => {
                 }}
                 onPress={() => { }}
                 onLongPress={() => {
-                    delete data[t]
+                    data.splice(t,1)
                     let newData = JSON.parse(JSON.stringify(data))
                     setData(newData)
                 }}

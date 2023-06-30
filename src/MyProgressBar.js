@@ -90,8 +90,7 @@ const MyProgressBar = ({ navigation }) => {
     }
 
     function renderTag() {
-        const tags = Object.values(todayTags)[0]
-        console.log(tags)
+        const tags = Object.values(todayTags)
         const eleTag = tags.map(t =>
             <Chip
                 icon={t[1]}
