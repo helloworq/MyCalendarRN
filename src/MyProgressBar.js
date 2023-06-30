@@ -11,7 +11,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import { Chip } from 'react-native-paper';
 
 const MyProgressBar = ({ navigation }) => {
-    const [year, setYear] = useState(dayjs().year());
+    const year = dayjs().year();
     const [tags, setTags] = useState([])
     const [data, setData] = useState({
         labels: ['今日', '本周', '本月', '本年'], // optional
@@ -19,6 +19,7 @@ const MyProgressBar = ({ navigation }) => {
         colors: ['#4dff4d', 'blue', 'yellow', 'green']
     })
     const [contributionGraphData, setContributionGraphData] = useState([{}])
+    const [todayTags, setTodayTags] = useState([[]])
 
     useEffect(() => {
         let res = []
@@ -55,9 +56,8 @@ const MyProgressBar = ({ navigation }) => {
         })
     }, [])
 
-    function momentTagStatistics(year, tag) {
+    async function momentTagStatistics(year, tag) {
         //统计动态中的tag信息,按年统计，如果后续数据量过大影响加载性能，考虑使用一个文本单独记录统计信息
-console.log('year',year)
         //RNFS.readDir(path + year)
         loadYearFolder(year)
             .then((r) => {
@@ -83,9 +83,28 @@ console.log('year',year)
                 }).then((r) =>
                     Promise.all(r).then((r) => {
                         const res = statistics(r, tag)
-                        setData(res)
+                        setData(res['res'])
+                        setTodayTags(res['curDayTag'])
                     }))
             })
+    }
+
+    function renderTag() {
+        const tags = Object.values(todayTags)[0]
+        console.log(tags)
+        const eleTag = tags.map(t =>
+            <Chip
+                icon={t[1]}
+                mode={t[2] ? 'flat' : 'outlined'}
+                style={{
+                    padding: 2,
+                    marginBottom: 10,
+                    marginRight: 10,
+                }}
+                onPress={() => { }}
+            >{t[0]}</Chip>
+        )
+        return eleTag
     }
 
     const chartConfig = {
@@ -98,44 +117,24 @@ console.log('year',year)
         strokeWidth: 5,
     };
 
-    const dropDataYear = [
-        { key: '1', value: '2023' },
-        { key: '2', value: '2024' },
-        { key: '3', value: '2025' },
-    ]
-
     return (
         <>
             <ScrollView style={{ backgroundColor: '#ffffe5' }}>
-                <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={{
-                            marginLeft: 5,
-                            fontSize: 20,
-                            fontWeight: 'bold',
-                        }}>Summary</Text>
-                    </View>
-                    <View style={{ marginLeft: 30, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <SelectList
-                            defaultOption={dropDataYear[0]}
-                            setSelected={(v) => {
-                                console.log('v',v)
-                                setYear(v)}}
-                            data={dropDataYear}
-                            save="value"
-                            placeholder="选择年份"
-                            search={false}
-                            boxStyles={{ alignItems: 'flex-end' }}
-                        />
-                        <SelectList
-                            setSelected={(val) => momentTagStatistics(year, val)}
-                            data={tags}
-                            save="value"
-                            placeholder="选择Tag"
-                            search={false}
-                            boxStyles={{ marginLeft: 10 }}
-                        />
-                    </View>
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={{
+                        flex: 1,
+                        marginLeft: 5,
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                    }}>Summary   {year}</Text>
+                    <SelectList
+                        setSelected={(val) => momentTagStatistics(year, val)}
+                        data={tags}
+                        save="value"
+                        placeholder="选择Tag"
+                        search={false}
+                        boxStyles={{ marginRight: 10, }}
+                    />
                 </View>
 
                 <ProgressChart
@@ -164,14 +163,18 @@ console.log('year',year)
                         marginLeft: 5,
                         fontSize: 20,
                         fontWeight: 'bold',
-                    }}>Today {dayjs().format('YYYY-MM-DD')}</Text>
+                    }}>What You Done Today {dayjs().format('MM-DD')}</Text>
                     <FontAwesome onPress={() => {
                         navigation.navigate('Calendar')
-                    }} name="calendar" size={20} color="#110" style={{ marginLeft: 50 }} />
+                    }} name="calendar" size={20} color="#110" style={{ marginLeft: 20 }} />
+
+                    <FontAwesome onPress={() => {
+                        navigation.navigate('MyAddTags')
+                    }} name="tags" size={20} color="#110" style={{ marginLeft: 30 }} />
                 </View>
 
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
-                    
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, marginLeft: 5 }}>
+                    {renderTag()}
                 </View>
 
 

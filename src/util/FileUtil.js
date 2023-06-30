@@ -163,6 +163,12 @@ export function writeTags(Tag) {
     //     5: ['#力量训练打卡', 'arm-flex-outline', false],
     //     6: ['#跑步打卡', 'run-fast', true],
     // }
+    const extraPath = tagsPath.slice(0,tagsPath.lastIndexOf('/'))
+    RNFS.exists(extraPath).then((r) => {
+        if (!r) {
+            RNFS.mkdir(extraPath)
+        }
+    })
 
     return RNFS.writeFile(tagsPath, JSON.stringify(Tag))
 }
@@ -286,5 +292,34 @@ export function statistics(data, tag) {
         data: [today, weekRate, monthRate, yearRate],
         colors: ['#4dff4d', 'blue', 'yellow', 'green']
     };
-    return res
+
+    //顺便返回今天的全部动态tag
+    let curDayTag = {}
+    data.filter((e) => cur.format('YYYY-MM-DD') === e['date'])
+        .map((e) => e['tags'])
+        .forEach((e) => curDayTag[e[0]] = e)
+
+    //组装数据返回
+    let newRes = {}
+    newRes['res'] = res
+    newRes['curDayTag'] = curDayTag
+
+    return newRes
+}
+
+
+export function loadMonthFolders() {
+    // {
+    //     '2023-06-01': { selected: true, marked: true, selectedColor: 'green' },
+    //     '2023-06-02': { marked: true },
+    //     '2023-06-03': { selected: true, marked: true, selectedColor: 'green' }
+    // }
+    const year = 2023
+
+    return RNFS.readDir(path + year)
+        .then((r) => {
+            let temp = []
+            r.forEach((e) => { temp.push(e.path) })
+            return temp
+        })
 }

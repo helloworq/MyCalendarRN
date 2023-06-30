@@ -6,6 +6,7 @@ import isLeapYear from 'dayjs/plugin/isLeapYear'
 import {
     loadData,
     momentTagStatistics,
+    loadMonthFolders,
     getData, removeData, loadFolder, loadTags, writeTags, writeTags4Me
 } from '../util/FileUtil'
 
@@ -25,9 +26,10 @@ const MyRWMoment = () => {
             <Button onPress={() => {
 
 
-               
-console.log(dayjs().year())
-
+const tagsPath = RNFS.ExternalDirectoryPath + '/Extra/tags.txt'  
+const extraPath = tagsPath.slice(0,tagsPath.lastIndexOf('/'))
+console.log(extraPath)
+RNFS.exists(extraPath).then((r) => { console.log(r) })
 
 
                 // new Promise(resolve => {

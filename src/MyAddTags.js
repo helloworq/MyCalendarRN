@@ -7,14 +7,17 @@ import { writeTags, loadTags } from './util/FileUtil'
 const MyAddTags = () => {
     //text icon disable暂不提供自增tag的功能，因为缺少图标对应
     const [text, setText] = useState()
-    const [data, setData] = useState([{}])
+    const [data, setData] = useState([])
 
     useEffect(() => {
-        loadTags().then((r) => { setData(JSON.parse(r)) })
+        loadTags().then((r) => {
+            if (r != null) {
+                setData(JSON.parse(r))
+            }
+        })
     }, [])
 
     function renderTag() {
-        console.log(data)
         return Object.keys(data).map(t =>
             <Chip
                 icon={data[t][1]}
@@ -24,7 +27,7 @@ const MyAddTags = () => {
                     marginBottom: 10,
                     marginRight: 10,
                 }}
-                onPress={() => {}}
+                onPress={() => { }}
                 onLongPress={() => {
                     delete data[t]
                     let newData = JSON.parse(JSON.stringify(data))
@@ -53,9 +56,13 @@ const MyAddTags = () => {
                         value={text}
                     />
                     <Button title="Add" style={{ flex: 1 }} onPress={() => {
-                        const maxIndex = Number(Math.max(...Object.keys(data).map(Number)))
+                        let maxIndex = 1;
+                        if (data.length != 0) {
+                            maxIndex = Number(Math.max(...Object.keys(data).map(Number)))
+                        }
                         data[maxIndex + 1] = ['#' + text, 'compass-outline', false]
                         let newData = JSON.parse(JSON.stringify(data))
+                        newData = newData.filter((e) => e != null || e != undefined)
                         setData(newData)
                     }} />
                 </View>
