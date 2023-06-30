@@ -170,7 +170,7 @@ const MyProgressBar = ({ navigation }) => {
 
                     <FontAwesome onPress={() => {
                         navigation.navigate('MyAddTags')
-                    }} name="tags" size={20} color="#110" style={{ marginLeft: 30 }} />
+                    }} name="tags" size={20} color="#110" style={{ marginLeft: 20 }} />
                 </View>
 
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, marginLeft: 5 }}>
