@@ -10,18 +10,20 @@ import MyImagePicker from './ImagePicker';
 import MyMomentViewer from './MyMomentViewer';
 import MyProgressBar from './MyProgressBar';
 import MyAddTags from './MyAddTags';
+import LayoutScrollHome from './utilCodeBlock/layout/LayoutScrollHome';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="MyProgressBar" component={MyProgressBar} options={{ title: "主页" }} />
-                <Stack.Screen name="Calendar" component={Calendar} options={{ title: "日历" }} />
-                <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} options={{ title: "动态列表" }} />
-                <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ title: "上传动态" }} />
-                <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ title: "轨迹" }} />
-                <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ title: "标签" }} />
+                {/* <Stack.Screen name="MyProgressBar" component={MyProgressBar} options={{ title: "主页" }} /> */}
+                <Stack.Screen name="LayoutScrollHome" component={LayoutScrollHome} options={{ headerShown: false }} />
+                <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false }} />
+                <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} options={{ headerShown: false }} />
+                <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false }} />
+                <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false }} />
+                <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
