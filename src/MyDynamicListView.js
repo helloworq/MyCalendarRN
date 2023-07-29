@@ -9,7 +9,8 @@ import {
     RefreshControl,
     ActivityIndicator,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ImageBackground
 } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
 
@@ -86,34 +87,49 @@ const MyDynamicListView = ({ route, navigation }) => {
         )
     }
 
-    return <Timeline
-        style={styles.container}
-        data={tdata}
-        circleColor='rgba(0,0,0,0)'
-        lineColor='#bebebe'
-        timeStyle={{ textAlign: 'center', backgroundColor: '#f6f7e5', color: 'black', padding: 5, borderRadius: 13 }}
-        //descriptionStyle={{ color: 'gray' }}
-        innerCircle={'icon'}
+    return (
+        <>
+            <ImageBackground
+                source={require('./utilCodeBlock/layout/bg.jpeg')}
+                resizeMode='stretch'
+                style={{ flex: 1, }}>
+                <Timeline
+                    style={styles.container}
+                    data={tdata}
+                    circleColor={'#bebebe'}
+                    separator={false}
+                    innerCircle={'none'}
+                    lineColor='#bebebe'
+                    timeStyle={{
+                        textAlign: 'center',
+                        backgroundColor: 'rgba(0,0,255,0.1)',
+                        color: 'black',
+                        padding: 5,
+                        borderRadius: 5,
+                    }}
 
-        options={{
-            style: { paddingTop: 5 },
-            refreshControl: (
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
+                    options={{
+                        style: { paddingTop: 5 },
+                        refreshControl: (
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />
+                        ),
+                        renderFooter: renderFooter,
+                    }}
+                    renderDetail={renderDetail}
                 />
-            ),
-            renderFooter: renderFooter,
-        }}
-        renderDetail={renderDetail}
-    />
+            </ImageBackground>
+        </>)
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: 'white'
+        //backgroundColor: 'white',
+        backgroundColor: 'rgba(255,255,255,0.5)'
     },
     list: {
         flex: 1,
