@@ -11,21 +11,72 @@ import MyMomentViewer from './MyMomentViewer';
 import MyProgressBar from './MyProgressBar';
 import MyAddTags from './MyAddTags';
 import LayoutScrollHome from './utilCodeBlock/layout/LayoutScrollHome';
+import { PreferencesContext } from './MyPreferencesContext';
+import MyHomePage from './MyHomePage';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
+
+    const darkMode = {
+        dark: false,
+        colors: {
+            //calendar
+            calendarArrowColor: 'white',
+            calendarMonthTextColor: 'white',
+            calendarDayTextColor: 'white',
+            calendarDayDisableTextColor: 'gray',
+            calendarAgendaDayTextColor: 'white',
+            calendarBgColor: 'black',
+            calendarDayBgColor: 'rgba(255,255,255,0.1)',
+
+            //timeline
+            timelineBgColor: 'rgba(0,0,0,1)',
+            timelineCircleColor: 'gray',
+            timelineLineColor: '#bebebe',
+            timelineTimeBgColor: 'rgba(255,255,255,0.1)',
+            timelineTimeTextColor: 'white',
+            timelineInfoTextColor: 'white'
+        },
+    };
+
+    const lightMode = {
+        dark: false,
+        colors: {
+            //calendar
+            calendarArrowColor: 'black',
+            calendarMonthTextColor: 'black',
+            calendarDayTextColor: 'black',
+            calendarDayDisableTextColor: 'gray',
+            calendarAgendaDayTextColor: 'white',
+            calendarBgColor: 'rgba(0,0,0,0.1)',
+            calendarDayBgColor: 'rgba(0,0,0,0.1)',
+
+            //timeline
+            timelineBgColor: 'rgba(255,255,255,0.5)',
+            timelineCircleColor: '#bebebe',
+            timelineLineColor: '#bebebe',
+            timelineTimeBgColor: 'rgba(0,0,255,0.1)',
+            timelineTimeTextColor: 'black',
+            timelineInfoTextColor: 'black'
+        },
+    }
+
+    const [mode, setMode] = useState('light')
+    let theme = mode === 'light' ? darkMode : lightMode
+
     return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                {/* <Stack.Screen name="MyProgressBar" component={MyProgressBar} options={{ title: "主页" }} /> */}
-                <Stack.Screen name="LayoutScrollHome" component={LayoutScrollHome} options={{ headerShown: false }} />
-                <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false }} />
-                <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} options={{ headerShown: false }} />
-                <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false }} />
-                <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false }} />
-                <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false }} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <PreferencesContext.Provider value={{ mode, setMode, theme }}>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen name="MyHomePage" component={MyHomePage} options={{ headerShown: false }} />
+                    <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false }} />
+                    <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} options={{ headerShown: false }} />
+                    <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false }} />
+                    <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false }} />
+                    <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false }} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </PreferencesContext.Provider>
     );
 }
 

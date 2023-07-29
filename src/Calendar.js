@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext} from 'react';
 import { Calendar } from 'react-native-calendars'
 import RNFS from 'react-native-fs'
 import {
@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { loadMonthFolders,loadData } from './util/FileUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import dayjs from 'dayjs';
+import { PreferencesContext } from "./MyPreferencesContext";
 import { MD3LightTheme as DefaultTheme, Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
 
@@ -19,6 +19,54 @@ const MyCalendar = ({ navigation }) => {
   const [markedDates, setMarkedDates] = useState()
   const value = { selected: true, marked: true, selectedColor: '#66ff66' }
   const [data, setData] = useState()
+  const { mode, setMode, theme } = useContext(PreferencesContext)
+  
+  const styles = StyleSheet.create({
+    imageBg: {
+      flex: 1, padding: 10
+    },
+    //calendar
+    calendarTheme: {
+      textDisabledColor: theme.colors.calendarDayDisableTextColor,
+      dayTextColor: theme.colors.calendarDayTextColor,
+      agendaDayTextColor: theme.colors.calendarAgendaDayTextColor,
+      monthTextColor: theme.colors.calendarMonthTextColor,
+      calendarBackground: theme.colors.calendarDayBgColor,
+    },
+    calendar: {
+      borderRadius: 20,
+      padding: 10,
+      backgroundColor: theme.colors.calendarBgColor
+    },
+  
+    //timeline
+    timeline: {
+      flex: 1,
+      padding: 20,
+      marginTop: 10,
+      flexDirection: 'row',
+      backgroundColor: theme.colors.timelineBgColor,
+      borderRadius: 20,
+    },
+    timelineInfo: {
+      flexDirection: 'row', marginRight: 50
+    },
+    timelineInfoText: {
+      marginLeft: 10,
+      color: theme.colors.timelineInfoTextColor
+    },
+    timelineImg: {
+      width: 50, height: 50,
+    },
+    timelineTime: {
+      textAlign: 'center',
+      backgroundColor: theme.colors.timelineTimeBgColor,
+      color: theme.colors.timelineTimeTextColor,
+      padding: 5,
+      borderRadius: 5,
+    },
+  })
+
   function loadMoment(param) {
     loadData(param).then((r) => {
       let count = 0
@@ -162,51 +210,6 @@ const colorsLight = {
   //timeline: '',
 }
 
-const styles = StyleSheet.create({
-  imageBg: {
-    flex: 1, padding: 10
-  },
-  //calendar
-  calendarTheme: {
-    textDisabledColor: colorsDark.calendarDayDisableTextColor,
-    dayTextColor: colorsDark.calendarDayTextColor,
-    agendaDayTextColor: colorsDark.calendarAgendaDayTextColor,
-    monthTextColor: colorsDark.calendarMonthTextColor,
-    calendarBackground: colorsDark.calendarDayBgColor,
-  },
-  calendar: {
-    borderRadius: 20,
-    padding: 10,
-    backgroundColor: colorsDark.calendarBgColor
-  },
-
-  //timeline
-  timeline: {
-    flex: 1,
-    padding: 20,
-    marginTop: 10,
-    flexDirection: 'row',
-    backgroundColor: colorsDark.timelineBgColor,
-    borderRadius: 20,
-  },
-  timelineInfo: {
-    flexDirection: 'row', marginRight: 50
-  },
-  timelineInfoText: {
-    marginLeft: 10,
-    color: colorsDark.timelineInfoTextColor
-  },
-  timelineImg: {
-    width: 50, height: 50,
-  },
-  timelineTime: {
-    textAlign: 'center',
-    backgroundColor: colorsDark.timelineTimeBgColor,
-    color: colorsDark.timelineTimeTextColor,
-    padding: 5,
-    borderRadius: 5,
-  },
-})
 
 
 export default MyCalendar

@@ -34,7 +34,7 @@ const MyTheme = () => {
     }
 
     const [mode, setMode] = useState('light')
-    let theme = mode === 'light' ? darkMode : lightMode;
+    let theme = mode === 'light' ? darkMode : lightMode
 
     return (
         <>

@@ -20,7 +20,8 @@ import MyProgressBar from './src/MyProgressBar';
 import MyAddTags from './src/MyAddTags';
 import LayoutScrollHome from './src/utilCodeBlock/layout/LayoutScrollHome';
 import MyTheme from './src/utilCodeBlock/themes/MyTheme'
+import MyHomePage from './src/MyHomePage';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => MyTheme);
+AppRegistry.registerComponent(appName, () => Rooter);
