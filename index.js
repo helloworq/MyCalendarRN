@@ -18,6 +18,7 @@ import MyContritutionGraph from './src/MyContributionGraph';
 import Layout from './src/utilCodeBlock/layout/Layout'
 import MyProgressBar from './src/MyProgressBar';
 import MyAddTags from './src/MyAddTags';
+import LayoutScrollHome from './src/utilCodeBlock/layout/LayoutScrollHome';
 
 import Root from './src/router/Root'
 
