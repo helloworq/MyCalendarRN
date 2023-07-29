@@ -35,7 +35,12 @@ const Rooter = () => {
             timelineLineColor: '#bebebe',
             timelineTimeBgColor: 'rgba(255,255,255,0.1)',
             timelineTimeTextColor: 'white',
-            timelineInfoTextColor: 'white'
+            timelineInfoTextColor: 'white',
+
+            //HomePage
+            iconColor: 'gray',
+            progressColor: 'rgba(0,0,0,1)',
+            fontColor:'white'
         },
     };
 
@@ -57,7 +62,12 @@ const Rooter = () => {
             timelineLineColor: '#bebebe',
             timelineTimeBgColor: 'rgba(0,0,255,0.1)',
             timelineTimeTextColor: 'black',
-            timelineInfoTextColor: 'black'
+            timelineInfoTextColor: 'black',
+
+            //HomePage
+            iconColor: 'black',
+            progressColor: 'rgba(255,255,255,0.5)',
+            fontColor:'black',
         },
     }
 

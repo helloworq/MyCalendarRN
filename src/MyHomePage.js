@@ -17,7 +17,7 @@ import { PreferencesContext } from "./MyPreferencesContext";
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
     strokeWidth: 2, // optional, default 3
     barPercentage: 0.5,
     useShadowColorFromDataset: false // optional
@@ -39,6 +39,77 @@ const MyHomePage = ({ navigation }) => {
         data: [0.7, 0.3, 0.8]
     };
 
+    const styles = StyleSheet.create({
+        progress: {
+            borderRadius: borderRadius,
+            width: fullBlockLength,
+            height: 130,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            margin: split,
+            backgroundColor: theme.colors.progressColor
+        },
+        info: {
+            width: fullBlockLength,
+            borderRadius: borderRadius,
+            height: 450,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            margin: split,
+            backgroundColor: theme.colors.progressColor
+        },
+        photo: {
+            borderRadius: borderRadius,
+            width: blockLength,
+            height: blockLength,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            margin: split,
+            backgroundColor: theme.colors.progressColor
+        },
+        camera: {
+            borderRadius: borderRadius,
+            width: blockLength,
+            height: blockLength,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            margin: split,
+            backgroundColor: theme.colors.progressColor
+        },
+        night: {
+            borderRadius: borderRadius,
+            width: blockLength,
+            height: blockLength,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            margin: split,
+            backgroundColor: theme.colors.progressColor
+        },
+        tag: {
+            borderRadius: borderRadius,
+            width: blockLength,
+            height: blockLength / 2 - 5,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            marginLeft: split,
+            marginBottom: split,
+            marginRight: split,
+            backgroundColor: theme.colors.progressColor
+        },
+        calendar: {
+            borderRadius: borderRadius,
+            width: blockLength,
+            height: blockLength / 2 - 5,
+            flexDirection: 'column',
+            backgroundColor: 'white',
+            marginLeft: split,
+            marginBottom: split,
+            marginRight: split,
+            backgroundColor: theme.colors.progressColor
+        }
+
+    })
+
     return (
         <>
             <View style={{ flex: 1, }} >
@@ -50,18 +121,9 @@ const MyHomePage = ({ navigation }) => {
                     <View style={{ height: screenHeight, flexDirection: 'column' }}>
                         <View style={{ flex: 1 }}>
                             <TouchableOpacity>
-                                <View style={{
-                                    borderRadius: borderRadius,
-                                    width: fullBlockLength,
-                                    height: 130,
-                                    flexDirection: 'column',
-                                    backgroundColor: 'white',
-                                    margin: split,
-                                    backgroundColor: 'rgba(255,255,255,0.5)'
-                                }}>
-
+                                <View style={styles.progress}>
                                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        <View style={{ backgroundColor: 'black', borderRadius: 20, }}>
+                                        <View style={{ borderRadius: 20, }}>
                                             <ProgressChart
                                                 data={data}
                                                 width={fullBlockLength}
@@ -79,19 +141,11 @@ const MyHomePage = ({ navigation }) => {
                         </View>
 
                         <View style={{ flex: 3, width: fullBlockLength, }}>
-                            <View style={{
-                                width: fullBlockLength,
-                                borderRadius: borderRadius,
-                                height: 450,
-                                flexDirection: 'column',
-                                backgroundColor: 'white',
-                                margin: split,
-                                backgroundColor: 'rgba(255,255,255,0.5)',
-                            }}>
+                            <View style={styles.info}>
                                 <View style={{ padding: 20, }}>
                                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
                                         <Image source={require('./utilCodeBlock/layout/bg.jpeg')} style={{ width: 50, height: 50 }} />
-                                        <Text style={{ marginLeft: 10, marginRight: 40 }}>危楼高百尺，手可摘星辰,不敢高声语，恐惊天上人。</Text>
+                                        <Text style={{ marginLeft: 10, marginRight: 40, color: theme.colors.iconColor }}>危楼高百尺，手可摘星辰,不敢高声语，恐惊天上人。</Text>
                                     </View>
                                 </View>
                             </View>
@@ -108,21 +162,13 @@ const MyHomePage = ({ navigation }) => {
                                         })
                                     })
                                 }} >
-                                    <View style={{
-                                        borderRadius: borderRadius,
-                                        width: blockLength,
-                                        height: blockLength,
-                                        flexDirection: 'column',
-                                        backgroundColor: 'white',
-                                        margin: split,
-                                        backgroundColor: 'rgba(255,255,255,0.5)'
-                                    }}>
+                                    <View style={styles.photo}>
                                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                             <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>相册</Text>
+                                                <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>相册</Text>
                                             </View>
                                             <View style={{ alignItems: 'center' }}>
-                                                <FontAwesome name={"photo"} size={iconSize} color={iconColor} />
+                                                <FontAwesome name={"photo"} size={iconSize} color={theme.colors.iconColor} />
                                             </View>
                                         </View>
                                     </View>
@@ -142,21 +188,13 @@ const MyHomePage = ({ navigation }) => {
                                         })
                                     })
                                 }}>
-                                    <View style={{
-                                        borderRadius: borderRadius,
-                                        width: blockLength,
-                                        height: blockLength,
-                                        flexDirection: 'column',
-                                        backgroundColor: 'white',
-                                        margin: split,
-                                        backgroundColor: 'rgba(255,255,255,0.5)'
-                                    }}>
+                                    <View style={styles.camera}>
                                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                             <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>拍照</Text>
+                                                <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>拍照</Text>
                                             </View>
                                             <View style={{ alignItems: 'center' }}>
-                                                <FontAwesome name={"camera"} size={iconSize} color={iconColor} />
+                                                <FontAwesome name={"camera"} size={iconSize} color={theme.colors.iconColor} />
                                             </View>
                                         </View>
                                     </View>
@@ -167,21 +205,14 @@ const MyHomePage = ({ navigation }) => {
                                 < TouchableOpacity onPress={() => {
                                     setMode(mode === 'dark' ? 'light' : 'dark')
                                 }}>
-                                    <View style={{
-                                        borderRadius: borderRadius,
-                                        width: blockLength,
-                                        height: blockLength,
-                                        flexDirection: 'column',
-                                        backgroundColor: 'white',
-                                        margin: split,
-                                        backgroundColor: 'rgba(255,255,255,0.5)',
-                                    }}>
+                                    <View style={styles.night}>
                                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                             <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 15 }}>夜间模式</Text>
+                                                <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>夜间模式</Text>
                                             </View>
                                             <View style={{ alignItems: 'center' }}>
                                                 <MaterialCommunityIcons
+                                                    color={theme.colors.iconColor}
                                                     name={"theme-light-dark"}
                                                     size={iconSize}
                                                 />
@@ -196,21 +227,11 @@ const MyHomePage = ({ navigation }) => {
                                     < TouchableOpacity onPress={() => {
                                         navigation.navigate('MyAddTags')
                                     }}>
-                                        <View style={{
-                                            borderRadius: borderRadius,
-                                            width: blockLength,
-                                            height: blockLength / 2 - 5,
-                                            flexDirection: 'column',
-                                            backgroundColor: 'white',
-                                            marginLeft: split,
-                                            marginBottom: split,
-                                            marginRight: split,
-                                            backgroundColor: 'rgba(255,255,255,0.5)'
-                                        }}>
+                                        <View style={styles.tag}>
                                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                    <FontAwesome name={"tags"} size={20} color={iconColor} />
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 15 }}>标签</Text>
+                                                    <FontAwesome name={"tags"} size={20} color={theme.colors.iconColor} />
+                                                    <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>标签</Text>
                                                 </View>
                                             </View>
                                         </View>
@@ -221,21 +242,11 @@ const MyHomePage = ({ navigation }) => {
                                     < TouchableOpacity onPress={() => {
                                         navigation.navigate('Calendar')
                                     }}>
-                                        <View style={{
-                                            borderRadius: borderRadius,
-                                            width: blockLength,
-                                            height: blockLength / 2 - 5,
-                                            flexDirection: 'column',
-                                            backgroundColor: 'white',
-                                            marginLeft: split,
-                                            marginBottom: split,
-                                            marginRight: split,
-                                            backgroundColor: 'rgba(255,255,255,0.5)'
-                                        }}>
+                                        <View style={styles.calendar}>
                                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <FontAwesome name={"calendar"} size={20} color={iconColor} />
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 15 }}>日历</Text>
+                                                    <FontAwesome name={"calendar"} size={20} color={theme.colors.iconColor} />
+                                                    <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>日历</Text>
                                                 </View>
                                             </View>
                                         </View>
@@ -252,51 +263,5 @@ const MyHomePage = ({ navigation }) => {
         </>
     )
 };
-
-// const styles = StyleSheet.create({
-//     //progressChart
-//     progressChart: {
-//         borderRadius: borderRadius,
-//         width: fullBlockLength,
-//         height: 130,
-//         flexDirection: 'column',
-//         backgroundColor: 'white',
-//         margin: split,
-//         backgroundColor: 'rgba(255,255,255,0.5)'
-//     },
-//     progressChartOutter: {
-//         flex: 1, alignItems: 'center', justifyContent: 'center'
-//     },
-//     progressChartInner: {
-//         backgroundColor: 'black', borderRadius: 20,
-//     },
-//     //infoArea
-//     infoArea1: {
-//         flex: 3, width: fullBlockLength,
-//     },
-//     infoArea2: {
-//         width: fullBlockLength,
-//         borderRadius: borderRadius,
-//         height: 450,
-//         flexDirection: 'column',
-//         backgroundColor: 'white',
-//         margin: split,
-//         backgroundColor: 'rgba(255,255,255,0.5)',
-//     },
-//     infoAreaImg: {
-//         width: 50, height: 50
-//     },
-//     infoAreaOutter: {
-//         flexDirection: 'row', marginTop: 10
-//     },
-//     infoAreaText: {
-//         marginLeft: 10, marginRight: 40
-//     },
-
-//     //相册
-//     album: {
-
-//     }
-// })
 
 export default MyHomePage

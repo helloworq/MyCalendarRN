@@ -16,10 +16,10 @@ import { MD3LightTheme as DefaultTheme, Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
 
 const MyCalendar = ({ navigation }) => {
+  const { mode, setMode, theme } = useContext(PreferencesContext)
   const [markedDates, setMarkedDates] = useState()
   const value = { selected: true, marked: true, selectedColor: '#66ff66' }
   const [data, setData] = useState()
-  const { mode, setMode, theme } = useContext(PreferencesContext)
   
   const styles = StyleSheet.create({
     imageBg: {
@@ -45,7 +45,7 @@ const MyCalendar = ({ navigation }) => {
       padding: 20,
       marginTop: 10,
       flexDirection: 'row',
-      backgroundColor: theme.colors.timelineBgColor,
+      backgroundColor: theme.colors.lightBgColor,
       borderRadius: 20,
     },
     timelineInfo: {
