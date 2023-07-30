@@ -45,7 +45,7 @@ const MyCalendar = ({ navigation }) => {
       padding: 20,
       marginTop: 10,
       flexDirection: 'row',
-      backgroundColor: theme.colors.lightBgColor,
+      backgroundColor: theme.colors.timelineBgColor,
       borderRadius: 20,
     },
     timelineInfo: {
