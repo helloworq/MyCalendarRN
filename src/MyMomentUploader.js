@@ -3,6 +3,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { uploadMoment, loadTags } from './util/FileUtil'
 import { Chip } from 'react-native-paper';
 
+
 import {
     TextInput,
     View,
@@ -13,7 +14,8 @@ import {
     Image,
     Modal,
     Button,
-    ToastAndroid
+    ToastAndroid,
+    ImageBackground
 } from 'react-native'
 
 const screenW = Dimensions.get('window').width;
@@ -49,9 +51,9 @@ const MyMomentUploader = ({ route, navigation }) => {
                 icon={tags[t][1]}
                 mode={tags[t][2] ? 'flat' : 'outlined'}
                 style={{
-                    padding: 2,
                     marginBottom: 10,
                     marginRight: 10,
+                    backgroundColor: 'rgba(255,255,255,0.5)',
                 }}
                 onPress={() => {
                     tags[t][2] = !tags[t][2]
@@ -70,12 +72,10 @@ const MyMomentUploader = ({ route, navigation }) => {
                     animationType="fade"
                     transparent={true}
                     visible={close}
-                    //onShow={() => { console.log("load image -> " + currImg) }}
                     onRequestClose={() => {
                         setClose(false)
                     }}
                 >
-                    {/* <ImageViewer imageUrls={data} index={index} useNativeDriver={true} /> */}
                     <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
                 </Modal>
                 <TouchableOpacity
@@ -100,43 +100,45 @@ const MyMomentUploader = ({ route, navigation }) => {
 
     return (
         <>
-            <View>
-                <TextInput
-                    maxLength={400}
-                    multiline={true}
-                    onChangeText={text => onChangeText(text)}
-                    placeholder={'不错呀，又来打卡啦'}
-                    value={text}
-                    style={{
-                        marginTop: 20,
-                        marginLeft: 10,
-                        marginRight: 10,
-                        marginBottom: 10,
-                        borderBottomColor: '#bebebe',
-                        borderBottomWidth: 1
-                    }}
-                />
-            </View>
-            <View style={styles.container}>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
-                    {renderTag()}
+            <ImageBackground
+                source={require('./utilCodeBlock/layout/bg.jpeg')}
+                resizeMode='stretch'
+                style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
+
+                <View>
+                    <TextInput
+                        maxLength={400}
+                        multiline={true}
+                        onChangeText={text => onChangeText(text)}
+                        placeholder={'不错呀，又来打卡啦'}
+                        value={text}
+                        style={{
+                            backgroundColor:'rgba(255,255,255,0.5)',
+                            borderRadius:10,
+                            marginBottom: 10,
+                        }}
+                    />
                 </View>
-                <FlatList
-                    renderItem={renderRow}
-                    data={data}
-                    keyExtractor={keyExtractor}
-                    numColumns={cols}
-                    columnWrapperStyle={styles.columnStyle}
-                    horizontal={false}
-                />
-            </View>
-            <View>
-                <Button onPress={() => {
-                    const _tags = Object.values(tags).filter((e) => e[2] === true)
-                    uploadMoment(text, data, _tags)
-                    ToastAndroid.show('已上传', ToastAndroid.SHORT);
-                }} title='发表' />
-            </View>
+                <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {renderTag()}
+                    </View>
+                    <FlatList
+                        renderItem={renderRow}
+                        data={data}
+                        keyExtractor={keyExtractor}
+                        numColumns={cols}
+                        horizontal={false}
+                    />
+                </View>
+                <View>
+                    <Button onPress={() => {
+                        const _tags = Object.values(tags).filter((e) => e[2] === true)
+                        uploadMoment(text, data, _tags)
+                        ToastAndroid.show('已上传', ToastAndroid.SHORT);
+                    }} title='发表' />
+                </View>
+            </ImageBackground>
         </>
     )
 }
@@ -145,14 +147,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    columnStyle: {
-        // marginLeft: 10,
-        // marginRight: 10
-    },
     innerViewStyle: {
         width: ImageWH,
         height: ImageWH * 0.8,
-        marginLeft: left,
         marginTop: top,
         // 文字内容居中对齐
         alignItems: 'center'

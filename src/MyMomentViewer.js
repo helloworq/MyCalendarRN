@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
-import { removeData,} from './util/FileUtil'
+import { removeData, } from './util/FileUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Chip } from 'react-native-paper';
 
@@ -14,7 +14,8 @@ import {
     Image,
     Modal,
     Text,
-    ToastAndroid
+    ToastAndroid,
+    ImageBackground
 } from 'react-native'
 
 const screenW = Dimensions.get('window').width;
@@ -46,9 +47,9 @@ const MyMomentViewer = ({ route, navigation }) => {
                 icon={t[1]}
                 mode={t[2] ? 'flat' : 'outlined'}
                 style={{
-                    padding: 2,
                     marginBottom: 10,
                     marginRight: 10,
+                    backgroundColor: 'rgba(255,255,255,0.5)',
                 }}
                 onPress={() => { }}
             >{t[0]}</Chip>
@@ -84,53 +85,55 @@ const MyMomentViewer = ({ route, navigation }) => {
 
     return (
         <>
-            <View style={{
-                flexDirection: 'column',
-                flex: 1,
-            }}>
-                <TextInput
-                    editable={true}
-                    maxLength={400}
-                    multiline={true}
-                    onChangeText={text => { onChangeText(text) }}
-                    value={text}
-                    style={{
-                        marginTop: 20,
-                        marginLeft: 10,
-                        marginRight: 10,
-                        marginBottom: 10,
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#bebebe',
-                    }}
-                />
-                <View>
+            <ImageBackground
+                source={require('./utilCodeBlock/layout/bg.jpeg')}
+                resizeMode='stretch'
+                style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
+                <View style={{
+                    flexDirection: 'column',
+                    flex: 1,
+                }}>
+                    <TextInput
+                        editable={true}
+                        maxLength={400}
+                        multiline={true}
+                        onChangeText={text => { onChangeText(text) }}
+                        value={text}
+                        style={{
+                            marginBottom: 10,
+                            borderRadius: 10,
+                            backgroundColor: 'rgba(255,255,255,0.5)',
+                        }}
+                    />
                     <View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 5 }}>
-                            {renderTag()}
+                        <View>
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                {renderTag()}
+                            </View>
+                            <FlatList
+                                renderItem={renderRow}
+                                data={data.imageUrl}
+                                keyExtractor={keyExtractor}
+                                numColumns={cols}
+                                columnWrapperStyle={styles.columnStyle}
+                                horizontal={false}
+                            />
                         </View>
-                        <FlatList
-                            renderItem={renderRow}
-                            data={data.imageUrl}
-                            keyExtractor={keyExtractor}
-                            numColumns={cols}
-                            columnWrapperStyle={styles.columnStyle}
-                            horizontal={false}
-                        />
-                    </View>
-                    <View style={{ marginTop: 10, marginRight: 10, alignItems: 'flex-end' }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ marginRight: 10 }}>
-                                {param.date + ' ' + param.time}
-                            </Text>
-                            <FontAwesome onPress={() => {
-                                removeData(param.date, param.timeSplit)
-                                ToastAndroid.show('已删除，退出列表再进入将刷新', ToastAndroid.SHORT);
-                            }} name="trash" size={20} color="#110" />
-                        </View>
+                        <View style={{ marginTop: 10, marginRight: 10, alignItems: 'flex-end' }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ marginRight: 10 }}>
+                                    {param.date + ' ' + param.time}
+                                </Text>
+                                <FontAwesome onPress={() => {
+                                    removeData(param.date, param.timeSplit)
+                                    ToastAndroid.show('已删除，退出列表再进入将刷新', ToastAndroid.SHORT);
+                                }} name="trash" size={20} color="#110" />
+                            </View>
 
+                        </View>
                     </View>
                 </View>
-            </View>
+            </ImageBackground>
         </>
     )
 }
@@ -146,7 +149,6 @@ const styles = StyleSheet.create({
     innerViewStyle: {
         width: ImageWH,
         height: ImageWH * 0.8,
-        marginLeft: left,
         marginTop: top,
         // 文字内容居中对齐
         alignItems: 'center'
