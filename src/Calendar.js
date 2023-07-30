@@ -31,7 +31,7 @@ const MyCalendar = ({ navigation }) => {
       dayTextColor: theme.colors.calendarDayTextColor,
       agendaDayTextColor: theme.colors.calendarAgendaDayTextColor,
       monthTextColor: theme.colors.calendarMonthTextColor,
-      calendarBackground: theme.colors.calendarDayBgColor,
+      calendarBackground: theme.colors.totalOpacityBgColor,
       textSectionTitleColor:theme.colors.calendarWeekColor,
     },
     calendar: {
@@ -139,19 +139,8 @@ const MyCalendar = ({ navigation }) => {
               ? <FontAwesome name={"arrow-left"} color={theme.colors.calendarArrowColor} size={20} />
               : <FontAwesome name={"arrow-right"} color={theme.colors.calendarArrowColor} size={20} />}
             monthFormat={'yyyy / MM / dd'}
-            theme={{
-              textDisabledColor: theme.colors.calendarDayDisableTextColor,
-              dayTextColor: theme.colors.calendarDayTextColor,
-              agendaDayTextColor: theme.colors.calendarAgendaDayTextColor,
-              monthTextColor: theme.colors.calendarMonthTextColor,
-              calendarBackground: theme.colors.totalOpacityBgColor,
-              textSectionTitleColor:theme.colors.calendarWeekColor,
-            }}
-            style={{
-              borderRadius: 20,
-              padding: 10,
-              backgroundColor: theme.colors.calendarBgColor
-            }}
+            theme={styles.calendarTheme}
+            style={styles.calendar}
             onDayPress={(day)=>{
               const param = day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
               loadMoment(param)
