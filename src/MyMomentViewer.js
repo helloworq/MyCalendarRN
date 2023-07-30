@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { removeData, } from './util/FileUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Chip } from 'react-native-paper';
+import { PreferencesContext } from "./MyPreferencesContext";
 
 import {
     TextInput,
@@ -33,6 +34,7 @@ const keyExtractor = (item, index) => {
 const MyMomentViewer = ({ route, navigation }) => {
     const { param } = route.params
 
+    const { mode, setMode, theme } = useContext(PreferencesContext)
     const [text, onChangeText] = useState(param.description)
     const [data, setData] = useState(param)
     const [index, setIndex] = useState(0)
@@ -46,10 +48,11 @@ const MyMomentViewer = ({ route, navigation }) => {
             <Chip
                 icon={t[1]}
                 mode={t[2] ? 'flat' : 'outlined'}
+                textStyle={{color:theme.colors.fontColor,}}
                 style={{
                     marginBottom: 10,
                     marginRight: 10,
-                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    backgroundColor: theme.colors.bgColor,
                 }}
                 onPress={() => { }}
             >{t[0]}</Chip>
@@ -94,15 +97,17 @@ const MyMomentViewer = ({ route, navigation }) => {
                     flex: 1,
                 }}>
                     <TextInput
-                        editable={true}
+                        editable={false}
                         maxLength={400}
                         multiline={true}
                         onChangeText={text => { onChangeText(text) }}
                         value={text}
+                        placeholderTextColor={theme.colors.fontColor}
                         style={{
+                            color: theme.colors.fontColor,
                             marginBottom: 10,
                             borderRadius: 10,
-                            backgroundColor: 'rgba(255,255,255,0.5)',
+                            backgroundColor: theme.colors.bgColor,
                         }}
                     />
                     <View>
@@ -115,7 +120,6 @@ const MyMomentViewer = ({ route, navigation }) => {
                                 data={data.imageUrl}
                                 keyExtractor={keyExtractor}
                                 numColumns={cols}
-                                columnWrapperStyle={styles.columnStyle}
                                 horizontal={false}
                             />
                         </View>
@@ -127,7 +131,7 @@ const MyMomentViewer = ({ route, navigation }) => {
                                 <FontAwesome onPress={() => {
                                     removeData(param.date, param.timeSplit)
                                     ToastAndroid.show('已删除，退出列表再进入将刷新', ToastAndroid.SHORT);
-                                }} name="trash" size={20} color="#110" />
+                                }} name="trash" size={20} color={theme.colors.iconColor} />
                             </View>
 
                         </View>
@@ -142,14 +146,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    columnStyle: {
-        // marginLeft: 10,
-        // marginRight: 10
-    },
     innerViewStyle: {
         width: ImageWH,
         height: ImageWH * 0.8,
         marginTop: top,
+        marginLeft:5,
         // 文字内容居中对齐
         alignItems: 'center'
     },

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { uploadMoment, loadTags } from './util/FileUtil'
 import { Chip } from 'react-native-paper';
-
+import { PreferencesContext } from "./MyPreferencesContext";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import {
     TextInput,
@@ -34,6 +35,7 @@ const keyExtractor = (item, index) => {
 const MyMomentUploader = ({ route, navigation }) => {
     const { datas } = route.params
 
+    const { mode, setMode, theme } = useContext(PreferencesContext)
     const [text, onChangeText] = useState()
     const [tags, setTags] = useState([{}])
     const [data, setData] = useState(datas)
@@ -48,12 +50,14 @@ const MyMomentUploader = ({ route, navigation }) => {
     function renderTag() {
         return Object.keys(tags).map(t =>
             <Chip
-                icon={tags[t][1]}
-                mode={tags[t][2] ? 'flat' : 'outlined'}
+                icon={tags[t][2] ? 'check-bold' : tags[t][1]}
+                textStyle={{ color: theme.colors.fontColor, }}
+                selected={true}
+                selectedColor={'black'}
                 style={{
                     marginBottom: 10,
                     marginRight: 10,
-                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    backgroundColor: theme.colors.bgColor
                 }}
                 onPress={() => {
                     tags[t][2] = !tags[t][2]
@@ -112,14 +116,16 @@ const MyMomentUploader = ({ route, navigation }) => {
                         onChangeText={text => onChangeText(text)}
                         placeholder={'不错呀，又来打卡啦'}
                         value={text}
+                        placeholderTextColor={theme.colors.fontColor}
                         style={{
-                            backgroundColor:'rgba(255,255,255,0.5)',
-                            borderRadius:10,
+                            color: theme.colors.fontColor,
+                            backgroundColor: theme.colors.bgColor,
+                            borderRadius: 10,
                             marginBottom: 10,
                         }}
                     />
                 </View>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1}}>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                         {renderTag()}
                     </View>
@@ -151,6 +157,7 @@ const styles = StyleSheet.create({
         width: ImageWH,
         height: ImageWH * 0.8,
         marginTop: top,
+        marginLeft:5,
         // 文字内容居中对齐
         alignItems: 'center'
     },

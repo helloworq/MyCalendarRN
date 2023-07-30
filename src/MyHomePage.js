@@ -49,7 +49,7 @@ const MyHomePage = ({ navigation }) => {
             flexDirection: 'column',
             backgroundColor: 'white',
             margin: split,
-            backgroundColor: theme.colors.progressColor
+            backgroundColor: theme.colors.bgColor
         },
         info: {
             width: fullBlockLength,
@@ -58,7 +58,7 @@ const MyHomePage = ({ navigation }) => {
             flexDirection: 'column',
             backgroundColor: 'white',
             margin: split,
-            backgroundColor: theme.colors.progressColor
+            backgroundColor: theme.colors.bgColor
         },
         photo: {
             borderRadius: borderRadius,
@@ -67,7 +67,7 @@ const MyHomePage = ({ navigation }) => {
             flexDirection: 'column',
             backgroundColor: 'white',
             margin: split,
-            backgroundColor: theme.colors.progressColor
+            backgroundColor: theme.colors.bgColor
         },
         camera: {
             borderRadius: borderRadius,
@@ -76,7 +76,7 @@ const MyHomePage = ({ navigation }) => {
             flexDirection: 'column',
             backgroundColor: 'white',
             margin: split,
-            backgroundColor: theme.colors.progressColor
+            backgroundColor: theme.colors.bgColor
         },
         night: {
             borderRadius: borderRadius,
@@ -85,7 +85,7 @@ const MyHomePage = ({ navigation }) => {
             flexDirection: 'column',
             backgroundColor: 'white',
             margin: split,
-            backgroundColor: theme.colors.progressColor
+            backgroundColor: theme.colors.bgColor
         },
         tag: {
             borderRadius: borderRadius,
@@ -96,7 +96,7 @@ const MyHomePage = ({ navigation }) => {
             marginLeft: split,
             marginBottom: split,
             marginRight: split,
-            backgroundColor: theme.colors.progressColor
+            backgroundColor: theme.colors.bgColor
         },
         calendar: {
             borderRadius: borderRadius,
@@ -107,7 +107,7 @@ const MyHomePage = ({ navigation }) => {
             marginLeft: split,
             marginBottom: split,
             marginRight: split,
-            backgroundColor: theme.colors.progressColor
+            backgroundColor: theme.colors.bgColor
         }
 
     })

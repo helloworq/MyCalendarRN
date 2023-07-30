@@ -41,7 +41,10 @@ const Rooter = () => {
             //HomePage
             iconColor: 'gray',
             progressColor: 'rgba(0,0,0,1)',
-            fontColor:'white'
+            fontColor:'white',
+
+            //moment
+            bgColor:'rgba(0,0,0,1)',
         },
     };
 
@@ -70,6 +73,9 @@ const Rooter = () => {
             iconColor: 'black',
             progressColor: 'rgba(255,255,255,0.5)',
             fontColor: 'black',
+
+            //moment
+            bgColor:'rgba(255,255,255,0.5)',
         },
     }
 
