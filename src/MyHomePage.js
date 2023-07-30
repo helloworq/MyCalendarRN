@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
     Dimensions,
     View,
@@ -8,16 +8,21 @@ import {
     Image,
     StyleSheet
 } from 'react-native'
+import { loadFolder, loadTags, getPathFromArray, statistics, loadYearFolder } from './util/FileUtil'
+import RNFS from 'react-native-fs'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { ProgressChart } from 'react-native-chart-kit';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
+import dayjs from "dayjs";
+import { Chip } from "react-native-paper";
+import { SelectList } from "react-native-dropdown-select-list";
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`,
+    color: (opacity = 0.5) => `rgba(255,255,255, ${opacity})`,
     strokeWidth: 2, // optional, default 3
     barPercentage: 0.5,
     useShadowColorFromDataset: false // optional
@@ -36,28 +41,105 @@ const MyHomePage = ({ navigation }) => {
     const iconFontSize = 13
     const tinyIconSize = 18
     const tinyIconFontSize = 10
-    const data = {
-        labels: ["本年", "本月", "本周"], // optional
-        data: [0.7, 0.3, 0.8]
-    };
+
+    const year = dayjs().year();
+    const [tags, setTags] = useState([])
+    const [todayTags, setTodayTags] = useState({})
+    const [data, setData] = useState({
+        labels: ['今日', '本周', '本月', '本年'], // optional
+        data: [0.1, 0.5, 0.7, 0.6],
+        colors: ['#4dff4d', 'blue', 'yellow', 'green']
+    })
+
+    useEffect(() => {
+        //加载tag数据
+        loadTags().then((r) => {
+            let res = []
+            const obj = JSON.parse(r)
+            Object.keys(obj).forEach((e) => {
+                let temp = {}
+
+                temp['key'] = e
+                temp['value'] = obj[e][0]
+                res.push(temp)
+            })
+
+            setTags(res)
+        })
+    }, [])
+
+    async function momentTagStatistics(year, tag) {
+        //统计动态中的tag信息,按年统计，如果后续数据量过大影响加载性能，考虑使用一个文本单独记录统计信息
+        //RNFS.readDir(path + year)
+        loadYearFolder(year)
+            .then((r) => {
+                let temp = []
+                r.forEach((e) => { temp.push(e.path) })
+                return temp
+            }).then((r) => {
+                let pL = []
+                r.forEach((e) => {
+                    let p = RNFS.readDir(e)
+                    pL.push(p)
+                })
+                return pL
+            }).then((r) => {
+                Promise.all(r).then((r) => {
+                    let pL = []
+                    r = getPathFromArray(r)
+                    r.forEach((e) => {
+                        let p = RNFS.readFile(e + '/data.json')
+                        pL.push(p)
+                    })
+                    return pL
+                }).then((r) =>
+                    Promise.all(r).then((r) => {
+                        const res = statistics(r, tag)
+                        setData(res['res'])
+                        setTodayTags(res['curDayTag'])
+                    }))
+            })
+    }
+
+
+    function renderTag() {
+        const tags = Object.values(todayTags)
+        const eleTag = tags.map(t =>
+            <Chip
+                icon={t[1]}
+                mode={t[2] ? 'flat' : 'outlined'}
+                textStyle={{color:theme.colors.fontColor,}}
+                style={{
+                    marginBottom: 10,
+                    marginRight: 10,
+                    backgroundColor: theme.colors.bgColor,
+                }}
+                onPress={() => { }}
+            >{t[0]}</Chip>
+        )
+        return eleTag
+    }
 
     const styles = StyleSheet.create({
         progress: {
             borderRadius: borderRadius,
             width: fullBlockLength,
-            height: 130,
             flexDirection: 'column',
-            backgroundColor: 'white',
-            margin: split,
-            backgroundColor: theme.colors.bgColor
+            marginTop: split,
+            marginLeft: split,
+            marginRight: split,
+            marginBottom: split,
+            backgroundColor: theme.colors.bgColor,
         },
         info: {
             width: fullBlockLength,
             borderRadius: borderRadius,
-            height: 450,
+            height: 150,
             flexDirection: 'column',
             backgroundColor: 'white',
-            margin: split,
+            marginLeft: split,
+            marginRight: split,
+            marginBottom: split,
             backgroundColor: theme.colors.bgColor
         },
         photo: {
@@ -121,34 +203,80 @@ const MyHomePage = ({ navigation }) => {
                     style={{ flex: 1, }}>
 
                     <View style={{ height: screenHeight, flexDirection: 'column' }}>
-                        <View style={{ flex: 1 }}>
-                            <TouchableOpacity>
-                                <View style={styles.progress}>
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                        <View style={{ borderRadius: 20, }}>
-                                            <ProgressChart
-                                                data={data}
-                                                width={fullBlockLength}
-                                                height={130}
-                                                strokeWidth={8}
-                                                radius={30}
-                                                absolute={100}
-                                                chartConfig={chartConfig}
-                                                hideLegend={false}
-                                            />
-                                        </View>
-                                    </View>
+                        <View style={{}}>
+                            <View style={styles.progress}>
+                                <View style={{ flexDirection: 'row'}}>
+                                    <ProgressChart
+                                        data={data}
+                                        width={fullBlockLength - 100}
+                                        height={150}
+                                        strokeWidth={8}
+                                        radius={30}
+                                        absolute={100}
+                                        chartConfig={chartConfig}
+                                        hideLegend={false}
+                                        withCustomBarColorFromData={true}
+                                        style={{
+                                            marginLeft: -10,
+                                        }}
+                                    />
+                                    <SelectList
+                                        setSelected={(val) => momentTagStatistics(year, val)}
+                                        data={tags}
+                                        dropdownTextStyles={{ color: theme.colors.fontColor }}
+                                        disabledTextStyles={{ color: theme.colors.fontColor }}
+                                        save="value"
+                                        inputStyles={{ color: theme.colors.fontColor, }}
+                                        arrowicon={
+                                            <MaterialCommunityIcons
+                                                color={theme.colors.iconColor}
+                                                name={"chevron-down"}
+                                                size={20} />
+                                        }
+                                        placeholder="选择tag"
+                                        notFoundText="无标签"
+                                        search={false}
+                                        boxStyles={{ color: theme.colors.fontColor, marginRight: 10, width: 100, borderWidth: 0, }}
+                                    />
                                 </View>
-                            </TouchableOpacity>
+                            </View>
                         </View>
 
-                        <View style={{ flex: 3, width: fullBlockLength, }}>
+                        <View style={{ width: fullBlockLength, }}>
                             <View style={styles.info}>
                                 <View style={{ padding: 20, }}>
                                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
                                         <Image source={require('./utilCodeBlock/layout/bg.jpeg')} style={{ width: 50, height: 50 }} />
                                         <Text style={{ marginLeft: 10, marginRight: 40, color: theme.colors.iconColor }}>危楼高百尺，手可摘星辰,不敢高声语，恐惊天上人。</Text>
                                     </View>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={{ width: fullBlockLength, }}>
+                            <View style={{
+                                width: fullBlockLength,
+                                borderRadius: borderRadius,
+                                height: 200,
+                                flexDirection: 'column',
+                                backgroundColor: 'white',
+                                marginLeft: split,
+                                marginRight: split,
+                                marginBottom: split,
+                                backgroundColor: theme.colors.bgColor
+                            }}>
+                                <View style={{ padding: 10, }}>
+                                    <View style={{ flexDirection: 'column' }}>
+                                        <Text style={{
+                                            color: theme.colors.fontColor,
+                                            fontSize: 15,
+                                            fontWeight: 'bold',
+                                        }}>What You Done Have Today {dayjs().format('MM-DD')}</Text>
+                                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, marginLeft: 5 }}>
+                                            {renderTag()}
+                                        </View>
+                                    </View>
+
                                 </View>
                             </View>
                         </View>
