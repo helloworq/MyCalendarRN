@@ -202,7 +202,7 @@ const MyHomePage = ({ navigation }) => {
                     resizeMode='stretch'
                     style={{ flex: 1, }}>
 
-                    <View style={{ height: screenHeight, flexDirection: 'column' }}>
+                    <View style={{ height: screenHeight, flexDirection: 'column', }}>
                         <View style={{}}>
                             <View style={styles.progress}>
                                 <View style={{ flexDirection: 'row'}}>
@@ -217,16 +217,17 @@ const MyHomePage = ({ navigation }) => {
                                         hideLegend={false}
                                         withCustomBarColorFromData={true}
                                         style={{
-                                            marginLeft: -10,
+                                            marginLeft: -20,
                                         }}
                                     />
                                     <SelectList
                                         setSelected={(val) => momentTagStatistics(year, val)}
                                         data={tags}
-                                        dropdownTextStyles={{ color: theme.colors.fontColor }}
+                                        dropdownStyles={{width:100,marginLeft:20 }}
+                                        dropdownTextStyles={{ color: theme.colors.fontColor}}
                                         disabledTextStyles={{ color: theme.colors.fontColor }}
                                         save="value"
-                                        inputStyles={{ color: theme.colors.fontColor, }}
+                                        inputStyles={{ color: theme.colors.fontColor,width:70 }}
                                         arrowicon={
                                             <MaterialCommunityIcons
                                                 color={theme.colors.iconColor}
@@ -236,7 +237,7 @@ const MyHomePage = ({ navigation }) => {
                                         placeholder="选择tag"
                                         notFoundText="无标签"
                                         search={false}
-                                        boxStyles={{ color: theme.colors.fontColor, marginRight: 10, width: 100, borderWidth: 0, }}
+                                        boxStyles={{ color: theme.colors.fontColor,  borderWidth: 0 }}
                                     />
                                 </View>
                             </View>

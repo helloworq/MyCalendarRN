@@ -45,6 +45,7 @@ const Rooter = () => {
 
             //moment
             bgColor:'rgba(0,0,0,1)',
+            totalOpacityBgColor:'rgba(0,0,0,1)'
         },
     };
 
@@ -57,12 +58,12 @@ const Rooter = () => {
             calendarDayTextColor: 'black',
             calendarDayDisableTextColor: 'gray',
             calendarAgendaDayTextColor: 'white',
-            calendarBgColor: 'rgba(255,255,255,0.5)',
-            calendarDayBgColor: 'rgba(255,255,255,0.5)',
+            calendarBgColor: 'rgba(255,255,255,0.3)',
+            calendarDayBgColor: 'rgba(255,255,255,0.3)',
             calendarWeekColor: 'black',
 
             //timeline
-            timelineBgColor: 'rgba(255,255,255,0.5)',
+            timelineBgColor: 'rgba(255,255,255,0.3)',
             timelineCircleColor: '#bebebe',
             timelineLineColor: '#bebebe',
             timelineTimeBgColor: 'rgba(0,0,255,0.1)',
@@ -71,11 +72,12 @@ const Rooter = () => {
 
             //HomePage
             iconColor: 'black',
-            progressColor: 'rgba(255,255,255,0.5)',
+            progressColor: 'rgba(255,255,255,0.3)',
             fontColor: 'black',
 
             //moment
-            bgColor:'rgba(255,255,255,0.5)',
+            bgColor:'rgba(255,255,255,0.3)',
+            totalOpacityBgColor:'rgba(255,255,255,0)'
         },
     }
 
