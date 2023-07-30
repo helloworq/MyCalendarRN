@@ -12,7 +12,7 @@ import {
 import { loadMonthFolders,loadData } from './util/FileUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { PreferencesContext } from "./MyPreferencesContext";
-import { MD3LightTheme as DefaultTheme, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
 
 const MyCalendar = ({ navigation }) => {
@@ -32,6 +32,7 @@ const MyCalendar = ({ navigation }) => {
       agendaDayTextColor: theme.colors.calendarAgendaDayTextColor,
       monthTextColor: theme.colors.calendarMonthTextColor,
       calendarBackground: theme.colors.calendarDayBgColor,
+      textSectionTitleColor:theme.colors.calendarWeekColor,
     },
     calendar: {
       borderRadius: 20,
@@ -135,32 +136,25 @@ const MyCalendar = ({ navigation }) => {
         <ScrollView>
           <Calendar
             renderArrow={(direction) => direction === 'left'
-              ? <FontAwesome name={"arrow-left"} color={colorsDark.calendarArrowColor} size={20} />
-              : <FontAwesome name={"arrow-right"} color={colorsDark.calendarArrowColor} size={20} />}
+              ? <FontAwesome name={"arrow-left"} color={theme.colors.calendarArrowColor} size={20} />
+              : <FontAwesome name={"arrow-right"} color={theme.colors.calendarArrowColor} size={20} />}
             monthFormat={'yyyy / MM / dd'}
             theme={styles.calendarTheme}
             style={styles.calendar}
-
             onDayPress={(day)=>{
               const param = day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
               loadMoment(param)
             }}
-
-            // onDayPress={day => {
-            //   navigation.navigate('MyDynamicListView', {
-            //     'param': day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
-            //   })
-            // }}
             markedDates={markedDates}
           />
 
           <Timeline
             style={styles.timeline}
             data={data}
-            circleColor={colorsDark.timelineCircleColor}
+            circleColor={theme.colors.timelineCircleColor}
             separator={false}
             innerCircle={'none'}
-            lineColor={colorsDark.timelineLineColor}
+            lineColor={theme.colors.timelineLineColor}
             timeStyle={styles.timelineTime}
             renderDetail={renderDetail}
           />
@@ -169,47 +163,5 @@ const MyCalendar = ({ navigation }) => {
     </>
   )
 }
-
-const colorsDark = {
-  //calendar
-  calendarArrowColor: 'white',
-  calendarMonthTextColor: 'white',
-  calendarDayTextColor: 'white',
-  calendarDayDisableTextColor: 'gray',
-  calendarAgendaDayTextColor: 'white',
-  calendarBgColor: 'black',
-  calendarDayBgColor: 'rgba(255,255,255,0.1)',
-
-  //timeline
-  timelineBgColor: 'rgba(0,0,0,1)',
-  timelineCircleColor: 'gray',
-  timelineLineColor: '#bebebe',
-  timelineTimeBgColor: 'rgba(255,255,255,0.1)',
-  timelineTimeTextColor: 'white',
-  timelineInfoTextColor: 'white'
-  //timeline: '',
-}
-
-const colorsLight = {
-  //calendar
-  calendarArrowColor: 'white',
-  calendarMonthTextColor: 'white',
-  calendarDayTextColor: 'white',
-  calendarDayDisableTextColor: 'gray',
-  calendarAgendaDayTextColor: 'white',
-  calendarBgColor: 'black',
-  calendarDayBgColor: 'rgba(255,255,255,0.1)',
-
-  //timeline
-  timelineBgColor: 'rgba(255,255,255,0.5)',
-  timelineCircleColor: '#bebebe',
-  timelineLineColor: '#bebebe',
-  timelineTimeBgColor: 'rgba(0,0,255,0.1)',
-  timelineTimeTextColor: 'black',
-  timelineInfoTextColor: 'black'
-  //timeline: '',
-}
-
-
 
 export default MyCalendar

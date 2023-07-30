@@ -28,6 +28,7 @@ const Rooter = () => {
             calendarAgendaDayTextColor: 'white',
             calendarBgColor: 'black',
             calendarDayBgColor: 'rgba(255,255,255,0.1)',
+            calendarWeekColor: 'white',
 
             //timeline
             timelineBgColor: 'rgba(0,0,0,1)',
@@ -53,8 +54,9 @@ const Rooter = () => {
             calendarDayTextColor: 'black',
             calendarDayDisableTextColor: 'gray',
             calendarAgendaDayTextColor: 'white',
-            calendarBgColor: 'rgba(0,0,0,0.1)',
-            calendarDayBgColor: 'rgba(0,0,0,0.1)',
+            calendarBgColor: 'rgba(255,255,255,0.5)',
+            calendarDayBgColor: 'rgba(255,255,255,0.5)',
+            calendarWeekColor: 'black',
 
             //timeline
             timelineBgColor: 'rgba(255,255,255,0.5)',
@@ -67,7 +69,7 @@ const Rooter = () => {
             //HomePage
             iconColor: 'black',
             progressColor: 'rgba(255,255,255,0.5)',
-            fontColor:'black',
+            fontColor: 'black',
         },
     }
 

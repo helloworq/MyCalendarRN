@@ -32,8 +32,10 @@ const MyHomePage = ({ navigation }) => {
     const borderRadius = 20
     const fullBlockLength = screenWidth - 2 * split
     const blockLength = (screenWidth - 15 * split) / 3
-    const iconSize = 50
-    const iconColor = 'black'
+    const iconSize = 40
+    const iconFontSize = 13
+    const tinyIconSize = 18
+    const tinyIconFontSize = 10
     const data = {
         labels: ["本年", "本月", "本周"], // optional
         data: [0.7, 0.3, 0.8]
@@ -165,7 +167,7 @@ const MyHomePage = ({ navigation }) => {
                                     <View style={styles.photo}>
                                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                             <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>相册</Text>
+                                                <Text style={{ fontWeight: 'bold', fontSize: iconFontSize, color: theme.colors.iconColor }}>相册</Text>
                                             </View>
                                             <View style={{ alignItems: 'center' }}>
                                                 <FontAwesome name={"photo"} size={iconSize} color={theme.colors.iconColor} />
@@ -191,7 +193,7 @@ const MyHomePage = ({ navigation }) => {
                                     <View style={styles.camera}>
                                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                             <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>拍照</Text>
+                                                <Text style={{ fontWeight: 'bold', fontSize: iconFontSize, color: theme.colors.iconColor }}>拍照</Text>
                                             </View>
                                             <View style={{ alignItems: 'center' }}>
                                                 <FontAwesome name={"camera"} size={iconSize} color={theme.colors.iconColor} />
@@ -208,7 +210,7 @@ const MyHomePage = ({ navigation }) => {
                                     <View style={styles.night}>
                                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                             <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>夜间模式</Text>
+                                                <Text style={{ fontWeight: 'bold', fontSize: iconFontSize, color: theme.colors.iconColor }}>夜间模式</Text>
                                             </View>
                                             <View style={{ alignItems: 'center' }}>
                                                 <MaterialCommunityIcons
@@ -230,8 +232,8 @@ const MyHomePage = ({ navigation }) => {
                                         <View style={styles.tag}>
                                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                    <FontAwesome name={"tags"} size={20} color={theme.colors.iconColor} />
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>标签</Text>
+                                                    <FontAwesome name={"tags"} size={tinyIconSize} color={theme.colors.iconColor} />
+                                                    <Text style={{ fontWeight: 'bold', fontSize: tinyIconFontSize, color: theme.colors.iconColor }}>标签</Text>
                                                 </View>
                                             </View>
                                         </View>
@@ -245,8 +247,8 @@ const MyHomePage = ({ navigation }) => {
                                         <View style={styles.calendar}>
                                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <FontAwesome name={"calendar"} size={20} color={theme.colors.iconColor} />
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 15, color: theme.colors.iconColor }}>日历</Text>
+                                                    <FontAwesome name={"calendar"} size={tinyIconSize} color={theme.colors.iconColor} />
+                                                    <Text style={{ fontWeight: 'bold', fontSize: tinyIconFontSize, color: theme.colors.iconColor }}>日历</Text>
                                                 </View>
                                             </View>
                                         </View>
