@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.19.1",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "add-dom-event-listener": "^1.1.0",
@@ -32,9 +33,11 @@
     "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-lightbox": "^0.8.1",
     "react-native-linear-gradient": "^2.7.3",
+    "react-native-mmkv": "^2.10.1",
     "react-native-paper": "^5.8.0",
     "react-native-safe-area-context": "^4.5.3",
     "react-native-screens": "^3.21.1",
+    "react-native-storage": "^1.0.1",
     "react-native-svg": "^13.9.0",
     "react-native-timeline-flatlist": "^0.8.0",
     "react-native-vector-icons": "^9.2.0"
