@@ -18,6 +18,7 @@ import { PreferencesContext } from "./MyPreferencesContext";
 import dayjs from "dayjs";
 import { Chip } from "react-native-paper";
 import { SelectList } from "react-native-dropdown-select-list";
+import storage from './storage/MhkvStroge';
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -108,7 +109,7 @@ const MyHomePage = ({ navigation }) => {
             <Chip
                 icon={t[1]}
                 mode={t[2] ? 'flat' : 'outlined'}
-                textStyle={{color:theme.colors.fontColor,}}
+                textStyle={{ color: theme.colors.fontColor, }}
                 style={{
                     marginBottom: 10,
                     marginRight: 10,
@@ -205,7 +206,7 @@ const MyHomePage = ({ navigation }) => {
                     <View style={{ height: screenHeight, flexDirection: 'column', }}>
                         <View style={{}}>
                             <View style={styles.progress}>
-                                <View style={{ flexDirection: 'row'}}>
+                                <View style={{ flexDirection: 'row' }}>
                                     <ProgressChart
                                         data={data}
                                         width={fullBlockLength - 100}
@@ -223,11 +224,11 @@ const MyHomePage = ({ navigation }) => {
                                     <SelectList
                                         setSelected={(val) => momentTagStatistics(year, val)}
                                         data={tags}
-                                        dropdownStyles={{width:100,marginLeft:20 }}
-                                        dropdownTextStyles={{ color: theme.colors.fontColor}}
+                                        dropdownStyles={{ width: 100, marginLeft: 20 }}
+                                        dropdownTextStyles={{ color: theme.colors.fontColor }}
                                         disabledTextStyles={{ color: theme.colors.fontColor }}
                                         save="value"
-                                        inputStyles={{ color: theme.colors.fontColor,width:70 }}
+                                        inputStyles={{ color: theme.colors.fontColor, width: 70 }}
                                         arrowicon={
                                             <MaterialCommunityIcons
                                                 color={theme.colors.iconColor}
@@ -237,7 +238,7 @@ const MyHomePage = ({ navigation }) => {
                                         placeholder="选择tag"
                                         notFoundText="无标签"
                                         search={false}
-                                        boxStyles={{ color: theme.colors.fontColor,  borderWidth: 0 }}
+                                        boxStyles={{ color: theme.colors.fontColor, borderWidth: 0 }}
                                     />
                                 </View>
                             </View>
@@ -335,6 +336,7 @@ const MyHomePage = ({ navigation }) => {
                             <View style={{ justifyContent: 'flex-end' }}>
                                 < TouchableOpacity onPress={() => {
                                     setMode(mode === 'dark' ? 'light' : 'dark')
+                                    storage.set('theme', mode === 'dark' ? 'light' : 'dark')
                                 }}>
                                     <View style={styles.night}>
                                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

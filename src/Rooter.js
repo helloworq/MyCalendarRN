@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,6 +13,7 @@ import MyAddTags from './MyAddTags';
 import LayoutScrollHome from './utilCodeBlock/layout/LayoutScrollHome';
 import { PreferencesContext } from './MyPreferencesContext';
 import MyHomePage from './MyHomePage';
+import storage from './storage/MhkvStroge';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -41,11 +42,11 @@ const Rooter = () => {
             //HomePage
             iconColor: 'gray',
             progressColor: 'rgba(0,0,0,1)',
-            fontColor:'white',
+            fontColor: 'white',
 
             //moment
-            bgColor:'rgba(0,0,0,1)',
-            totalOpacityBgColor:'rgba(0,0,0,1)'
+            bgColor: 'rgba(0,0,0,1)',
+            totalOpacityBgColor: 'rgba(0,0,0,1)'
         },
     };
 
@@ -76,13 +77,19 @@ const Rooter = () => {
             fontColor: 'black',
 
             //moment
-            bgColor:'rgba(255,255,255,0.3)',
-            totalOpacityBgColor:'rgba(255,255,255,0)'
+            bgColor: 'rgba(255,255,255,0.3)',
+            totalOpacityBgColor: 'rgba(255,255,255,0)'
         },
     }
 
-    const [mode, setMode] = useState('light')
-    let theme = mode === 'light' ? darkMode : lightMode
+    const modeMap = {
+        'light': lightMode,
+        'dark': darkMode
+    }
+
+    let type = storage.getString('theme')
+    const [mode, setMode] = useState(type)
+    let theme = modeMap[type]
 
     return (
         <PreferencesContext.Provider value={{ mode, setMode, theme }}>

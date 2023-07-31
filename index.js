@@ -22,8 +22,8 @@ import LayoutScrollHome from './src/utilCodeBlock/layout/LayoutScrollHome';
 import MyTheme from './src/utilCodeBlock/themes/MyTheme'
 import MyHomePage from './src/MyHomePage';
 import MyStroge from './src/utilCodeBlock/stroge/MyStroge';
-import MyMhkvStroge from './src/utilCodeBlock/mhkv/MyMhkvStroge';
+import MyMhkvStroge from './src/storage/MyMhkvStroge';
 
 import Root from './src/router/Root'
 
-AppRegistry.registerComponent(appName, () => MyMhkvStroge);
+AppRegistry.registerComponent(appName, () => Rooter);
