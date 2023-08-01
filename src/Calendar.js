@@ -14,6 +14,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { PreferencesContext } from "./MyPreferencesContext";
 import { Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
+import { loadMomentV2,getMarkedDatesV2 } from './storage/MhkvStroge';
 
 const MyCalendar = ({ navigation }) => {
   const { mode, setMode, theme } = useContext(PreferencesContext)
@@ -69,34 +70,15 @@ const MyCalendar = ({ navigation }) => {
   })
 
   function loadMoment(param) {
-    loadData(param).then((r) => {
-      let count = 0
-      for (let i = 0; i < r.length; i++) {
-        RNFS.readFile(r[i]['dataPath'])
-          .then((t) => {
-            t = JSON.parse(t)
-            r[i]['description'] = t.moment
-            r[i]['tags'] = t.tags
-            count = count + 1
-            if (count === r.length) {
-              setData(r)
-            }
-          })
-      }
-    })
+    let r = loadMomentV2(param)
+    setData(r)
   }
 
   useEffect(() => {
-    loadMonthFolders()
-      .then((r) => {
-        let res = {}
-        r.forEach((e) => {
-          const subIndex = e.lastIndexOf('/')
-          const date = e.slice(subIndex + 1)
-          res[date] = value
-        })
-        setMarkedDates(res)
-      })
+    let res = {}
+    const dates = getMarkedDatesV2()
+    dates.forEach(e=> res[e] = value)
+    setMarkedDates(res)
   }, [])
 
   function renderDetail(rowData, sectionID, rowID) {

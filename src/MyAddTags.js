@@ -1,21 +1,24 @@
 //创建tag标签界面
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { TextInput, View, Button, ScrollView, ToastAndroid, ImageBackground } from "react-native";
 import { Chip } from 'react-native-paper';
 import { writeTags, loadTags } from './util/FileUtil'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { PreferencesContext } from "./MyPreferencesContext";
+import storage from './storage/MhkvStroge';
 
 const MyAddTags = () => {
     //text icon disable暂不提供自增tag的功能，因为缺少图标对应
     const [text, setText] = useState()
     const [data, setData] = useState([])
+    const { mode, setMode, theme } = useContext(PreferencesContext)
 
     useEffect(() => {
-        loadTags().then((r) => {
-            if (r != null) {
-                setData(JSON.parse(r))
-            }
-        })
+        const tags = storage.getString('tags')
+        console.log('>>>>>', tags, tags?.length)
+        if (tags != null && tags != undefined) {
+            setData(JSON.parse(tags))
+        }
     }, [])
 
     function renderTag() {
@@ -28,7 +31,7 @@ const MyAddTags = () => {
                     padding: 2,
                     marginBottom: 10,
                     marginRight: 10,
-                    backgroundColor: 'rgba(255,255,255,0.5)'
+                    backgroundColor: theme.colors.bgColor
                 }}
                 onPress={() => { }}
                 onLongPress={() => {
@@ -51,7 +54,7 @@ const MyAddTags = () => {
                         marginBottom: 10,
                         flexDirection: 'row',
                         borderRadius: 10,
-                        backgroundColor: 'rgba(255,255,255,0.5)',
+                        backgroundColor: theme.colors.bgColor,
                     }}>
                         <TextInput
                             placeholder="新增tag  (长按tag可删除)"
@@ -61,7 +64,7 @@ const MyAddTags = () => {
                             onChangeText={text => setText(text)}
                             value={text}
                         />
-                        <MaterialIcons name={"add-circle"} color={'rgba(255,255,255,0.5)'} size={50}
+                        <MaterialIcons name={"add-circle"} color={theme.colors.bgColor} size={50}
                             onPress={() => {
                                 let maxIndex = 1;
                                 if (data.length != 0) {
@@ -77,8 +80,11 @@ const MyAddTags = () => {
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                         {renderTag()}
                     </View>
-                    <View style={{ }} >
-                        <Button title="保存" onPress={() => writeTags(data).then(() => ToastAndroid.show('已保存', ToastAndroid.SHORT))} />
+                    <View style={{}} >
+                        <Button title="保存" onPress={() => {
+                            storage.set('tags', JSON.stringify(data))
+                            ToastAndroid.show('已保存', ToastAndroid.SHORT)
+                        }} />
                     </View>
                 </ScrollView>
             </ImageBackground>

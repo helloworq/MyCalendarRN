@@ -4,6 +4,7 @@ import { uploadMoment, loadTags } from './util/FileUtil'
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { uploadMomentV2 } from './storage/MhkvStroge';
 
 import {
     TextInput,
@@ -125,7 +126,7 @@ const MyMomentUploader = ({ route, navigation }) => {
                         }}
                     />
                 </View>
-                <View style={{ flex: 1}}>
+                <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                         {renderTag()}
                     </View>
@@ -140,7 +141,8 @@ const MyMomentUploader = ({ route, navigation }) => {
                 <View>
                     <Button onPress={() => {
                         const _tags = Object.values(tags).filter((e) => e[2] === true)
-                        uploadMoment(text, data, _tags)
+                        //uploadMoment(text, data, _tags)
+                        uploadMomentV2(text, data, _tags)
                         ToastAndroid.show('已上传', ToastAndroid.SHORT);
                     }} title='发表' />
                 </View>
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
         width: ImageWH,
         height: ImageWH * 0.8,
         marginTop: top,
-        marginLeft:5,
+        marginLeft: 5,
         // 文字内容居中对齐
         alignItems: 'center'
     },

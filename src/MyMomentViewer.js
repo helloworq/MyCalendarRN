@@ -4,6 +4,7 @@ import { removeData, } from './util/FileUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
+import { deleteMomentV2 } from './storage/MhkvStroge';
 
 import {
     TextInput,
@@ -129,7 +130,8 @@ const MyMomentViewer = ({ route, navigation }) => {
                                     {param.date + ' ' + param.time}
                                 </Text>
                                 <FontAwesome onPress={() => {
-                                    removeData(param.date, param.timeSplit)
+                                    //removeData(param.date, param.timeSplit)
+                                    deleteMomentV2(param.date,param.time)
                                     ToastAndroid.show('已删除，退出列表再进入将刷新', ToastAndroid.SHORT);
                                 }} name="trash" size={20} color={theme.colors.iconColor} />
                             </View>
