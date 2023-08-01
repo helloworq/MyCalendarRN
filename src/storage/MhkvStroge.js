@@ -10,24 +10,16 @@ const storage = new MMKV({
 })
 
 export function deleteMomentV2(ymd, time) {
-  console.log(ymd, time)
   let allMoment = JSON.parse(storage.getString('moment'))
   const dateYM = dayjs(ymd).format('YYYY-MM')
   let target = allMoment[dateYM]
 
-  for (let i = 0; i < array.length; i++) {
-    const element = array[i];
-    
-  }
-  for (var k of target) {
-    if (k['date'] === ymd && k['time'] === time) {
-      console.log('success',k)
-      delete target[k]
+  for (let i = 0; i < target.length; i++) {
+    const element = target[i]
+    if (element != null && element['date'] === ymd && element['time'] === time) {
+      delete allMoment[dateYM][i]
     }
   }
-  console.log(target)
-  console.log("==========")
-  console.log(allMoment)
   storage.set('moment', JSON.stringify(allMoment))
 }
 
@@ -38,9 +30,15 @@ export function getMarkedDatesV2() {
   //     '2023-06-02': { marked: true },
   //     '2023-06-03': { selected: true, marked: true, selectedColor: 'green' }
   // }
-  const allMoment = JSON.parse(storage.getString('moment'))
+  const allMomentStr = storage.getString('moment')
+
+  if (allMomentStr === null || allMomentStr === undefined || allMomentStr.length === 0) {
+    //第一次使用app情况
+    return []
+  }
+  const allMoment = JSON.parse(allMomentStr)
   const allKeys = Object.keys(allMoment)
-  return allKeys.map(e => allMoment[e]).flat().map(e => e['date'])
+  return allKeys.map(e => allMoment[e]).flat().filter(e => e != null).map(e => e['date'])
 }
 
 export function loadMomentV2(ymd) {
@@ -56,10 +54,16 @@ export function loadMomentV2(ymd) {
   //     "title": "16-45-23"
   //   }
   // ]
-  const allMoment = JSON.parse(storage.getString('moment'))
+  const allMomentStr = storage.getString('moment')
+  if (allMomentStr === null || allMomentStr === undefined || allMomentStr.length === 0) {
+    //第一次使用app情况
+    return []
+  }
+
+  const allMoment = JSON.parse(allMomentStr)
   const dateYM = dayjs(ymd).format('YYYY-MM')
   const target = allMoment[dateYM]
-  const today = target.filter(e => e['date'] === ymd)
+  const today = target.filter(e => e != null).filter(e => e['date'] === ymd)
   return today
 }
 
@@ -101,7 +105,7 @@ export function uploadMomentV2(text, imgs, tags) {
   //判断是不是第一次使用app,再看当前日期是否存过
   //storage.delete('moment')
   let allMoment = storage.getString('moment')
-  console.log(allMoment)
+
   if (allMoment === null || allMoment === undefined || allMoment.length === 0) {
     //第一次使用app情况
     storage.set('moment', JSON.stringify(obj))
@@ -119,8 +123,6 @@ export function uploadMomentV2(text, imgs, tags) {
       storage.set('moment', JSON.stringify(saved))
     }
   }
-
-  console.log(storage.getString('moment'))
 }
 
 export default storage
