@@ -4,7 +4,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MyContritutionGraph from './MyContributionGraph';
 import RNFS from 'react-native-fs'
-import { loadFolder } from './util/FileUtil'
+import { loadFolder } from '../util/FileUtil'
 
 const MyImagePicker = ({ navigation }) => {
     const [contributionGraphData, setContributionGraphData] = useState([{}])

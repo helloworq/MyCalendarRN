@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Calendar from './Calendar'
-import MyDynamicListView from './MyDynamicListView'
 import MyMomentUploader from './MyMomentUploader'
-import MyImagePicker from './ImagePicker';
 import MyMomentViewer from './MyMomentViewer';
-import MyProgressBar from './MyProgressBar';
 import MyAddTags from './MyAddTags';
-import LayoutScrollHome from './utilCodeBlock/layout/LayoutScrollHome';
 import { PreferencesContext } from './MyPreferencesContext';
 import MyHomePage from './MyHomePage';
 import storage from './storage/MhkvStroge';
@@ -98,7 +93,6 @@ const Rooter = () => {
                 <Stack.Navigator>
                     <Stack.Screen name="MyHomePage" component={MyHomePage} options={{ headerShown: false }} />
                     <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false }} />
-                    <Stack.Screen name="MyDynamicListView" component={MyDynamicListView} options={{ headerShown: false }} />
                     <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false }} />
                     <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false }} />
                     <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false }} />

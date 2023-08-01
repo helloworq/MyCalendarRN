@@ -9,7 +9,19 @@ const storage = new MMKV({
   path: `${PATH}/storage`,
 })
 
-export function deleteMomentV2(ymd, time) {
+export function getTagsByStroage() {
+  const tags = storage.getString('tags')
+  if (tags != null && tags != undefined) {
+    return JSON.parse(tags)
+  }
+  return []
+}
+
+export function setTagsByStroage(data) {
+  storage.set('tags', JSON.stringify(data))
+}
+
+export function deleteMoment(ymd, time) {
   let allMoment = JSON.parse(storage.getString('moment'))
   const dateYM = dayjs(ymd).format('YYYY-MM')
   let target = allMoment[dateYM]
@@ -23,7 +35,7 @@ export function deleteMomentV2(ymd, time) {
   storage.set('moment', JSON.stringify(allMoment))
 }
 
-export function getMarkedDatesV2() {
+export function getMarkedDatesByStroage() {
   //获取全部的标记日期，后期考虑性能可以通过按月加载
   // {
   //     '2023-06-01': { selected: true, marked: true, selectedColor: 'green' },
@@ -41,7 +53,7 @@ export function getMarkedDatesV2() {
   return allKeys.map(e => allMoment[e]).flat().filter(e => e != null).map(e => e['date'])
 }
 
-export function loadMomentV2(ymd) {
+export function loadMomentByStroage(ymd) {
   //获取指定天的全部动态
   // [
   //   {
@@ -67,7 +79,7 @@ export function loadMomentV2(ymd) {
   return today
 }
 
-export function uploadMomentV2(text, imgs, tags) {
+export function uploadMomentByStroage(text, imgs, tags) {
   //实例存储格式
   // {
   //   "2023-08": [

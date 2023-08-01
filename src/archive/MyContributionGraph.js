@@ -4,7 +4,7 @@ import { ContributionGraph } from 'react-native-chart-kit';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import dayjs from 'dayjs'
 import RNFS from 'react-native-fs'
-import { loadFolder } from './util/FileUtil'
+import { loadFolder } from '../util/FileUtil'
 
 const chartConfig = {
     backgroundGradientFrom: '#ffffe5',

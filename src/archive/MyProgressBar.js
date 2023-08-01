@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, Button, Dimensions, ScrollView } from "react-native";
 import { ProgressChart } from 'react-native-chart-kit';
 import dayjs from 'dayjs'
-import { loadFolder, loadTags, getPathFromArray, statistics, loadYearFolder } from './util/FileUtil'
+import { loadFolder, loadTags, getPathFromArray, statistics, loadYearFolder } from '../util/FileUtil'
 import RNFS from 'react-native-fs'
 import { SelectList } from 'react-native-dropdown-select-list'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'

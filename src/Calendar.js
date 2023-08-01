@@ -1,6 +1,5 @@
-import React, { useState, useEffect ,useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Calendar } from 'react-native-calendars'
-import RNFS from 'react-native-fs'
 import {
   View,
   ImageBackground,
@@ -9,19 +8,18 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { loadMonthFolders,loadData } from './util/FileUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { PreferencesContext } from "./MyPreferencesContext";
 import { Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
-import { loadMomentV2,getMarkedDatesV2 } from './storage/MhkvStroge';
+import { loadMomentByStroage, getMarkedDatesByStroage } from './storage/MhkvStroge';
 
 const MyCalendar = ({ navigation }) => {
   const { mode, setMode, theme } = useContext(PreferencesContext)
   const [markedDates, setMarkedDates] = useState()
   const value = { selected: true, marked: true, selectedColor: '#66ff66' }
   const [data, setData] = useState()
-  
+
   const styles = StyleSheet.create({
     imageBg: {
       flex: 1, padding: 10
@@ -33,14 +31,14 @@ const MyCalendar = ({ navigation }) => {
       agendaDayTextColor: theme.colors.calendarAgendaDayTextColor,
       monthTextColor: theme.colors.calendarMonthTextColor,
       calendarBackground: theme.colors.totalOpacityBgColor,
-      textSectionTitleColor:theme.colors.calendarWeekColor,
+      textSectionTitleColor: theme.colors.calendarWeekColor,
     },
     calendar: {
       borderRadius: 20,
       padding: 10,
       backgroundColor: theme.colors.calendarBgColor
     },
-  
+
     //timeline
     timeline: {
       flex: 1,
@@ -70,14 +68,14 @@ const MyCalendar = ({ navigation }) => {
   })
 
   function loadMoment(param) {
-    let r = loadMomentV2(param)
+    let r = loadMomentByStroage(param)
     setData(r)
   }
 
   useEffect(() => {
     let res = {}
-    const dates = getMarkedDatesV2()
-    dates.forEach(e=> res[e] = value)
+    const dates = getMarkedDatesByStroage()
+    dates.forEach(e => res[e] = value)
     setMarkedDates(res)
   }, [])
 
@@ -123,7 +121,7 @@ const MyCalendar = ({ navigation }) => {
             monthFormat={'yyyy / MM / dd'}
             theme={styles.calendarTheme}
             style={styles.calendar}
-            onDayPress={(day)=>{
+            onDayPress={(day) => {
               const param = day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
               loadMoment(param)
             }}

@@ -2,10 +2,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { TextInput, View, Button, ScrollView, ToastAndroid, ImageBackground } from "react-native";
 import { Chip } from 'react-native-paper';
-import { writeTags, loadTags } from './util/FileUtil'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
-import storage from './storage/MhkvStroge';
+import { getTagsByStroage, setTagsByStroage } from './storage/MhkvStroge';
 
 const MyAddTags = () => {
     //text icon disable暂不提供自增tag的功能，因为缺少图标对应
@@ -14,11 +13,8 @@ const MyAddTags = () => {
     const { mode, setMode, theme } = useContext(PreferencesContext)
 
     useEffect(() => {
-        const tags = storage.getString('tags')
-        console.log('>>>>>', tags, tags?.length)
-        if (tags != null && tags != undefined) {
-            setData(JSON.parse(tags))
-        }
+        const tags = getTagsByStroage()
+        setData(tags)
     }, [])
 
     function renderTag() {
@@ -82,7 +78,8 @@ const MyAddTags = () => {
                     </View>
                     <View style={{}} >
                         <Button title="保存" onPress={() => {
-                            storage.set('tags', JSON.stringify(data))
+                            //storage.set('tags', JSON.stringify(data))
+                            setTagsByStroage(data)
                             ToastAndroid.show('已保存', ToastAndroid.SHORT)
                         }} />
                     </View>

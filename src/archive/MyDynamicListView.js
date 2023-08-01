@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { loadData } from './util/FileUtil'
+import { loadData } from '../util/FileUtil'
 import RNFS from 'react-native-fs'
 
 import {
