@@ -6,7 +6,10 @@ import {
     Text,
     ImageBackground,
     Image,
-    StyleSheet
+    Button,
+    FlatList,
+    StyleSheet,
+    RefreshControl
 } from 'react-native'
 import { loadFolder, loadTags, getPathFromArray, statistics, loadYearFolder } from './util/FileUtil'
 import RNFS from 'react-native-fs'
@@ -46,6 +49,7 @@ const MyHomePage = ({ navigation }) => {
     const year = dayjs().year();
     const [tags, setTags] = useState([])
     const [todayTags, setTodayTags] = useState({})
+    const [refresing, setRefresing] = useState(false)
     const [data, setData] = useState({
         labels: ['今日', '本周', '本月', '本年'], // optional
         data: [0.1, 0.5, 0.7, 0.6],
@@ -135,7 +139,7 @@ const MyHomePage = ({ navigation }) => {
         info: {
             width: fullBlockLength,
             borderRadius: borderRadius,
-            height: 150,
+            height: 250,
             flexDirection: 'column',
             backgroundColor: 'white',
             marginLeft: split,
@@ -195,13 +199,108 @@ const MyHomePage = ({ navigation }) => {
 
     })
 
+    const list = [
+        {
+            name: "张祥",
+            status: "red"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥1子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+        {
+            name: "骆驼祥子",
+            status: "green"
+        },
+    ]
+    function renderRow(rowData) {
+        const data = rowData.item
+        return (
+            <>
+                <TouchableOpacity
+                    onPress={() => {
+                    }}
+                    activeOpacity={0.8}>
+                    <View>
+                        <View style={{ flex: 1, flexDirection: 'row', marginBottom: 5 }}>
+                            <View style={{ flex: 1, alignItems: 'flex-start' }}>
+                                <Text style={{ color: 'black', fontSize: 18 }}>{data?.name}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                                <Text style={{ color: 'black', fontSize: 18, marginRight: 10 }}>PK</Text>
+                                <FontAwesome name={"circle"} size={18} color={data.status} />
+                            </View>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            </>
+        )
+    }
+
     return (
         <>
             <View style={{ flex: 1, }} >
                 <ImageBackground
                     source={require('./utilCodeBlock/layout/bg.jpeg')}
                     resizeMode='stretch'
-                    style={{ flex: 1, }}>
+                    style={{ flex: 1, }}
+                >
 
                     <View style={{ height: screenHeight, flexDirection: 'column', }}>
                         <View style={{}}>
@@ -246,11 +345,30 @@ const MyHomePage = ({ navigation }) => {
 
                         <View style={{ width: fullBlockLength, }}>
                             <View style={styles.info}>
-                                <View style={{ padding: 20, }}>
-                                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                                        <Image source={require('./utilCodeBlock/layout/bg.jpeg')} style={{ width: 50, height: 50 }} />
-                                        <Text style={{ marginLeft: 10, marginRight: 40, color: theme.colors.iconColor }}>危楼高百尺，手可摘星辰,不敢高声语，恐惊天上人。</Text>
+                                <View style={{ padding: 20, flex: 1, }}>
+
+                                    <View style={{ flexDirection: 'row',marginBottom:10, borderBottomColor: 'gray', borderBottomWidth: 0.5 }}>
+                                        <View style={{ flex: 1, alignItems: 'flex-start' }}>
+                                            <Text style={{ color: 'black', fontSize: 18 }}>昵称</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                                            <Text style={{ color: 'black', fontSize: 18, marginRight: 10 }}>状态</Text>
+                                            <FontAwesome name={"refresh"} size={20} color={'black'} />
+                                        </View>
                                     </View>
+
+
+                                    <FlatList
+                                        renderItem={renderRow}
+                                        keyExtractor={(item, index) => {
+                                            return item.path + index
+                                        }}
+                                        data={list}
+                                        horizontal={false}
+                                        refreshControl={
+                                            <RefreshControl refreshing={refresing} onRefresh={() => { setRefresing(!refresing) }} />
+                                        }
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -259,7 +377,7 @@ const MyHomePage = ({ navigation }) => {
                             <View style={{
                                 width: fullBlockLength,
                                 borderRadius: borderRadius,
-                                height: 200,
+                                height: 150,
                                 flexDirection: 'column',
                                 backgroundColor: 'white',
                                 marginLeft: split,
@@ -273,7 +391,7 @@ const MyHomePage = ({ navigation }) => {
                                             color: theme.colors.fontColor,
                                             fontSize: 15,
                                             fontWeight: 'bold',
-                                        }}>What You Done Have Today {dayjs().format('MM-DD')}</Text>
+                                        }}>What You Have Done Today {dayjs().format('MM-DD')}</Text>
                                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, marginLeft: 5 }}>
                                             {renderTag()}
                                         </View>
