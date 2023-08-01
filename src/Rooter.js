@@ -88,6 +88,7 @@ const Rooter = () => {
     }
 
     let type = storage.getString('theme')
+    type = type === 'dark' ? 'dark' : 'light'
     const [mode, setMode] = useState(type)
     let theme = modeMap[type]
 
