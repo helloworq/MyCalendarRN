@@ -18,11 +18,11 @@ const MyAddTags = () => {
     }, [])
 
     function renderTag() {
-        return Object.keys(data).map(t =>
+        return data.map(t =>
             <Chip
-                key={t}
-                icon={data[t][1]}
-                mode={data[t][2] ? 'flat' : 'outlined'}
+                key={t[0]}
+                icon={t[1]}
+                mode={t[2] ? 'flat' : 'outlined'}
                 style={{
                     padding: 2,
                     marginBottom: 10,
@@ -31,11 +31,11 @@ const MyAddTags = () => {
                 }}
                 onPress={() => { }}
                 onLongPress={() => {
-                    data.splice(t, 1)
-                    let newData = JSON.parse(JSON.stringify(data))
+                    const cal = data.filter(e => e[0] != t[0])
+                    let newData = JSON.parse(JSON.stringify(cal))
                     setData(newData)
                 }}
-            >{data[t][0]}</Chip>
+            >{t[0]}</Chip>
         )
     }
 
@@ -62,14 +62,17 @@ const MyAddTags = () => {
                         />
                         <MaterialIcons name={"add-circle"} color={theme.colors.bgColor} size={50}
                             onPress={() => {
-                                let maxIndex = 1;
-                                if (data.length != 0) {
-                                    maxIndex = Number(Math.max(...Object.keys(data).map(Number)))
+                                if (!data.some(e => e[0] === ('#' + text))) {
+                                    let maxIndex = 1;
+                                    if (data.length != 0) {
+                                        maxIndex = Number(Math.max(...Object.keys(data).map(Number)))
+                                    }
+                                    data[maxIndex + 1] = ['#' + text, 'tag', false]
+                                    let newData = JSON.parse(JSON.stringify(data))
+                                    newData = newData.filter((e) => e != null || e != undefined)
+
+                                    setData(newData)
                                 }
-                                data[maxIndex + 1] = ['#' + text, 'tag', false]
-                                let newData = JSON.parse(JSON.stringify(data))
-                                newData = newData.filter((e) => e != null || e != undefined)
-                                setData(newData)
                             }} />
                     </View>
 
@@ -78,7 +81,6 @@ const MyAddTags = () => {
                     </View>
                     <View style={{}} >
                         <Button title="保存" onPress={() => {
-                            //storage.set('tags', JSON.stringify(data))
                             setTagsByStroage(data)
                             ToastAndroid.show('已保存', ToastAndroid.SHORT)
                         }} />

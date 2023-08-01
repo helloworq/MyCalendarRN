@@ -3,7 +3,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { uploadMomentByStroage, getTagsByStroage, setTagsByStroage } from './storage/MhkvStroge';
+import { uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
 
 import {
     TextInput,
@@ -44,7 +44,6 @@ const MyMomentUploader = ({ route, navigation }) => {
     const [close, setClose] = useState(false)
 
     useEffect(() => {
-        //loadTags().then((r) => { setTags(JSON.parse(r)) })
         const tags = getTagsByStroage()
         setTags(tags)
     }, [])
@@ -142,7 +141,6 @@ const MyMomentUploader = ({ route, navigation }) => {
                 <View>
                     <Button onPress={() => {
                         const _tags = Object.values(tags).filter((e) => e[2] === true)
-                        //uploadMoment(text, data, _tags)
                         uploadMomentByStroage(text, data, _tags)
                         ToastAndroid.show('已上传', ToastAndroid.SHORT);
                     }} title='发表' />

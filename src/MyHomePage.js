@@ -21,7 +21,7 @@ import { PreferencesContext } from "./MyPreferencesContext";
 import dayjs from "dayjs";
 import { Chip } from "react-native-paper";
 import { SelectList } from "react-native-dropdown-select-list";
-import storage from './storage/MhkvStroge';
+import storage, { getTagsByStroage } from './storage/MhkvStroge';
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -58,19 +58,19 @@ const MyHomePage = ({ navigation }) => {
 
     useEffect(() => {
         //加载tag数据
-        loadTags().then((r) => {
-            let res = []
-            const obj = JSON.parse(r)
-            Object.keys(obj).forEach((e) => {
-                let temp = {}
+        const tagSaved = getTagsByStroage()
+        let res = []
+        let i = 0
+        tagSaved.forEach(e => {
+            let temp = {}
+            temp['key'] = i
+            temp['value'] = e[0]
+            res.push(temp)
 
-                temp['key'] = e
-                temp['value'] = obj[e][0]
-                res.push(temp)
-            })
-
-            setTags(res)
+            i = i + 1
         })
+
+        setTags(res)
     }, [])
 
     async function momentTagStatistics(year, tag) {
@@ -347,7 +347,7 @@ const MyHomePage = ({ navigation }) => {
                             <View style={styles.info}>
                                 <View style={{ padding: 20, flex: 1, }}>
 
-                                    <View style={{ flexDirection: 'row',marginBottom:10, borderBottomColor: 'gray', borderBottomWidth: 0.5 }}>
+                                    <View style={{ flexDirection: 'row', marginBottom: 10, borderBottomColor: 'gray', borderBottomWidth: 0.5 }}>
                                         <View style={{ flex: 1, alignItems: 'flex-start' }}>
                                             <Text style={{ color: 'black', fontSize: 18 }}>昵称</Text>
                                         </View>
