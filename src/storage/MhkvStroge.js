@@ -32,7 +32,7 @@ export function getTodayTagByStroage() {
   }
   const allMoment = JSON.parse(allMomentStr)
   const curMonth = allMoment[dayjs().format('YYYY-MM')]
-  console.log(curMonth)
+
   if (allMomentStr != null || allMomentStr != undefined || allMomentStr.length != 0) {
     let curDayTag = {}
     curMonth.filter(e => e != null)

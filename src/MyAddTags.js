@@ -4,13 +4,15 @@ import { TextInput, View, Button, ScrollView, ToastAndroid, ImageBackground } fr
 import { Chip } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
-import { getTagsByStroage, setTagsByStroage } from './storage/MhkvStroge';
+import storage,{ getTagsByStroage, setTagsByStroage } from './storage/MhkvStroge';
+import ImgStroage from "./storage/ImgStroage";
 
 const MyAddTags = () => {
     //text icon disable暂不提供自增tag的功能，因为缺少图标对应
     const [text, setText] = useState()
     const [data, setData] = useState([])
     const { mode, setMode, theme } = useContext(PreferencesContext)
+    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
 
     useEffect(() => {
         const tags = getTagsByStroage()
@@ -42,7 +44,7 @@ const MyAddTags = () => {
     return (
         <>
             <ImageBackground
-                source={require('./utilCodeBlock/layout/bg.jpeg')}
+                source={ImgStroage[bgImg]}
                 resizeMode='stretch'
                 style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
                 <ScrollView>

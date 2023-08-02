@@ -3,7 +3,8 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
+import storage,{ uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
+import ImgStroage from "./storage/ImgStroage";
 
 import {
     TextInput,
@@ -34,7 +35,7 @@ const keyExtractor = (item, index) => {
 
 const MyMomentUploader = ({ route, navigation }) => {
     const { datas } = route.params
-
+    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const { mode, setMode, theme } = useContext(PreferencesContext)
     const [text, onChangeText] = useState()
     const [tags, setTags] = useState([{}])
@@ -106,7 +107,7 @@ const MyMomentUploader = ({ route, navigation }) => {
     return (
         <>
             <ImageBackground
-                source={require('./utilCodeBlock/layout/bg.jpeg')}
+                source={ImgStroage[bgImg]}
                 resizeMode='stretch'
                 style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
 

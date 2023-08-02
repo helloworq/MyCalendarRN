@@ -12,13 +12,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { PreferencesContext } from "./MyPreferencesContext";
 import { Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
-import { loadMomentByStroage, getMarkedDatesByStroage } from './storage/MhkvStroge';
+import storage,{ loadMomentByStroage, getMarkedDatesByStroage } from './storage/MhkvStroge';
+import ImgStroage from "./storage/ImgStroage";
 
 const MyCalendar = ({ navigation }) => {
   const { mode, setMode, theme } = useContext(PreferencesContext)
   const [markedDates, setMarkedDates] = useState()
   const value = { selected: true, marked: true, selectedColor: '#66ff66' }
   const [data, setData] = useState()
+  const bgImg = storage.getString('bgImg') ? 'a' : 'a'
 
   const styles = StyleSheet.create({
     imageBg: {
@@ -110,7 +112,7 @@ const MyCalendar = ({ navigation }) => {
   return (
     <>
       <ImageBackground
-        source={require('./utilCodeBlock/layout/bg.jpeg')}
+        source={ImgStroage[bgImg]}
         resizeMode='stretch'
         style={styles.imageBg}>
         <ScrollView>

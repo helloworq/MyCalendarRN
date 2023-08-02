@@ -3,7 +3,8 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
-import { deleteMoment } from './storage/MhkvStroge';
+import storage,{ deleteMoment } from './storage/MhkvStroge';
+import ImgStroage from "./storage/ImgStroage";
 
 import {
     TextInput,
@@ -33,7 +34,7 @@ const keyExtractor = (item, index) => {
 
 const MyMomentViewer = ({ route, navigation }) => {
     const { param } = route.params
-
+    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const { mode, setMode, theme } = useContext(PreferencesContext)
     const [text, onChangeText] = useState(param.description)
     const [data, setData] = useState(param)
@@ -89,7 +90,7 @@ const MyMomentViewer = ({ route, navigation }) => {
     return (
         <>
             <ImageBackground
-                source={require('./utilCodeBlock/layout/bg.jpeg')}
+                source={ImgStroage[bgImg]}
                 resizeMode='stretch'
                 style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
                 <View style={{

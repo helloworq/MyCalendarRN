@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import { Chip, FAB } from "react-native-paper";
 import { SelectList } from "react-native-dropdown-select-list";
 import storage, { getTagsByStroage, getTodayTagByStroage, statisticsByStroage } from './storage/MhkvStroge';
+import ImgStroage from "./storage/ImgStroage";
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -33,6 +34,7 @@ const chartConfig = {
 const MyHomePage = ({ navigation }) => {
     const { mode, setMode, theme } = useContext(PreferencesContext)
 
+    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const screenHeight = Dimensions.get("window").height - 20
     const screenWidth = Dimensions.get("window").width
     const split = 10;
@@ -204,7 +206,7 @@ const MyHomePage = ({ navigation }) => {
         <>
             <View style={{ flex: 1, }} >
                 <ImageBackground
-                    source={require('./utilCodeBlock/layout/bg.jpeg')}
+                    source={ImgStroage[bgImg]}
                     resizeMode='stretch'
                     style={{ flex: 1, }}
                 >
