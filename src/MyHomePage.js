@@ -11,17 +11,15 @@ import {
     StyleSheet,
     RefreshControl
 } from 'react-native'
-import { loadFolder, loadTags, getPathFromArray, statistics, loadYearFolder } from './util/FileUtil'
-import RNFS from 'react-native-fs'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { ProgressChart } from 'react-native-chart-kit';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
 import dayjs from "dayjs";
-import { Chip } from "react-native-paper";
+import { Chip, FAB } from "react-native-paper";
 import { SelectList } from "react-native-dropdown-select-list";
-import storage, { getTagsByStroage } from './storage/MhkvStroge';
+import storage, { getTagsByStroage, statisticsV2 } from './storage/MhkvStroge';
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -72,39 +70,6 @@ const MyHomePage = ({ navigation }) => {
 
         setTags(res)
     }, [])
-
-    async function momentTagStatistics(year, tag) {
-        //统计动态中的tag信息,按年统计，如果后续数据量过大影响加载性能，考虑使用一个文本单独记录统计信息
-        //RNFS.readDir(path + year)
-        loadYearFolder(year)
-            .then((r) => {
-                let temp = []
-                r.forEach((e) => { temp.push(e.path) })
-                return temp
-            }).then((r) => {
-                let pL = []
-                r.forEach((e) => {
-                    let p = RNFS.readDir(e)
-                    pL.push(p)
-                })
-                return pL
-            }).then((r) => {
-                Promise.all(r).then((r) => {
-                    let pL = []
-                    r = getPathFromArray(r)
-                    r.forEach((e) => {
-                        let p = RNFS.readFile(e + '/data.json')
-                        pL.push(p)
-                    })
-                    return pL
-                }).then((r) =>
-                    Promise.all(r).then((r) => {
-                        const res = statistics(r, tag)
-                        setData(res['res'])
-                        setTodayTags(res['curDayTag'])
-                    }))
-            })
-    }
 
 
     function renderTag() {
@@ -208,66 +173,6 @@ const MyHomePage = ({ navigation }) => {
             name: "骆驼祥子",
             status: "green"
         },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥1子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
-        {
-            name: "骆驼祥子",
-            status: "green"
-        },
     ]
     function renderRow(rowData) {
         const data = rowData.item
@@ -321,7 +226,11 @@ const MyHomePage = ({ navigation }) => {
                                         }}
                                     />
                                     <SelectList
-                                        setSelected={(val) => momentTagStatistics(year, val)}
+                                        setSelected={(val) => {
+                                            const res = statisticsV2(val)
+                                            setData(res['res'])
+                                            setTodayTags(res['curDayTag'])
+                                        }}
                                         data={tags}
                                         dropdownStyles={{ width: 100, marginLeft: 20 }}
                                         dropdownTextStyles={{ color: theme.colors.fontColor }}
@@ -433,9 +342,10 @@ const MyHomePage = ({ navigation }) => {
                                 top: 0,
                             }}
                             onPress={() =>
-                                
-                                storage.set("moment",JSON.stringify({"2023-06":[{"date":"2023-06-01","time":"09:27:48","datetime":"2023-06-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-13","time":"09:27:48","datetime":"2023-06-13 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-21","time":"09:27:48","datetime":"2023-06-21 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-11","time":"09:27:48","datetime":"2023-06-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-11":[{"date":"2023-11-01","time":"09:27:48","datetime":"2023-11-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-07":[{"date":"2023-07-01","time":"09:27:48","datetime":"2023-07-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-07-11","time":"09:27:48","datetime":"2023-07-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-08":[{"date":"2023-08-01","time":"09:27:48","datetime":"2023-08-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},null,null,{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]}]}))
-                            
+                                //statisticsV2()
+                                //storage.delete(mo)
+                                //storage.set("moment",JSON.stringify({"2023-06":[{"date":"2023-06-01","time":"09:27:48","datetime":"2023-06-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-13","time":"09:27:48","datetime":"2023-06-13 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-21","time":"09:27:48","datetime":"2023-06-21 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-11","time":"09:27:48","datetime":"2023-06-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-11":[{"date":"2023-11-01","time":"09:27:48","datetime":"2023-11-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-07":[{"date":"2023-07-01","time":"09:27:48","datetime":"2023-07-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-07-11","time":"09:27:48","datetime":"2023-07-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-08":[{"date":"2023-08-01","time":"09:27:48","datetime":"2023-08-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},null,null,{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]}]}))
+                                //storage.set("moment",JSON.stringify({"2023-06":[{"date":"2023-06-01","time":"09:27:48","datetime":"2023-06-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-13","time":"09:27:48","datetime":"2023-06-13 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-21","time":"09:27:48","datetime":"2023-06-21 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-11","time":"09:27:48","datetime":"2023-06-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-11":[{"date":"2023-11-01","time":"09:27:48","datetime":"2023-11-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-07":[{"date":"2023-07-01","time":"09:27:48","datetime":"2023-07-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-07-11","time":"09:27:48","datetime":"2023-07-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-08":[{"date":"2023-08-01","time":"09:27:48","datetime":"2023-08-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},null,null,{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-11","time":"06:27:49","datetime":"2023-08-11 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-06","time":"06:27:49","datetime":"2023-08-06 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-15","time":"06:27:49","datetime":"2023-08-15 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-04","time":"06:27:49","datetime":"2023-08-04 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-03","time":"06:27:49","datetime":"2023-08-03 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]}]}))
                             }
                         /> */}
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>

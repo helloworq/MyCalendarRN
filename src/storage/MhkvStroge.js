@@ -1,6 +1,7 @@
 import { MMKV } from 'react-native-mmkv'
 import RNFS from 'react-native-fs'
 import dayjs from "dayjs"
+import isLeapYear from 'dayjs/plugin/isLeapYear'
 const PATH = RNFS.ExternalDirectoryPath + '/MHKV/'
 const IMG_PATH = RNFS.ExternalDirectoryPath + '/IMG/'
 
@@ -8,6 +9,94 @@ const storage = new MMKV({
   id: `user-own-storage`,
   path: `${PATH}/storage`,
 })
+
+export function statisticsV2(tag) {
+  //目前还没加上年份的select组件，先只默认计算本年的指定tag统计数据
+  const allMomentStr = storage.getString('moment')
+  if (allMomentStr === null || allMomentStr === undefined || allMomentStr.length === 0) {
+    //第一次使用app情况
+    return []
+  }
+  const allMoment = JSON.parse(allMomentStr)
+  const data = Object.values(allMoment).flat()
+
+  return statistics(data,tag)
+}
+
+function statistics(data, tag) {
+  //全部  本年  本月  本周  今日
+  //示例入参
+  // [
+  //     "{\"time\":\"15:56:07\",\"date\":\"2023-06-28\",\"datetime\":\"2023-06-28 15:56:07\",\"moment\":\"1111\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true]]}",
+  //     "{\"time\":\"10:36:56\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:36:56\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+  //     "{\"time\":\"10:36:59\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:36:59\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+  //     "{\"time\":\"10:37:04\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:04\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+  //     "{\"time\":\"10:37:07\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:07\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+  //     "{\"time\":\"10:37:10\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:10\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}",
+  //     "{\"time\":\"10:37:12\",\"date\":\"2023-06-29\",\"datetime\":\"2023-06-29 10:37:12\",\"moment\":\"qqqq\",\"tags\":[[\"#上班打卡\",\"alarm-check\",true],[\"#下班打卡\",\"alarm-off\",true],[\"#按时吃饭打卡\",\"food-variant\",true]]}"
+  // ]
+
+  //实例返回值
+  // const data = {
+  //     labels: ['今日', '本周', '本月', '本年', '全部'], // optional
+  //     data: [0.3, 0.6, 0.8, 0.1, 0.2],
+  //     colors: ['#4dff4d', 'blue', 'yellow', 'green', 'red']
+  // };
+  dayjs.extend(isLeapYear)
+  const cur = dayjs()
+  data = data.filter(e => e!=null)
+
+  //年
+  let recordYear = {}
+  //const yearRate = yearArray.filter((value, index) => yearArray.indexOf(value) === index).length / (isLeapYear ? 366 : 365)
+  data.forEach((ele) => {
+      const tags = ele['tags']
+      tags.forEach((e) => e.forEach((e) => { if (e === tag) recordYear[ele['date']] = true }))
+  })
+  const yearRate = Object.keys(recordYear).length / (isLeapYear ? 366 : 365)
+  //月
+  let recordMonth = {}
+  data.filter((e) => {
+      return dayjs(e['date']).isAfter(cur.startOf('month'))
+          && dayjs(e['date']).isBefore(cur.endOf('month'))
+  }).forEach((ele) => {
+      const tags = ele['tags']
+      tags.forEach((e) => e.forEach((e) => { if (e === tag) recordMonth[ele['date']] = true }))
+  })
+  const monthRate = Object.keys(recordMonth).length / cur.daysInMonth()
+  //周
+  let recordWeek = {}
+  data.filter((e) => {
+      return dayjs(e['date']).isAfter(cur.startOf('week').add(1, 'day'))
+          && dayjs(e['date']).isBefore(cur.endOf('week').add(1, 'day'))
+  }).forEach((ele) => {
+      const tags = ele['tags']
+      tags.forEach((e) => e.forEach((e) => { if (e === tag) recordWeek[ele['date']] = true }))
+  })
+
+  const weekRate = Object.keys(recordWeek).length / 7
+  //今天
+  const today = Object.keys(recordWeek).indexOf(cur.format('YYYY-MM-DD')) != -1 ? 1 : 0
+
+  const res = {
+      labels: ['今日', '本周', '本月', '本年'], // optional
+      data: [today, weekRate, monthRate, yearRate],
+      colors: ['#4dff4d', 'blue', 'yellow', 'green']
+  };
+
+  //顺便返回今天的全部动态tag
+  let curDayTag = {}
+  data.filter((e) => cur.format('YYYY-MM-DD') === e['date'])
+      .map((e) => e['tags'])
+      .forEach((e) => e.forEach((e) => curDayTag[e[0]] = e))
+
+  //组装数据返回
+  let newRes = {}
+  newRes['res'] = res
+  newRes['curDayTag'] = curDayTag
+
+  return newRes
+}
 
 export function getTagsByStroage() {
   const tags = storage.getString('tags')
