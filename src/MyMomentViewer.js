@@ -130,7 +130,7 @@ const MyMomentViewer = ({ route, navigation }) => {
                                 </Text>
                                 <FontAwesome onPress={() => {
                                     deleteMoment(param.date,param.time)
-                                    ToastAndroid.show('已删除，退出列表再进入将刷新', ToastAndroid.SHORT);
+                                    ToastAndroid.show('已删除，再次进入后将刷新', ToastAndroid.SHORT);
                                 }} name="trash" size={20} color={theme.colors.iconColor} />
                             </View>
 

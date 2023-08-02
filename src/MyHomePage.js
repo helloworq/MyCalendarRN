@@ -353,7 +353,31 @@ const MyHomePage = ({ navigation }) => {
                                         </View>
                                         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                                             <Text style={{ color: 'black', fontSize: 18, marginRight: 10 }}>状态</Text>
-                                            <FontAwesome name={"refresh"} size={20} color={'black'} />
+                                            <FontAwesome name={"refresh"} size={20} color={'black'}
+                                                onPress={() => {
+                                                    var ws = new WebSocket('ws://10.0.2.2:8887');
+
+                                                    ws.onopen = () => {
+                                                        // connection opened
+                                                        ws.send('something'); // send a message
+                                                    };
+
+                                                    ws.onmessage = (e) => {
+                                                        // a message was received
+                                                        console.log(e.data);
+                                                    };
+
+                                                    ws.onerror = (e) => {
+                                                        // an error occurred
+                                                        console.log(e.message);
+                                                    };
+
+                                                    ws.onclose = (e) => {
+                                                        // connection closed
+                                                        console.log(e.code, e.reason);
+                                                    };
+                                                }}
+                                            />
                                         </View>
                                     </View>
 
@@ -400,7 +424,20 @@ const MyHomePage = ({ navigation }) => {
                                 </View>
                             </View>
                         </View>
-
+                        {/* <FAB
+                            icon="plus"
+                            style={{
+                                position: 'absolute',
+                                margin: 16,
+                                left: 0,
+                                top: 0,
+                            }}
+                            onPress={() =>
+                                
+                                storage.set("moment",JSON.stringify({"2023-06":[{"date":"2023-06-01","time":"09:27:48","datetime":"2023-06-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-13","time":"09:27:48","datetime":"2023-06-13 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-21","time":"09:27:48","datetime":"2023-06-21 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-06-11","time":"09:27:48","datetime":"2023-06-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-11":[{"date":"2023-11-01","time":"09:27:48","datetime":"2023-11-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-07":[{"date":"2023-07-01","time":"09:27:48","datetime":"2023-07-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},{"date":"2023-07-11","time":"09:27:48","datetime":"2023-07-11 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]}],"2023-08":[{"date":"2023-08-01","time":"09:27:48","datetime":"2023-08-01 09:27:48","tags":[["#111","compass-outline",true]],"description":"qq","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014637_1.jpg"]},null,null,{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]},{"date":"2023-08-02","time":"06:27:49","datetime":"2023-08-02 06:27:49","tags":[["#qq","tag",true]],"description":"Rtu","imageUrl":["file:///data/user/0/com.mycalendar/cache/react-native-image-crop-picker/IMG_20230621_014635_1.jpg"]}]}))
+                            
+                            }
+                        /> */}
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
                             <View style={{ justifyContent: 'flex-end' }}>
                                 < TouchableOpacity onPress={() => {

@@ -18,7 +18,7 @@ export function getTagsByStroage() {
 }
 
 export function setTagsByStroage(data) {
-  storage.set('tags', JSON.stringify(data))
+  storage.set('tags', JSON.stringify(data)) 
 }
 
 export function deleteMoment(ymd, time) {
@@ -29,7 +29,7 @@ export function deleteMoment(ymd, time) {
   for (let i = 0; i < target.length; i++) {
     const element = target[i]
     if (element != null && element['date'] === ymd && element['time'] === time) {
-      delete allMoment[dateYM][i]
+      allMoment[dateYM].splice(i,1)
     }
   }
   storage.set('moment', JSON.stringify(allMoment))
