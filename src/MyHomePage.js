@@ -19,7 +19,7 @@ import { PreferencesContext } from "./MyPreferencesContext";
 import dayjs from "dayjs";
 import { Chip, FAB } from "react-native-paper";
 import { SelectList } from "react-native-dropdown-select-list";
-import storage, { getTagsByStroage, statisticsV2 } from './storage/MhkvStroge';
+import storage, { getTagsByStroage, getTodayTagByStroage, statisticsByStroage } from './storage/MhkvStroge';
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -46,7 +46,7 @@ const MyHomePage = ({ navigation }) => {
 
     const year = dayjs().year();
     const [tags, setTags] = useState([])
-    const [todayTags, setTodayTags] = useState({})
+    const [todayTags, setTodayTags] = useState([])
     const [refresing, setRefresing] = useState(false)
     const [data, setData] = useState({
         labels: ['今日', '本周', '本月', '本年'], // optional
@@ -67,13 +67,15 @@ const MyHomePage = ({ navigation }) => {
 
             i = i + 1
         })
-
         setTags(res)
+
+        //加载todayTag
+        setTodayTags(getTodayTagByStroage())
     }, [])
 
 
     function renderTag() {
-        const tags = Object.values(todayTags)
+        const tags = todayTags
         const eleTag = tags.map(t =>
             <Chip
                 icon={t[1]}
@@ -227,9 +229,8 @@ const MyHomePage = ({ navigation }) => {
                                     />
                                     <SelectList
                                         setSelected={(val) => {
-                                            const res = statisticsV2(val)
+                                            const res = statisticsByStroage(val)
                                             setData(res['res'])
-                                            setTodayTags(res['curDayTag'])
                                         }}
                                         data={tags}
                                         dropdownStyles={{ width: 100, marginLeft: 20 }}

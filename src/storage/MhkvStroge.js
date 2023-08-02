@@ -10,7 +10,7 @@ const storage = new MMKV({
   path: `${PATH}/storage`,
 })
 
-export function statisticsV2(tag) {
+export function statisticsByStroage(tag) {
   //目前还没加上年份的select组件，先只默认计算本年的指定tag统计数据
   const allMomentStr = storage.getString('moment')
   if (allMomentStr === null || allMomentStr === undefined || allMomentStr.length === 0) {
@@ -20,7 +20,29 @@ export function statisticsV2(tag) {
   const allMoment = JSON.parse(allMomentStr)
   const data = Object.values(allMoment).flat()
 
-  return statistics(data,tag)
+  return statistics(data, tag)
+}
+
+export function getTodayTagByStroage() {
+  //今天的全部动态tag
+  const allMomentStr = storage.getString('moment')
+  if (allMomentStr === null || allMomentStr === undefined || allMomentStr.length === 0) {
+    //第一次使用app情况
+    return []
+  }
+  const allMoment = JSON.parse(allMomentStr)
+  const curMonth = allMoment[dayjs().format('YYYY-MM')]
+  console.log(curMonth)
+  if (allMomentStr != null || allMomentStr != undefined || allMomentStr.length != 0) {
+    let curDayTag = {}
+    curMonth.filter(e => e != null)
+      .filter((e) => dayjs().format('YYYY-MM-DD') === e['date'])
+      .map((e) => e['tags'])
+      .flat()
+      .forEach(e=>{ curDayTag[e[0]] = e })
+    return Object.values(curDayTag)
+  }
+  return []
 }
 
 function statistics(data, tag) {
@@ -44,34 +66,34 @@ function statistics(data, tag) {
   // };
   dayjs.extend(isLeapYear)
   const cur = dayjs()
-  data = data.filter(e => e!=null)
+  data = data.filter(e => e != null)
 
   //年
   let recordYear = {}
   //const yearRate = yearArray.filter((value, index) => yearArray.indexOf(value) === index).length / (isLeapYear ? 366 : 365)
   data.forEach((ele) => {
-      const tags = ele['tags']
-      tags.forEach((e) => e.forEach((e) => { if (e === tag) recordYear[ele['date']] = true }))
+    const tags = ele['tags']
+    tags.forEach((e) => e.forEach((e) => { if (e === tag) recordYear[ele['date']] = true }))
   })
   const yearRate = Object.keys(recordYear).length / (isLeapYear ? 366 : 365)
   //月
   let recordMonth = {}
   data.filter((e) => {
-      return dayjs(e['date']).isAfter(cur.startOf('month'))
-          && dayjs(e['date']).isBefore(cur.endOf('month'))
+    return dayjs(e['date']).isAfter(cur.startOf('month'))
+      && dayjs(e['date']).isBefore(cur.endOf('month'))
   }).forEach((ele) => {
-      const tags = ele['tags']
-      tags.forEach((e) => e.forEach((e) => { if (e === tag) recordMonth[ele['date']] = true }))
+    const tags = ele['tags']
+    tags.forEach((e) => e.forEach((e) => { if (e === tag) recordMonth[ele['date']] = true }))
   })
   const monthRate = Object.keys(recordMonth).length / cur.daysInMonth()
   //周
   let recordWeek = {}
   data.filter((e) => {
-      return dayjs(e['date']).isAfter(cur.startOf('week').add(1, 'day'))
-          && dayjs(e['date']).isBefore(cur.endOf('week').add(1, 'day'))
+    return dayjs(e['date']).isAfter(cur.startOf('week').add(1, 'day'))
+      && dayjs(e['date']).isBefore(cur.endOf('week').add(1, 'day'))
   }).forEach((ele) => {
-      const tags = ele['tags']
-      tags.forEach((e) => e.forEach((e) => { if (e === tag) recordWeek[ele['date']] = true }))
+    const tags = ele['tags']
+    tags.forEach((e) => e.forEach((e) => { if (e === tag) recordWeek[ele['date']] = true }))
   })
 
   const weekRate = Object.keys(recordWeek).length / 7
@@ -79,16 +101,16 @@ function statistics(data, tag) {
   const today = Object.keys(recordWeek).indexOf(cur.format('YYYY-MM-DD')) != -1 ? 1 : 0
 
   const res = {
-      labels: ['今日', '本周', '本月', '本年'], // optional
-      data: [today, weekRate, monthRate, yearRate],
-      colors: ['#4dff4d', 'blue', 'yellow', 'green']
+    labels: ['今日', '本周', '本月', '本年'], // optional
+    data: [today, weekRate, monthRate, yearRate],
+    colors: ['#4dff4d', 'blue', 'yellow', 'green']
   };
 
   //顺便返回今天的全部动态tag
   let curDayTag = {}
   data.filter((e) => cur.format('YYYY-MM-DD') === e['date'])
-      .map((e) => e['tags'])
-      .forEach((e) => e.forEach((e) => curDayTag[e[0]] = e))
+    .map((e) => e['tags'])
+    .forEach((e) => e.forEach((e) => curDayTag[e[0]] = e))
 
   //组装数据返回
   let newRes = {}
@@ -107,7 +129,7 @@ export function getTagsByStroage() {
 }
 
 export function setTagsByStroage(data) {
-  storage.set('tags', JSON.stringify(data)) 
+  storage.set('tags', JSON.stringify(data))
 }
 
 export function deleteMoment(ymd, time) {
@@ -118,7 +140,7 @@ export function deleteMoment(ymd, time) {
   for (let i = 0; i < target.length; i++) {
     const element = target[i]
     if (element != null && element['date'] === ymd && element['time'] === time) {
-      allMoment[dateYM].splice(i,1)
+      allMoment[dateYM].splice(i, 1)
     }
   }
   storage.set('moment', JSON.stringify(allMoment))
