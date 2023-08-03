@@ -186,7 +186,7 @@ export function loadMomentByStroage(ymd) {
   const allMoment = JSON.parse(allMomentStr)
   const dateYM = dayjs(ymd).format('YYYY-MM')
   const target = allMoment[dateYM]
-  const today = target.filter(e => e != null).filter(e => e['date'] === ymd)
+  const today = target?.filter(e => e != null).filter(e => e['date'] === ymd)
   return today
 }
 
