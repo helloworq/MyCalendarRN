@@ -39,7 +39,7 @@ export function getTodayTagByStroage() {
       .filter((e) => dayjs().format('YYYY-MM-DD') === e['date'])
       .map((e) => e['tags'])
       .flat()
-      .forEach(e=>{ curDayTag[e[0]] = e })
+      .forEach(e => { curDayTag[e[0]] = e })
     return Object.values(curDayTag)
   }
   return []
@@ -146,7 +146,7 @@ export function deleteMoment(ymd, time) {
   storage.set('moment', JSON.stringify(allMoment))
 }
 
-export function getMarkedDatesByStroage() {
+export function getMarkedDatesByStroage(tag) {
   //获取全部的标记日期，后期考虑性能可以通过按月加载
   // {
   //     '2023-06-01': { selected: true, marked: true, selectedColor: 'green' },
@@ -161,10 +161,23 @@ export function getMarkedDatesByStroage() {
   }
   const allMoment = JSON.parse(allMomentStr)
   const allKeys = Object.keys(allMoment)
-  return allKeys.map(e => allMoment[e]).flat().filter(e => e != null).map(e => e['date'])
+
+  return allKeys.map(e => allMoment[e])
+    .flat()
+    .filter(e => e != null)
+    .filter(e => {
+      if (tag && '#全部标签' != tag) {
+        const match = e['tags']?.filter(ele => ele[0] === tag)
+        if (match === null || match === undefined || match.length === 0) {
+          return false
+        }
+      }
+      return true
+    })
+    .map(e => e['date'])
 }
 
-export function loadMomentByStroage(ymd) {
+export function loadMomentByStroage(ymd, tag) {
   //获取指定天的全部动态
   // [
   //   {
@@ -186,7 +199,18 @@ export function loadMomentByStroage(ymd) {
   const allMoment = JSON.parse(allMomentStr)
   const dateYM = dayjs(ymd).format('YYYY-MM')
   const target = allMoment[dateYM]
-  const today = target?.filter(e => e != null).filter(e => e['date'] === ymd)
+  const today = target?.filter(e => e != null)
+    .filter(e => e['date'] === ymd)
+    .filter(e => {
+      if (tag != null && tag != undefined && tag != '' && tag != '#全部标签') {
+        console.log(tag,e['tags'],e['tags'].some(ele => ele[0] === tag))
+        if (e['tags'].some(ele => ele[0] === tag)) {
+          return true 
+        }
+        return false
+      }
+      return true
+    })
   return today
 }
 

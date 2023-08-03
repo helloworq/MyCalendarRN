@@ -4,7 +4,7 @@ import { TextInput, View, Button, ScrollView, ToastAndroid, ImageBackground } fr
 import { Chip } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
-import storage,{ getTagsByStroage, setTagsByStroage } from './storage/MhkvStroge';
+import storage, { getTagsByStroage, setTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 
 const MyAddTags = () => {
@@ -64,7 +64,7 @@ const MyAddTags = () => {
                         />
                         <MaterialIcons name={"add-circle"} color={theme.colors.bgColor} size={50}
                             onPress={() => {
-                                if (!data.some(e => e[0] === ('#' + text))) {
+                                if (!data.some(e => e[0] === ('#' + text)) && text != '全部标签') {
                                     let maxIndex = 1;
                                     if (data.length != 0) {
                                         maxIndex = Number(Math.max(...Object.keys(data).map(Number)))

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import {
@@ -14,22 +14,28 @@ const MyModalPicker = ({
     fontBgColor,
     fontColor,
     callback,//选择完tag后的回调
+    style,
 }) => {
     const [visible, setVisible] = useState(false)
-    const [value, selectValue] = useState("选择tag")
+    const [value, selectValue] = useState("标签")
 
     return (
         <>
             <TouchableOpacity onPress={() => {
                 setVisible(true)
             }}>
-                <View style={{ flexDirection: 'row', width: 70, marginTop: 10 }}>
-                    <MaterialCommunityIcons
-                        name={"chevron-down"}
-                        size={40}
-                    />
-
-                    <Text style={{ fontSize: 15 }} >{value}</Text>
+                <View style={[{
+                    flexDirection: 'row',
+                    width: 80,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }, style]}>
+                    <View>
+                        <Text style={{ fontSize: 15, color: fontColor }} >{value}</Text>
+                    </View>
+                    <View>
+                        <MaterialCommunityIcons name={"chevron-down"} size={25} />
+                    </View>
                 </View>
 
             </TouchableOpacity>
@@ -67,9 +73,9 @@ const MyModalPicker = ({
                                         margin: 10
                                     }}>
                                         <TouchableOpacity onPress={() => {
-                                            selectValue(r.item)
                                             setVisible(false)
                                             callback(r.item)
+                                            selectValue(r.item)
                                         }}>
                                             <Text style={{ color: fontColor, fontSize: 20, textAlign: 'center' }}>{r.item}</Text>
                                         </TouchableOpacity>

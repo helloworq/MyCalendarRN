@@ -14,12 +14,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { PreferencesContext } from "./MyPreferencesContext";
 import { Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
-import storage, { loadMomentByStroage, getMarkedDatesByStroage } from './storage/MhkvStroge';
+import storage, { loadMomentByStroage, getMarkedDatesByStroage, getTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
+import MyModalPicker from "./compoment/MyModalPicker";
 
 const MyCalendar = ({ navigation }) => {
   const { mode, setMode, theme } = useContext(PreferencesContext)
   const [markedDates, setMarkedDates] = useState()
+  const [tags, setTags] = useState([])
+  const [selectTag, setSelectTag] = useState()
   const value = { selected: true, marked: true, selectedColor: '#66ff66' }
   const [data, setData] = useState()
   const bgImg = storage.getString('bgImg') ? 'a' : 'a'
@@ -71,9 +74,17 @@ const MyCalendar = ({ navigation }) => {
     },
   })
 
-  function loadMoment(param) {
-    let r = loadMomentByStroage(param)
+  function loadMoment(param, tag) {
+    let r = loadMomentByStroage(param, tag)
     setData(r)
+  }
+
+  function loadMarkedDatesByStroage(tag) {
+    let res = {}
+    const dates = getMarkedDatesByStroage(tag)
+    dates.forEach(e => res[e] = value)
+
+    setMarkedDates(res)
   }
 
   useEffect(() => {
@@ -81,6 +92,11 @@ const MyCalendar = ({ navigation }) => {
     const dates = getMarkedDatesByStroage()
     dates.forEach(e => res[e] = value)
     setMarkedDates(res)
+
+    //tags
+    const tagSaved = getTagsByStroage()
+    tagSaved.unshift(["#全部标签", 'tag', false])
+    setTags(tagSaved.map(e => e[0]))
   }, [])
 
   function renderDetail(rowData, sectionID, rowID) {
@@ -119,7 +135,30 @@ const MyCalendar = ({ navigation }) => {
         style={styles.imageBg}>
         <ScrollView>
           <Calendar
-            //renderHeader={(date) => <Text>{dayjs(date).format('YYYY-MM-DD')}</Text>}
+            renderHeader={(date) => {
+              //加上一个tag选择框，根据tag过滤
+              const element = (
+                <>
+                  <View>
+                    <View>
+                      <Text style={{ color: theme.colors.fontColor, fontSize: 18, fontWeight: 'bold' }}>{dayjs(date).format('YYYY  MM  DD')}</Text>
+                    </View>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                      <MyModalPicker
+                        fontBgColor={theme.colors.bgColor}
+                        fontColor={theme.colors.fontColor}
+                        data={tags}
+                        callback={(val) => {
+                          loadMarkedDatesByStroage(val)
+                          setSelectTag(val)
+                        }}
+                      />
+                    </View>
+                  </View>
+                </>
+              )
+              return element
+            }}
             renderArrow={(direction) => direction === 'left'
               ? <FontAwesome name={"arrow-left"} color={theme.colors.calendarArrowColor} size={20} />
               : <FontAwesome name={"arrow-right"} color={theme.colors.calendarArrowColor} size={20} />}
@@ -129,7 +168,7 @@ const MyCalendar = ({ navigation }) => {
             style={styles.calendar}
             onDayPress={(day) => {
               const param = day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
-              loadMoment(param)
+              loadMoment(param, selectTag)
             }}
             markedDates={markedDates}
           />
