@@ -18,9 +18,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { PreferencesContext } from "./MyPreferencesContext";
 import dayjs from "dayjs";
 import { Chip, FAB } from "react-native-paper";
-import { SelectList } from "react-native-dropdown-select-list";
 import storage, { getTagsByStroage, getTodayTagByStroage, statisticsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
+import MyModalPicker from "./compoment/MyModalPicker";
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -59,18 +59,7 @@ const MyHomePage = ({ navigation }) => {
     useEffect(() => {
         //加载tag数据
         const tagSaved = getTagsByStroage()
-        let res = []
-        let i = 0
-        tagSaved.forEach(e => {
-            let temp = {}
-            temp['key'] = i
-            temp['value'] = e[0]
-            res.push(temp)
-
-            i = i + 1
-        })
-        setTags(res)
-
+        setTags(tagSaved.map(e => e[0]))
         //加载todayTag
         setTodayTags(getTodayTagByStroage())
     }, [])
@@ -229,27 +218,15 @@ const MyHomePage = ({ navigation }) => {
                                             marginLeft: -20,
                                         }}
                                     />
-                                    <SelectList
-                                        setSelected={(val) => {
+
+                                    <MyModalPicker
+                                        fontBgColor={theme.colors.bgColor}
+                                        fontColor={theme.colors.fontColor}
+                                        data={tags}
+                                        callback={(val) => {
                                             const res = statisticsByStroage(val)
                                             setData(res['res'])
                                         }}
-                                        data={tags}
-                                        dropdownStyles={{ width: 100, marginLeft: 20 }}
-                                        dropdownTextStyles={{ color: theme.colors.fontColor }}
-                                        disabledTextStyles={{ color: theme.colors.fontColor }}
-                                        save="value"
-                                        inputStyles={{ color: theme.colors.fontColor, width: 70 }}
-                                        arrowicon={
-                                            <MaterialCommunityIcons
-                                                color={theme.colors.iconColor}
-                                                name={"chevron-down"}
-                                                size={20} />
-                                        }
-                                        placeholder="选择tag"
-                                        notFoundText="无标签"
-                                        search={false}
-                                        boxStyles={{ color: theme.colors.fontColor, borderWidth: 0 }}
                                     />
                                 </View>
                             </View>
