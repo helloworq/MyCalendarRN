@@ -52,7 +52,7 @@ const MyHomePage = ({ navigation }) => {
     const [refresing, setRefresing] = useState(false)
     const [data, setData] = useState({
         labels: ['今日', '本周', '本月', '本年'], // optional
-        data: [0.1, 0.5, 0.7, 0.6],
+        data: [0,0,0,0],
         colors: ['#4dff4d', 'blue', 'yellow', 'green']
     })
 
@@ -225,7 +225,7 @@ const MyHomePage = ({ navigation }) => {
                                         data={tags}
                                         callback={(val) => {
                                             const res = statisticsByStroage(val)
-                                            setData(res['res'])
+                                            setData(res['res'] ?? data)
                                         }}
                                     />
                                 </View>
