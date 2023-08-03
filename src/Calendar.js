@@ -2,17 +2,19 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Calendar } from 'react-native-calendars'
 import {
   View,
+  Button,
   ImageBackground,
   Image,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
 } from "react-native";
+import dayjs from 'dayjs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { PreferencesContext } from "./MyPreferencesContext";
 import { Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
-import storage,{ loadMomentByStroage, getMarkedDatesByStroage } from './storage/MhkvStroge';
+import storage, { loadMomentByStroage, getMarkedDatesByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 
 const MyCalendar = ({ navigation }) => {
@@ -117,11 +119,13 @@ const MyCalendar = ({ navigation }) => {
         style={styles.imageBg}>
         <ScrollView>
           <Calendar
+            //renderHeader={(date) => <Text>{dayjs(date).format('YYYY-MM-DD')}</Text>}
             renderArrow={(direction) => direction === 'left'
               ? <FontAwesome name={"arrow-left"} color={theme.colors.calendarArrowColor} size={20} />
               : <FontAwesome name={"arrow-right"} color={theme.colors.calendarArrowColor} size={20} />}
             monthFormat={'yyyy / MM / dd'}
             theme={styles.calendarTheme}
+            hideExtraDays={true}
             style={styles.calendar}
             onDayPress={(day) => {
               const param = day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
