@@ -1,24 +1,23 @@
-import React, { PureComponent, useEffect, useRef, useState } from "react";
-import { AppRegistry, StyleSheet, StatusBar, View, Text, TouchableOpacity, Animated } from "react-native";
-import { GameEngine } from "react-native-game-engine";
-import { Finger } from "./renderers";
-import { MoveFinger } from "./systems"
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
+import Pocker from "./Poker";
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+
+const pokers = [
+  "10_of_clubs", "10_of_diamonds", "10_of_hearts", "10_of_spades", "2_of_clubs", "2_of_diamonds",
+  "2_of_hearts", "2_of_spades", "3_of_clubs", "3_of_diamonds", "3_of_hearts", "3_of_spades",
+  "4_of_clubs", "4_of_diamonds", "4_of_hearts", "4_of_spades", "5_of_clubs", "5_of_diamonds",
+  "5_of_hearts", "5_of_spades", "6_of_clubs", "6_of_diamonds", "6_of_hearts", "6_of_spades",
+  "7_of_clubs", "7_of_diamonds", "7_of_hearts", "7_of_spades", "8_of_clubs", "8_of_diamonds",
+  "8_of_hearts", "8_of_spades", "9_of_clubs", "9_of_diamonds", "9_of_hearts", "9_of_spades",
+  "ace_of_clubs", "ace_of_diamonds", "ace_of_hearts", "ace_of_spades", "backface", "black_joker",
+  "jack_of_clubs", "jack_of_diamonds", "jack_of_hearts", "jack_of_spades", "king_of_clubs", "king_of_diamonds",
+  "king_of_hearts", "king_of_spades", "queen_of_clubs", "queen_of_diamonds", "queen_of_hearts",
+  "queen_of_spades", "red_joker",
+]
 
 const BestGameEver = () => {
   const engine = useRef(null)
-  const [icon, setIcon] = useState('bicycle')
-  const turnOver = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.timing(
-      turnOver,
-      {
-        toValue: -1,
-        duration: 1000,
-      }
-    ).start((r) => setIcon('car'))
-  }, [turnOver])
 
   // {rotateX: '180deg'}, //horizontally
   // {rotateY: '180deg'} //vertically
@@ -26,90 +25,26 @@ const BestGameEver = () => {
   // {scaleY: -1} //vertically
 
   return (<>
-    <FontAwesome name={"bicycle"} size={50} />
-
-    <View style={{ alignItems: 'center' }}>
-      <Animated.View style={{
-        transform: [
-          { scaleX: turnOver },
-        ]
-      }}>
-        <FontAwesome name={icon} size={50} />
-      </Animated.View>
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+      </View>
+      <View style={{ flex: 5 }}></View>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+        <Pocker poker={pokers[Math.floor(Math.random() * pokers.length)]} />
+      </View>
     </View>
-
-    <FontAwesome name={"bicycle"} size={50} style={{
-      transform: [
-        { scaleY: -1 },
-      ]
-    }} />
-
-    <FontAwesome name={"bicycle"} size={50} style={{
-      transform: [
-        { rotateX: '180deg' },
-      ]
-    }} />
-
-    <FontAwesome name={"bicycle"} size={50} style={{
-      transform: [
-        { rotateY: '180deg' },
-      ]
-    }} />
-
-    {/* <View style={styles.controlContainer}>
-      <View style={styles.controllerRow}>
-        <TouchableOpacity onPress={() => { engine.current.dispatch('move-up') }}>
-          <View style={styles.controlBtn} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.controllerRow}>
-        <TouchableOpacity onPress={() => { engine.current.dispatch('move-left') }}>
-          <View style={styles.controlBtn} />
-        </TouchableOpacity>
-        <View style={[styles.controlBtn,]} />
-        <TouchableOpacity onPress={() => {engine.current.dispatch('move-right')  }}>
-          <View style={styles.controlBtn} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.controllerRow}>
-        <TouchableOpacity onPress={() => { engine.current.dispatch('move-down') }}  >
-          <View style={styles.controlBtn} />
-        </TouchableOpacity>
-      </View>
-    </View> */}
-
-
-
-    <StatusBar hidden={false} />
   </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF"
-  },
-  canvas: {
-    flex: 1,
-    backgroundColor: "#000000",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  controlContainer: {
-    marginTop: 10,
-  },
-  controllerRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  controlBtn: {
-    backgroundColor: "yellow",
-    width: 100,
-    height: 100,
-  },
-
-});
 
 export default BestGameEver
