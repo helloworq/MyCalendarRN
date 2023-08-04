@@ -18,7 +18,8 @@ import LayoutScrollHome from './src/utilCodeBlock/layout/LayoutScrollHome';
 import MyTheme from './src/utilCodeBlock/themes/MyTheme'
 import MyHomePage from './src/MyHomePage';
 import MyStroge from './src/utilCodeBlock/stroge/MyStroge';
-//import BestGameEver from './src/utilCodeBlock/game/indexs'
 import Root from './src/router/Root'
+import BestGameEver from './src/utilCodeBlock/game/MyGame/indexs';
+import AppMatterjs from './src/utilCodeBlock/game/gameMatterjs/indexs';
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => BestGameEver);
