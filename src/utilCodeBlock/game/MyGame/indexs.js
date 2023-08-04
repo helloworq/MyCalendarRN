@@ -1,68 +1,88 @@
-import React, { PureComponent } from "react";
-import { AppRegistry, StyleSheet, StatusBar, View, Text, TouchableOpacity } from "react-native";
+import React, { PureComponent, useEffect, useRef, useState } from "react";
+import { AppRegistry, StyleSheet, StatusBar, View, Text, TouchableOpacity, Animated } from "react-native";
 import { GameEngine } from "react-native-game-engine";
 import { Finger } from "./renderers";
 import { MoveFinger } from "./systems"
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-export default class BestGameEver extends PureComponent {
-  constructor() {
-    super();
-  }
+const BestGameEver = () => {
+  const engine = useRef(null)
+  const [icon, setIcon] = useState('bicycle')
+  const turnOver = useRef(new Animated.Value(0)).current;
 
-  render() {
-    return (<>
-      <GameEngine
-        style={styles.container}
-        systems={[MoveFinger]}
-        entities={{
-          0: { position: [40, 200], renderer: <Finger />, rotate: 0 }, //-- Notice that each entity has a unique id (required)
-          1: { position: [100, 200], renderer: <Finger />, rotate: Math.PI / 6 }, //-- and a renderer property (optional). If no renderer
-          2: { position: [160, 200], renderer: <Finger />, rotate: 2 * Math.PI / 6 }, //-- is supplied with the entity - it won't get displayed.
-          3: { position: [220, 200], renderer: <Finger />, rotate: 3 * Math.PI / 6 },
-          4: { position: [280, 200], renderer: <Finger />, rotate: 4 * Math.PI / 6 },
-          5: { position: [280, 200], renderer: <Finger />, rotate: 5 * Math.PI / 6 },
-          6: { position: [280, 200], renderer: <Finger />, rotate: 6 * Math.PI / 6 },
-          7: { position: [280, 200], renderer: <Finger />, rotate: 7 * Math.PI / 6 },
-          8: { position: [280, 200], renderer: <Finger />, rotate: 8 * Math.PI / 6 },
-          9: { position: [280, 200], renderer: <Finger />, rotate: 9 * Math.PI / 6 },
-          10: { position: [280, 200], renderer: <Finger />, rotate: 10 * Math.PI / 6 },
-          11: { position: [280, 200], renderer: <Finger />, rotate: 11 * Math.PI / 6 },
-          12: { position: [280, 200], renderer: <Finger />, rotate: 12 * Math.PI / 6 },
-          //13: { position: [320, 200], renderer: <GamepadController />, rotate: 12 * Math.PI / 6 },
-        }}
-        running={true}
-      >
-      </GameEngine>
+  useEffect(() => {
+    Animated.timing(
+      turnOver,
+      {
+        toValue: -1,
+        duration: 1000,
+      }
+    ).start((r) => setIcon('car'))
+  }, [turnOver])
 
+  // {rotateX: '180deg'}, //horizontally
+  // {rotateY: '180deg'} //vertically
+  // {scaleX: -1} //horizontally
+  // {scaleY: -1} //vertically
 
-      <View style={styles.controlContainer}>
-        <View style={styles.controllerRow}>
-          <TouchableOpacity onPress={() => { }}>
-            <View style={styles.controlBtn} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.controllerRow}>
-          <TouchableOpacity onPress={() => { }}>
-            <View style={styles.controlBtn} />
-          </TouchableOpacity>
-          <View style={[styles.controlBtn,]} />
-          <TouchableOpacity onPress={() => { }}>
-            <View style={styles.controlBtn} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.controllerRow}>
-          <TouchableOpacity onPress={() => { }}  >
-            <View style={styles.controlBtn} />
-          </TouchableOpacity>
-        </View>
+  return (<>
+    <FontAwesome name={"bicycle"} size={50} />
+
+    <View style={{ alignItems: 'center' }}>
+      <Animated.View style={{
+        transform: [
+          { scaleX: turnOver },
+        ]
+      }}>
+        <FontAwesome name={icon} size={50} />
+      </Animated.View>
+    </View>
+
+    <FontAwesome name={"bicycle"} size={50} style={{
+      transform: [
+        { scaleY: -1 },
+      ]
+    }} />
+
+    <FontAwesome name={"bicycle"} size={50} style={{
+      transform: [
+        { rotateX: '180deg' },
+      ]
+    }} />
+
+    <FontAwesome name={"bicycle"} size={50} style={{
+      transform: [
+        { rotateY: '180deg' },
+      ]
+    }} />
+
+    {/* <View style={styles.controlContainer}>
+      <View style={styles.controllerRow}>
+        <TouchableOpacity onPress={() => { engine.current.dispatch('move-up') }}>
+          <View style={styles.controlBtn} />
+        </TouchableOpacity>
       </View>
+      <View style={styles.controllerRow}>
+        <TouchableOpacity onPress={() => { engine.current.dispatch('move-left') }}>
+          <View style={styles.controlBtn} />
+        </TouchableOpacity>
+        <View style={[styles.controlBtn,]} />
+        <TouchableOpacity onPress={() => {engine.current.dispatch('move-right')  }}>
+          <View style={styles.controlBtn} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.controllerRow}>
+        <TouchableOpacity onPress={() => { engine.current.dispatch('move-down') }}  >
+          <View style={styles.controlBtn} />
+        </TouchableOpacity>
+      </View>
+    </View> */}
 
 
 
-      <StatusBar hidden={false} />
-    </>
-    );
-  }
+    <StatusBar hidden={false} />
+  </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -91,3 +111,5 @@ const styles = StyleSheet.create({
   },
 
 });
+
+export default BestGameEver
