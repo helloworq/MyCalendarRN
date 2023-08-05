@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { View, TouchableOpacity, Animated, Image, } from "react-native";
 import PokerList from "./PokerList";
 
-const Pocker = ({ poker }) => {
+const Pocker = ({ poker,onPress }) => {
     const defaultPoker = 'backface'
     const height = 90
     const width = 50
@@ -17,9 +17,10 @@ const Pocker = ({ poker }) => {
 
     return (
         <>
-            <View style={{ alignItems: 'center', backgroundColor: 'rgba(255,255,255,0)', height: height, width: width }}>
+            <View style={{ margin: 5, alignItems: 'center', backgroundColor: 'rgba(255,255,255,0)', height: height, width: width }}>
                 <TouchableOpacity
                     onPress={() => {
+                        onPress()
                         Animated.timing(
                             turnOver,
                             {
@@ -27,7 +28,6 @@ const Pocker = ({ poker }) => {
                                 duration: 1000,
                                 useNativeDriver: true
                             },
-
                         ).start((r) => { })
                     }}>
                     <Animated.View style={{
@@ -42,6 +42,7 @@ const Pocker = ({ poker }) => {
                                 height: height,
                                 width: width,
                             }}
+                            
                         />
                     </Animated.View>
                 </TouchableOpacity>
