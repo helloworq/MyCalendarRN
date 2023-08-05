@@ -89,6 +89,8 @@ const BestGameEver = () => {
   const [restPoker, setRestPoker] = useState(Object.keys(pokers))
   const [trun, setTurn] = useState({})
   const [winner, setWinner] = useState()
+  const [userAScores, setUserAScores] = useState(0)
+  const [userBScores, setUserBScores] = useState(0)
 
   function getPokers(pokerNameList) {
     return pokerNameList?.map(e =>
@@ -104,7 +106,6 @@ const BestGameEver = () => {
         //此处功能，检测是不是最后一张牌被翻开，如果是则进入judag判断输赢
         const objs = JSON.parse(JSON.stringify(Object.values(trun)))
         if (objs != null && objs != undefined && objs.length > 0) {
-          console.log("进入")
           let temp = {}
           for (let i of objs) {
             Object.assign(temp, i)
@@ -112,7 +113,6 @@ const BestGameEver = () => {
           const flags = Object.values(temp)
           const hasFront = flags.some(e => e === 0)
           if (!hasFront) {
-            console.log("***", trun)
             juageWinner(trun)
           }
         }
@@ -142,22 +142,27 @@ const BestGameEver = () => {
     let userAScore = Object.keys(data[userA]).map(e => pokers[e]['score'])
     let userBScore = Object.keys(data[userB]).map(e => pokers[e]['score'])
 
-    console.log(userA, userAScore)
-    console.log(userB, userBScore)
+    let resUserAScore = jdage(userAScore) ?? 0
+    let resUserBScore = jdage(userBScore) ?? 0
 
-    let resUserAScore = jdage(userAScore)
-    let resUserBScore = jdage(userBScore)
-    console.log(userA, userAScore, resUserAScore)
-    console.log(userB, userBScore, resUserBScore)
+    console.log("score => ", userAScore, userBScore)
+    console.log("score => ", resUserAScore, resUserBScore)
 
     if (resUserAScore === resUserBScore) {
       setWinner("平局")
+      setUserAScores(userAScores + 1)
+      setUserBScores(userBScores + 1)
     } else if (resUserAScore > resUserBScore) {
       setWinner("A 胜")
-    } else {
+      setUserAScores(userAScores + 1)
+    } else if (resUserAScore < resUserBScore) {
       setWinner("B 胜")
+      setUserBScores(userBScores + 1)
+    } else {
+      setWinner("平局")
+      setUserAScores(userAScores + 1)
+      setUserBScores(userBScores + 1)
     }
-
   }
 
   function jdage(data) {
@@ -194,7 +199,6 @@ const BestGameEver = () => {
     // for (let i = 0; i < 5; i++) {
     //   data.push(Math.floor(Math.random() * 9) + 1)//floor 从1-13，不取0
     // }
-    console.log(data)
     data.sort()
     //遇到大于等于10的就不计算处理,最多三张牌合成10可计入.
     //先去掉大于10的
@@ -214,7 +218,7 @@ const BestGameEver = () => {
           return res % 10
         }
       }
-      return ((noPlus10[0] + noPlus10[1])) % 10
+      return res % 10 === 0 ? 100 : res
     }
     if (noPlus10.length === 3) {
       if (noPlus10.reduce((a, b) => a + b) % 10 === 0) return 100
@@ -238,7 +242,6 @@ const BestGameEver = () => {
           removeFirst(noPlus10, left)
           removeFirst(noPlus10, right)
           const cal = noPlus10[0] + noPlus10[1]
-          console.log("nm", cal, noPlus10)
           if (cal % 10 === 0) {
             return 100
           } else {
@@ -268,7 +271,7 @@ const BestGameEver = () => {
       let newData = JSON.parse(JSON.stringify(noPlus10))
       const r = equalsV2(newData, ava2)
       if (r != null && r != undefined)
-        return r
+        return r[0]
       //五张都没10的情况，先判断有无3个能合成10的情况，如果这都没有则直接无牛
       for (let i = 0; i < ava3.length; i++) {
         const left = ava3[i][0]
@@ -370,24 +373,52 @@ const BestGameEver = () => {
       <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {pokerA}
       </View>
+
+
+
       <View style={{ flex: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-        <Button title="A发牌" onPress={() => {
-          dispatchPoker((pokers) => setPokerA(pokers), userA)
-        }} />
-        <Button title="B发牌" onPress={() => {
-          dispatchPoker((pokers) => setPokerB(pokers), userB)
-        }} />
-        <Button title="重置" onPress={() => {
-          setRestPoker(Object.keys(pokers))
-          console.log(">>>>>>>", jdage([1, 10, 10, 2, 8]))
-        }} />
-        <Text>{restPoker.length}</Text>
-        <Text>{winner}</Text>
+
+
+        <View style={{ flexDirection: 'column' }}>
+
+
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <Text>{winner}</Text>
+          </View>
+
+
+          <View style={{ flexDirection: 'row' }}>
+            <Text>积分: {userAScores}</Text>
+            <Button title="A发牌" onPress={() => {
+              dispatchPoker((pokers) => setPokerA(pokers), userA)
+            }} />
+            <Button title="重置" onPress={() => {
+              setRestPoker(Object.keys(pokers))
+              console.log(">>>>>>>", jdage([1, 3, 4, 6, 7]))
+            }} />
+            <Button title="B发牌" onPress={() => {
+              dispatchPoker((pokers) => setPokerB(pokers), userB)
+            }} />
+            <Text>积分: {userBScores}</Text>
+          </View>
+
+
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <Text>{restPoker.length}</Text>
+          </View>
+
+        </View>
+
+
+
       </View>
+
+
+
       <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {pokerB}
       </View>
-    </View>
+    </View >
   </>
   );
 }
