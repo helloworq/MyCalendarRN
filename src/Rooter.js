@@ -9,6 +9,7 @@ import MyAddTags from './MyAddTags';
 import { PreferencesContext } from './MyPreferencesContext';
 import MyHomePage from './MyHomePage';
 import storage from './storage/MhkvStroge';
+import BestGameEver from './MyGame/MyGame';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -96,6 +97,7 @@ const Rooter = () => {
                     <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false }} />
                     <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false }} />
                     <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false }} />
+                    <Stack.Screen name="BestGameEver" component={BestGameEver} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>

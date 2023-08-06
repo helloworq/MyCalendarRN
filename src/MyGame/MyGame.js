@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Animated, Button } from "react-native";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { View, Text, TouchableOpacity, Animated, Button, ImageBackground } from "react-native";
 import Pocker from "./Poker";
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-
+import ImgStroage from "../storage/ImgStroage";
+import storage from '../storage/MhkvStroge';
+import { PreferencesContext } from "../MyPreferencesContext";
 
 const BestGameEver = () => {
   //name score
@@ -63,23 +65,6 @@ const BestGameEver = () => {
     "queen_of_spades": { "score": 10 },
     "red_joker": { "score": 10 },
   }
-  //name score
-  // const pokers = [
-  //   "10_of_clubs", "10_of_diamonds", "10_of_hearts", "10_of_spades",
-  //   "2_of_clubs", "2_of_diamonds", "2_of_hearts", "2_of_spades",
-  //   "3_of_clubs", "3_of_diamonds", "3_of_hearts", "3_of_spades",
-  //   "4_of_clubs", "4_of_diamonds", "4_of_hearts", "4_of_spades",
-  //   "5_of_clubs", "5_of_diamonds", "5_of_hearts", "5_of_spades",
-  //   "6_of_clubs", "6_of_diamonds", "6_of_hearts", "6_of_spades",
-  //   "7_of_clubs", "7_of_diamonds", "7_of_hearts", "7_of_spades",
-  //   "8_of_clubs", "8_of_diamonds", "8_of_hearts", "8_of_spades",
-  //   "9_of_clubs", "9_of_diamonds", "9_of_hearts", "9_of_spades",
-  //   "ace_of_clubs", "ace_of_diamonds", "ace_of_hearts", "ace_of_spades",
-  //   "black_joker", "jack_of_clubs", "jack_of_diamonds",//"backface",
-  //   "jack_of_hearts", "jack_of_spades", "king_of_clubs", "king_of_diamonds",
-  //   "king_of_hearts", "king_of_spades", "queen_of_clubs", "queen_of_diamonds",
-  //   "queen_of_hearts", "queen_of_spades", "red_joker",
-  // ]
 
   const size = 5
   const userA = 'userA'
@@ -91,6 +76,8 @@ const BestGameEver = () => {
   const [winner, setWinner] = useState()
   const [userAScores, setUserAScores] = useState(0)
   const [userBScores, setUserBScores] = useState(0)
+  const bgImg = storage.getString('bgImg') ? 'a' : 'a'
+  const { mode, setMode, theme } = useContext(PreferencesContext)
 
   function getPokers(pokerNameList) {
     return pokerNameList?.map(e =>
@@ -369,56 +356,46 @@ const BestGameEver = () => {
   }
 
   return (<>
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-        {pokerA}
-      </View>
-
-
-
-      <View style={{ flex: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-
-
-        <View style={{ flexDirection: 'column' }}>
-
-
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Text>{winner}</Text>
-          </View>
-
-
-          <View style={{ flexDirection: 'row' }}>
-            <Text>积分: {userAScores}</Text>
-            <Button title="A发牌" onPress={() => {
-              dispatchPoker((pokers) => setPokerA(pokers), userA)
-            }} />
-            <Button title="重置" onPress={() => {
-              setRestPoker(Object.keys(pokers))
-              console.log(">>>>>>>", jdage([1, 3, 4, 6, 7]))
-            }} />
-            <Button title="B发牌" onPress={() => {
-              dispatchPoker((pokers) => setPokerB(pokers), userB)
-            }} />
-            <Text>积分: {userBScores}</Text>
-          </View>
-
-
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Text>{restPoker.length}</Text>
-          </View>
-
+    <ImageBackground
+      source={ImgStroage[bgImg]}
+      resizeMode='stretch'
+      style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          {pokerA}
         </View>
-
-
-
-      </View>
-
-
-
-      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-        {pokerB}
-      </View>
-    </View >
+        <View style={{ flex: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'column' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Text style={{ color: theme.colors.fontColor }}>{winner}</Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ color: theme.colors.fontColor }}>积分: {userAScores}</Text>
+              <Button title="A发牌" onPress={() => {
+                dispatchPoker((pokers) => setPokerA(pokers), userA)
+              }} />
+              <Button title="重置" onPress={() => {
+                setRestPoker(Object.keys(pokers))
+                //console.log(">>>>>>>", jdage([1, 3, 4, 6, 7]))
+                // console.log(">>>>>",trun)
+                // console.log(">>>>>>",pokerA)
+                // console.log(">>>>>>",pokerB)
+              }} />
+              <Button title="B发牌" onPress={() => {
+                dispatchPoker((pokers) => setPokerB(pokers), userB)
+              }} />
+              <Text style={{ color: theme.colors.fontColor }}>积分: {userBScores}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Text style={{ color: theme.colors.fontColor }}>{restPoker.length}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          {pokerB}
+        </View>
+      </View >
+    </ImageBackground>
   </>
   );
 }

@@ -52,7 +52,7 @@ const MyHomePage = ({ navigation }) => {
     const [refresing, setRefresing] = useState(false)
     const [data, setData] = useState({
         labels: ['今日', '本周', '本月', '本年'], // optional
-        data: [0,0,0,0],
+        data: [0, 0, 0, 0],
         colors: ['#4dff4d', 'blue', 'yellow', 'green']
     })
 
@@ -181,7 +181,9 @@ const MyHomePage = ({ navigation }) => {
                                 <Text style={{ color: 'black', fontSize: 18 }}>{data?.name}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                                <Text style={{ color: 'black', fontSize: 18, marginRight: 10 }}>PK</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('BestGameEver')}>
+                                    <FontAwesome name={"gamepad"} size={18} color={theme.colors.fontColor} style={{ marginRight: 5 }} />
+                                </TouchableOpacity>
                                 <FontAwesome name={"circle"} size={18} color={data.status} />
                             </View>
                         </View>
@@ -238,7 +240,7 @@ const MyHomePage = ({ navigation }) => {
                                             <Text style={{ color: 'black', fontSize: 18 }}>昵称</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                                            <Text style={{ color: 'black', fontSize: 18, marginRight: 10 }}>状态</Text>
+                                            {/* <Text style={{ color: 'black', fontSize: 18, marginRight: 10 }}>状态</Text> */}
                                             <FontAwesome name={"refresh"} size={20} color={'black'}
                                                 onPress={() => {
                                                     var ws = new WebSocket('ws://10.0.2.2:8887');

@@ -21,4 +21,4 @@ import MyStroge from './src/utilCodeBlock/stroge/MyStroge';
 import Root from './src/router/Root'
 import BestGameEver from './src/MyGame/MyGame';
 
-AppRegistry.registerComponent(appName, () => BestGameEver);
+AppRegistry.registerComponent(appName, () => Rooter);
