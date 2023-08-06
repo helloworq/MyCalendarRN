@@ -181,9 +181,14 @@ const MyHomePage = ({ navigation }) => {
                                 <Text style={{ color: 'black', fontSize: 18 }}>{data?.name}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                                <TouchableOpacity onPress={() => { }}>
+                                    <MaterialCommunityIcons color={theme.colors.iconColor} name={"chat"} size={20} style={{ marginRight: 5 }} />
+                                </TouchableOpacity>
+
                                 <TouchableOpacity onPress={() => navigation.navigate('BestGameEver')}>
                                     <FontAwesome name={"gamepad"} size={18} color={theme.colors.fontColor} style={{ marginRight: 5 }} />
                                 </TouchableOpacity>
+
                                 <FontAwesome name={"circle"} size={18} color={data.status} />
                             </View>
                         </View>
@@ -241,31 +246,29 @@ const MyHomePage = ({ navigation }) => {
                                         </View>
                                         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                                             {/* <Text style={{ color: 'black', fontSize: 18, marginRight: 10 }}>状态</Text> */}
-                                            <FontAwesome name={"refresh"} size={20} color={'black'}
-                                                onPress={() => {
-                                                    var ws = new WebSocket('ws://10.0.2.2:8887');
+                                            <TouchableOpacity onPress={() => { }}>
+                                                <MaterialCommunityIcons color={theme.colors.iconColor} name={"chat"} size={20} style={{ marginRight: 5 }} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => {
+                                                var ws = new WebSocket('ws://10.0.2.2:8088/websocket');
+                                                ws.onopen = () => {
+                                                    ws.send("{\"something\":\"22\"}"); // send a message
+                                                };
+                                                ws.onmessage = (e) => {
+                                                    console.log(e.data);
+                                                };
+                                                ws.onerror = (e) => {
+                                                    // an error occurred
+                                                    console.log(e.message);
+                                                };
+                                                ws.onclose = (e) => {
+                                                    // connection closed
+                                                    console.log(e.code, e.reason);
+                                                };
+                                            }}>
+                                                <FontAwesome name={"refresh"} size={20} color={'black'} />
+                                            </TouchableOpacity>
 
-                                                    ws.onopen = () => {
-                                                        // connection opened
-                                                        ws.send('something'); // send a message
-                                                    };
-
-                                                    ws.onmessage = (e) => {
-                                                        // a message was received
-                                                        console.log(e.data);
-                                                    };
-
-                                                    ws.onerror = (e) => {
-                                                        // an error occurred
-                                                        console.log(e.message);
-                                                    };
-
-                                                    ws.onclose = (e) => {
-                                                        // connection closed
-                                                        console.log(e.code, e.reason);
-                                                    };
-                                                }}
-                                            />
                                         </View>
                                     </View>
 
