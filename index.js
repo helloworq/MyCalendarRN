@@ -20,5 +20,6 @@ import MyHomePage from './src/MyHomePage';
 import MyStroge from './src/utilCodeBlock/stroge/MyStroge';
 import Root from './src/router/Root'
 import BestGameEver from './src/MyGame/MyGame';
+import MyLogin from './src/login/MyLogin';
 
 AppRegistry.registerComponent(appName, () => Rooter);
