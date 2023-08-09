@@ -19,7 +19,8 @@ import MyTheme from './src/utilCodeBlock/themes/MyTheme'
 import MyHomePage from './src/MyHomePage';
 import MyStroge from './src/utilCodeBlock/stroge/MyStroge';
 import Root from './src/router/Root'
-import BestGameEver from './src/MyGame/MyGame';
+//import BestGameEver from './src/MyGame/MyGame';
 import MyLogin from './src/login/MyLogin';
+import BestGameEver from './src/utilCodeBlock/game/gameEngine/indexs'
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => BestGameEver);

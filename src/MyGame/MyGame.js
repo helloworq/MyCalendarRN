@@ -49,7 +49,7 @@ const BestGameEver = () => {
     "ace_of_diamonds": { "score": 1 },
     "ace_of_hearts": { "score": 1 },
     "ace_of_spades": { "score": 1 },
-    //"backface": { "score": 0 },
+    "backface": { "score": 0 },
     "black_joker": { "score": 10 },
     "jack_of_clubs": { "score": 10 },
     "jack_of_diamonds": { "score": 10 },
