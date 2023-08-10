@@ -3,13 +3,13 @@ import { StyleSheet, View, Image } from "react-native";
 
 const RADIUS = 20;
 
-const Finger = ({position, rotate}) => {
+const Player = ({position, rotate}) => {
   const x = position[0] - RADIUS / 2;
   const y = position[1] - RADIUS / 2;
   return (
     <Image
-      source={require('../../../../img/poker/red_joker.png')}
-      style={[styles.finger, { left: x, top: y, transform: [{ rotate: rotate }] }]}
+      source={require('../../../../img/a.jpg')}
+      style={[styles.player, { left: x, top: y, transform: [{ rotate: rotate }] }]}
       resizeMode={'stretch'}
     />
   );
@@ -17,7 +17,7 @@ const Finger = ({position, rotate}) => {
 }
 
 const styles = StyleSheet.create({
-  finger: {
+  player: {
     borderColor: "#fff",
     borderWidth: 0,
     //borderRadius: RADIUS * 2,
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Finger
+export default Player

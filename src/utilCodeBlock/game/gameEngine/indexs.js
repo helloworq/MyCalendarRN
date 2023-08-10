@@ -1,9 +1,9 @@
 import React, { PureComponent, useRef } from "react";
-import { AppRegistry, StyleSheet, StatusBar, View, Text, TouchableOpacity } from "react-native";
+import { AppRegistry, StyleSheet, StatusBar, View, } from "react-native";
 import { GameEngine } from "react-native-game-engine";
-import Finger from "./renderers";
-import { MoveFinger } from "./systems"
-import GamePadController from "./gamePadController"
+import Player from "./renderers";
+import { MovePlayer } from "./systems"
+import GamePadController from "./GamePadController";
 
 const BestGameEver = () => {
   const engine = useRef(null);
@@ -12,10 +12,10 @@ const BestGameEver = () => {
     <GameEngine
       ref={engine}
       style={styles.container}
-      systems={[MoveFinger]}
+      systems={[MovePlayer]}
       entities={{
-        0: { position: [40, 200], rotate: '90deg', renderer: <Finger />, }, //-- Notice that each entity has a unique id (required)
-        1: { position: [30, 650], rotate: '0deg', renderer: <GamePadController /> }
+        0: { position: [40, 200], rotate: '0deg', renderer: <Player />, going: false }, //-- Notice that each entity has a unique id (required)
+        //1: { position: [30, 650], rotate: '0deg', renderer: <MyGamePad /> }
         // 1: { position: [100, 200], renderer: <Finger />, rotate: Math.PI / 6 }, //-- and a renderer property (optional). If no renderer
         // 2: { position: [160, 200], renderer: <Finger />, rotate: 2 * Math.PI / 6 }, //-- is supplied with the entity - it won't get displayed.
         // 3: { position: [220, 200], renderer: <Finger />, rotate: 3 * Math.PI / 6 },
@@ -34,6 +34,9 @@ const BestGameEver = () => {
     >
     </GameEngine>
 
+    <View>
+      <GamePadController engine={engine} />
+    </View>
     {/* <View style={styles.controlContainer}>
       <View style={styles.controllerRow}>
         <TouchableOpacity onPress={() => engine.current.dispatch("move-up")}>

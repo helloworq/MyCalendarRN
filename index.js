@@ -22,5 +22,6 @@ import Root from './src/router/Root'
 //import BestGameEver from './src/MyGame/MyGame';
 import MyLogin from './src/login/MyLogin';
 import BestGameEver from './src/utilCodeBlock/game/gameEngine/indexs'
+import GamePadController from './src/utilCodeBlock/game/gameEngine/GamePadController';
 
 AppRegistry.registerComponent(appName, () => BestGameEver);
