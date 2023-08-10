@@ -24,4 +24,4 @@ import MyLogin from './src/login/MyLogin';
 import BestGameEver from './src/utilCodeBlock/game/gameEngine/indexs'
 import GamePadController from './src/utilCodeBlock/game/gameEngine/GamePadController';
 
-AppRegistry.registerComponent(appName, () => BestGameEver);
+AppRegistry.registerComponent(appName, () => Rooter);

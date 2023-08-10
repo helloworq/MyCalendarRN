@@ -1,5 +1,5 @@
 import React, { PureComponent, useRef } from "react";
-import {  View, } from "react-native";
+import { View, } from "react-native";
 
 const Bullet = ({ position }) => {
     const positionObj = position
@@ -9,7 +9,15 @@ const Bullet = ({ position }) => {
         const element = positionObj[e]
         const x = element['x']
         const y = element['y']
-        return <View style={{ width: 50, height: 50, left: x, top: y, backgroundColor: 'black' }}></View>
+        return <View style={{
+            width: 50,
+            height: 50,
+            left: x,
+            top: y,
+            position: 'absolute',
+            backgroundColor: 'black',
+            position: 'absolute'
+        }}></View>
     })
 
     return (
