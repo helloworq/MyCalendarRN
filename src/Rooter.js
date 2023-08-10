@@ -11,6 +11,7 @@ import MyHomePage from './MyHomePage';
 import storage from './storage/MhkvStroge';
 import BestGameEver from './MyGame/MyGame';
 import MyLogin from './login/MyLogin';
+import MyRegister from './login/MyRegister';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -94,6 +95,7 @@ const Rooter = () => {
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen name="MyLogin" component={MyLogin} options={{ headerShown: false }} />
+                    <Stack.Screen name="MyRegister" component={MyRegister} options={{ headerShown: false }} />
                     <Stack.Screen name="MyHomePage" component={MyHomePage} options={{ headerShown: false }} />
                     <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false }} />
                     <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false }} />

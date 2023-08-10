@@ -15,7 +15,7 @@ import storage from '../storage/MhkvStroge';
 import { PreferencesContext } from "../MyPreferencesContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const MyLogin = ({ navigation }) => {
+const MyRegister = ({ navigation }) => {
     const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
@@ -30,7 +30,7 @@ const MyLogin = ({ navigation }) => {
             >
                 <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <View>
-                        <Text style={{ color: theme.colors.fontColor, fontSize: 30, marginBottom: 10 }}>登录</Text>
+                        <Text style={{ color: theme.colors.fontColor, fontSize: 30, marginBottom: 10 }}>注册</Text>
                     </View>
                     <View style={{
                         marginBottom: 10,
@@ -61,16 +61,6 @@ const MyLogin = ({ navigation }) => {
                             value={password}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row' }}>
-                            <Text style={{
-                                flex: 1,
-                                color: theme.colors.fontColor,
-                                fontSize: 20,
-                                marginBottom: 10,
-                                alignItems: 'flex-end',
-                                justifyContent: 'flex-end',
-                            }} onPress={()=>{navigation.navigate('MyRegister')}}>注册</Text>
-                    </View>
                     <View>
                         <TouchableOpacity onPress={() => { navigation.navigate('MyHomePage') }}>
                             <MaterialCommunityIcons name={"login"} color={theme.colors.bgColor} size={50} />
@@ -82,4 +72,4 @@ const MyLogin = ({ navigation }) => {
     )
 }
 
-export default MyLogin
+export default MyRegister
