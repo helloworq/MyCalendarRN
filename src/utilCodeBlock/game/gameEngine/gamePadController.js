@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Animated, View, StyleSheet, PanResponder, Text } from "react-native";
+import { Animated, View, TouchableOpacity, PanResponder, Text } from "react-native";
 
 const width = 150
 const height = 150
@@ -44,30 +44,80 @@ const GamePadController = ({ engine }) => {
   ).current;
 
   return (
-    <View style={{
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: height,
-      width: width,
-      borderWidth: 10,
-      borderRadius: 100,
-      borderColor: 'black',
-      backgroundColor: 'white',
-    }}>
-      <Animated.View
-        style={{
-          transform: [{ translateX: pan.x }, { translateY: pan.y }]
-        }}
-        {...panResponder.panHandlers}
-      >
-        <View style={{
-          height: 30,
-          width: 30,
-          backgroundColor: 'black',
-          borderRadius: 50,
-          cursor: 'grab',
-        }} />
-      </Animated.View>
+    <View style={{ flexDirection: 'row' }}>
+      <View style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: height,
+        width: width,
+        borderWidth: 10,
+        borderRadius: 100,
+        borderColor: 'black',
+        backgroundColor: 'white',
+      }}>
+        <Animated.View
+          style={{
+            transform: [{ translateX: pan.x }, { translateY: pan.y }]
+          }}
+          {...panResponder.panHandlers}
+        >
+          <View style={{
+            height: 30,
+            width: 30,
+            backgroundColor: 'black',
+            borderRadius: 50,
+            cursor: 'grab',
+          }} />
+        </Animated.View>
+      </View>
+
+      <View style={{ flex: 1, flexDirection: 'column', alignItems: 'flex-end', marginRight: 10 }}>
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity>
+            <View style={{
+              height: 70,
+              width: 70,
+              backgroundColor: 'black',
+              borderRadius: 50,
+              cursor: 'grab',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-end'
+            }}></View>
+          </TouchableOpacity>
+          <View style={{
+            height: 70,
+            width: 70,
+            backgroundColor: 'white',
+            borderRadius: 50,
+            cursor: 'grab',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start'
+          }}></View>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{
+            height: 70,
+            width: 70,
+            backgroundColor: 'white',
+            borderRadius: 50,
+            cursor: 'grab',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-end'
+          }}></View>
+          <TouchableOpacity onPress={() => engine.current.dispatch({ "action": 'shoot', })}>
+            <View style={{
+              height: 70,
+              width: 70,
+              backgroundColor: 'black',
+              borderRadius: 50,
+              cursor: 'grab',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start'
+            }}></View>
+          </TouchableOpacity>
+        </View>
+
+      </View>
     </View>
   );
 }

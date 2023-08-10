@@ -1,12 +1,6 @@
 const MovePlayer = (entities, { touches, events, dispatch }) => {
 
-  //-- I'm choosing to update the game state (entities) directly for the sake of brevity and simplicity.
-  //-- There's nothing stopping you from treating the game state as immutable and returning a copy..
-  //-- Example: return { ...entities, t.id: { UPDATED COMPONENTS }};
-  //-- That said, it's probably worth considering performance implications in either case.
-  // touches.filter(t => t.type === "move").forEach(t => {
-
-  let player = entities[0]
+  let player = entities['player']
   if (player.going) {
     const deg = Number(player.rotate.slice(0, -3))
     player.position = [
@@ -15,11 +9,10 @@ const MovePlayer = (entities, { touches, events, dispatch }) => {
     ];
   }
 
-
   if (events.length) {
     //组件角度减去90°乘以-1为实际偏转角度
     //console.log(events)
-    let player = entities[0]
+    let player = entities['player']
     events.forEach((e) => {
       switch (e['action']) {
         case "move-player-rotate":
@@ -32,9 +25,8 @@ const MovePlayer = (entities, { touches, events, dispatch }) => {
             player.position[1] - 1 * Math.sin((deg - 90) * Math.PI / -180)
           ];
           return;
-        case "move-player": 
+        case "move-player":
           const going = e['going']
-          console.log(1111, going)
           player.going = going
           return
       }
