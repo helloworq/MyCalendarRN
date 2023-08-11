@@ -6,7 +6,7 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    StyleSheet,
+    ToastAndroid,
     Text,
     TextInput,
 } from "react-native";
@@ -14,12 +14,47 @@ import ImgStroage from "../storage/ImgStroage";
 import storage from '../storage/MhkvStroge';
 import { PreferencesContext } from "../MyPreferencesContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import RequestContant from '../constant/RequestContant';
 
 const MyRegister = ({ navigation }) => {
     const bgImg = storage.getString('bgImg') ? 'a' : 'a'
-    const [username, setUsername] = useState()
-    const [password, setPassword] = useState()
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
     const { mode, setMode, theme } = useContext(PreferencesContext)
+
+    async function register() {
+        if (username === '' || username === null || username === undefined
+            || password === '' || password === null || password === undefined) {
+            ToastAndroid.show('请输入用户名或者密码', ToastAndroid.SHORT);
+            return
+        }
+
+        await fetch(RequestContant.SERVER_ADDRESS + '/register', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then((r) => r.json())
+            .then((r) => {
+                const responseStatus = r['status']
+                const responseMsg = r['message']
+                const responseData = r['data']
+
+                if (responseStatus === RequestContant.RQEUEST_OK) {
+                    navigation.navigate('MyLogin')
+                    storage.set('token', responseData)
+                    ToastAndroid.show(responseMsg, ToastAndroid.SHORT);
+                } else if (responseStatus === RequestContant.RQEUEST_FAIL) {
+                    ToastAndroid.show(responseMsg, ToastAndroid.SHORT);
+                }
+            })
+            .catch((e) => console.log("e=>", e))
+    }
 
     return (
         <>
@@ -62,7 +97,7 @@ const MyRegister = ({ navigation }) => {
                         />
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => { navigation.navigate('MyHomePage') }}>
+                        <TouchableOpacity onPress={() => register()}>
                             <MaterialCommunityIcons name={"login"} color={theme.colors.bgColor} size={50} />
                         </TouchableOpacity>
                     </View>

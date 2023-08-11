@@ -18,12 +18,18 @@ import RequestContant from '../constant/RequestContant';
 
 const MyLogin = ({ navigation }) => {
     const bgImg = storage.getString('bgImg') ? 'a' : 'a'
-    const [username, setUsername] = useState()
-    const [password, setPassword] = useState()
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
     const { mode, setMode, theme } = useContext(PreferencesContext)
 
     async function login() {
-        await fetch('http://10.0.2.2:8080/login', {
+        if (username === '' || username === null || username === undefined
+            || password === '' || password === null || password === undefined) {
+            ToastAndroid.show('请输入用户名或者密码', ToastAndroid.SHORT);
+            return
+        }
+
+        await fetch(RequestContant.SERVER_ADDRESS + '/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
