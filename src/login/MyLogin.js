@@ -6,7 +6,7 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    StyleSheet,
+    ToastAndroid,
     Text,
     TextInput,
 } from "react-native";
@@ -14,12 +14,42 @@ import ImgStroage from "../storage/ImgStroage";
 import storage from '../storage/MhkvStroge';
 import { PreferencesContext } from "../MyPreferencesContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import RequestContant from '../constant/RequestContant';
 
 const MyLogin = ({ navigation }) => {
     const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const { mode, setMode, theme } = useContext(PreferencesContext)
+
+    async function login() {
+        await fetch('http://10.0.2.2:8080/login', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then((r) => r.json())
+            .then((r) => {
+                console.log(r)
+                const responseStatus = r['status']
+                const responseMsg = r['message']
+                const responseData = r['data']
+
+                if (responseStatus === RequestContant.RQEUEST_OK) {
+                    navigation.navigate('MyHomePage')
+                    storage.set('token', responseData)
+                    ToastAndroid.show(responseMsg, ToastAndroid.SHORT);
+                } else if (responseStatus === RequestContant.RQEUEST_FAIL) {
+                    ToastAndroid.show(responseMsg, ToastAndroid.SHORT);
+                }
+            })
+            .catch((e) => console.log("e=>", e))
+    }
 
     return (
         <>
@@ -62,17 +92,17 @@ const MyLogin = ({ navigation }) => {
                         />
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                            <Text style={{
-                                flex: 1,
-                                color: theme.colors.fontColor,
-                                fontSize: 20,
-                                marginBottom: 10,
-                                alignItems: 'flex-end',
-                                justifyContent: 'flex-end',
-                            }} onPress={()=>{navigation.navigate('MyRegister')}}>注册</Text>
+                        <Text style={{
+                            flex: 1,
+                            color: theme.colors.fontColor,
+                            fontSize: 20,
+                            marginBottom: 10,
+                            alignItems: 'flex-end',
+                            justifyContent: 'flex-end',
+                        }} onPress={() => { navigation.navigate('MyRegister') }}>注册</Text>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => { navigation.navigate('MyHomePage') }}>
+                        <TouchableOpacity onPress={() => login()}>
                             <MaterialCommunityIcons name={"login"} color={theme.colors.bgColor} size={50} />
                         </TouchableOpacity>
                     </View>
