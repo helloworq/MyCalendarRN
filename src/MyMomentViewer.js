@@ -3,7 +3,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
-import storage,{ deleteMoment } from './storage/MhkvStroge';
+import storage, { deleteMoment } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 
 import {
@@ -34,8 +34,7 @@ const keyExtractor = (item, index) => {
 
 const MyMomentViewer = ({ route, navigation }) => {
     const { param } = route.params
-    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
-    const { mode, setMode, theme } = useContext(PreferencesContext)
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
     const [text, onChangeText] = useState(param.description)
     const [data, setData] = useState(param)
     const [index, setIndex] = useState(0)
@@ -49,7 +48,7 @@ const MyMomentViewer = ({ route, navigation }) => {
             <Chip
                 icon={t[1]}
                 mode={t[2] ? 'flat' : 'outlined'}
-                textStyle={{color:theme.colors.fontColor,}}
+                textStyle={{ color: theme.colors.fontColor, }}
                 style={{
                     marginBottom: 10,
                     marginRight: 10,
@@ -92,7 +91,12 @@ const MyMomentViewer = ({ route, navigation }) => {
             <ImageBackground
                 source={ImgStroage[bgImg]}
                 resizeMode='stretch'
-                style={{ flex: 1, padding: 10, flexDirection: 'column', backgroundColor: theme.colors.totalOpacityBgColor }}>
+                style={{
+                    flex: 1,
+                    padding: 10,
+                    flexDirection: 'column',
+                    backgroundColor: theme.colors.totalOpacityBgColor
+                }}>
                 <View style={{
                     flexDirection: 'column',
                     flex: 1,
@@ -109,6 +113,7 @@ const MyMomentViewer = ({ route, navigation }) => {
                             marginBottom: 10,
                             borderRadius: 10,
                             backgroundColor: theme.colors.bgColor,
+                            elevation: 10,
                         }}
                     />
                     <View>
@@ -130,7 +135,7 @@ const MyMomentViewer = ({ route, navigation }) => {
                                     {param.date + ' ' + param.time}
                                 </Text>
                                 <FontAwesome onPress={() => {
-                                    deleteMoment(param.date,param.time)
+                                    deleteMoment(param.date, param.time)
                                     ToastAndroid.show('已删除，再次进入后将刷新', ToastAndroid.SHORT);
                                 }} name="trash" size={20} color={theme.colors.iconColor} />
                             </View>
@@ -151,7 +156,7 @@ const styles = StyleSheet.create({
         width: ImageWH,
         height: ImageWH * 0.8,
         marginTop: top,
-        marginLeft:5,
+        marginLeft: 5,
         // 文字内容居中对齐
         alignItems: 'center'
     },

@@ -11,8 +11,7 @@ const MyAddTags = () => {
     //text icon disable暂不提供自增tag的功能，因为缺少图标对应
     const [text, setText] = useState()
     const [data, setData] = useState([])
-    const { mode, setMode, theme } = useContext(PreferencesContext)
-    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
 
     useEffect(() => {
         const tags = getTagsByStroage()
@@ -24,12 +23,14 @@ const MyAddTags = () => {
             <Chip
                 key={t[0]}
                 icon={t[1]}
-                mode={t[2] ? 'flat' : 'outlined'}
+                mode={'flat'}
+                elevation={3}
                 style={{
-                    padding: 2,
+                    //padding: 2,
                     marginBottom: 10,
                     marginRight: 10,
-                    backgroundColor: theme.colors.bgColor
+                    //backgroundColor: theme.colors.bgColor,
+                    //elevation: 10,
                 }}
                 onPress={() => { }}
                 onLongPress={() => {
@@ -46,23 +47,29 @@ const MyAddTags = () => {
             <ImageBackground
                 source={ImgStroage[bgImg]}
                 resizeMode='stretch'
-                style={{ flex: 1, padding: 10, flexDirection: 'column', backgroundColor: theme.colors.totalOpacityBgColor }}>
+                style={{
+                    flex: 1,
+                    padding: 10,
+                    flexDirection: 'column',
+                    backgroundColor: theme.colors.totalOpacityBgColor
+                }}>
                 <ScrollView>
                     <View style={{
                         marginBottom: 10,
                         flexDirection: 'row',
-                        borderRadius: 10,
-                        backgroundColor: theme.colors.bgColor,
+                        borderRadius: 20,
+                        elevation:10,
+                        //backgroundColor: theme.colors.bgColor,
                     }}>
                         <TextInput
                             placeholder="新增tag  (长按tag可删除)"
-                            style={{ flex: 1 }}
-                            maxLength={20}
+                            style={{ flex: 1,  borderRadius: 10,padding:10 }}
+                            maxLength={400}
                             multiline={true}
                             onChangeText={text => setText(text)}
                             value={text}
                         />
-                        <MaterialIcons name={"add-circle"} color={theme.colors.bgColor} size={50}
+                        <MaterialIcons name={"add-circle"} color={theme.colors.iconColor} size={50}
                             onPress={() => {
                                 if (!data.some(e => e[0] === ('#' + text)) && text != '全部标签') {
                                     let maxIndex = 1;

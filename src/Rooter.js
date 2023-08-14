@@ -34,7 +34,7 @@ const Rooter = () => {
             fontColor: 'white',
 
             //moment
-            bgColor: 'rgba(30,60,60,1)',
+            bgColor: 'rgba(51,51,76,1)',
             totalOpacityBgColor: 'rgba(0,0,0,1)'
         },
     };
@@ -54,27 +54,7 @@ const Rooter = () => {
             fontColor: 'black',
 
             //moment
-            bgColor: 'rgba(255,255,255,1)',
-            totalOpacityBgColor: 'rgba(255,255,255,0)'
-        },
-    }
-
-    const lightWithImageMode = {
-        dark: false,
-        colors: {
-            //timeline
-            timelineBgColor: 'rgba(255,255,255,0.3)',
-            timelineCircleColor: '#bebebe',
-            timelineLineColor: '#bebebe',
-            timelineTimeBgColor: 'rgba(0,0,255,0.1)',
-
-            //HomePage
-            iconColor: 'black',
-            progressColor: 'rgba(255,255,255,0.3)',
-            fontColor: 'black',
-
-            //moment
-            bgColor: 'rgba(255,255,255,0.3)',
+            bgColor: 'rgba(255,255,255,0)',
             totalOpacityBgColor: 'rgba(255,255,255,0)'
         },
     }
@@ -82,18 +62,19 @@ const Rooter = () => {
     const modeMap = {
         'light': lightMode,
         'dark': darkMode,
-        'light-with-image': lightWithImageMode,//带背景图
     }
 
     let type = storage.getString('theme')
-    let bgImg = storage.getString('bgImg')
+
+    type = type === 'dark' ? 'dark' : 'light'
     //黑暗模式，则不管bgImg是否有，统一设置为纯黑背景
     //日间模式，则判断具体
     const [mode, setMode] = useState(type)
+    const [bgImg, setBgImg] = useState(storage.getString('bgImg'))
     let theme = modeMap[mode]
 
     return (
-        <PreferencesContext.Provider value={{ mode, setMode, theme, bgImg }}>
+        <PreferencesContext.Provider value={{ mode, setMode, theme, bgImg, setBgImg }}>
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen name="MyLogin" component={MyLogin} options={{ headerShown: false }} />

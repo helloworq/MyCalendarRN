@@ -5,8 +5,6 @@ import {
     TouchableOpacity,
     Text,
     ImageBackground,
-    Image,
-    Button,
     FlatList,
     StyleSheet,
     RefreshControl
@@ -33,9 +31,8 @@ const chartConfig = {
 }
 
 const MyHomePage = ({ navigation }) => {
-    const { mode, setMode, theme, bgImg } = useContext(PreferencesContext)
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
 
-    //const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const screenHeight = Dimensions.get("window").height - 20
     const screenWidth = Dimensions.get("window").width
     const split = 10;
@@ -62,10 +59,8 @@ const MyHomePage = ({ navigation }) => {
     useEffect(() => { setRefresh(!refresh) }, [isFocused]);
 
     useEffect(() => {
-        //加载tag数据
         const tagSaved = getTagsByStroage()
         setTags(tagSaved.map(e => e[0]))
-        //加载todayTag
         setTodayTags(getTodayTagByStroage())
     }, [])
 

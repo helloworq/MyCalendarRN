@@ -19,41 +19,44 @@ import ImgStroage from "./storage/ImgStroage";
 import MyModalPicker from "./compoment/MyModalPicker";
 
 const MyCalendar = ({ navigation }) => {
-  const { mode, setMode, theme } = useContext(PreferencesContext)
+  const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
   const [markedDates, setMarkedDates] = useState()
   const [tags, setTags] = useState([])
   const [selectTag, setSelectTag] = useState()
   const value = { selected: true, marked: true, selectedColor: '#66ff66' }
   const [data, setData] = useState()
-  const bgImg = storage.getString('bgImg') ? 'a' : 'a'
 
   const styles = StyleSheet.create({
     imageBg: {
-      flex: 1, padding: 10, backgroundColor: theme.colors.totalOpacityBgColor 
+      flex: 1,
+      backgroundColor: theme.colors.totalOpacityBgColor,
     },
     //calendar
     calendarTheme: {
       dayTextColor: theme.colors.fontColor,
       monthTextColor: theme.colors.fontColor,
-      calendarBackground: theme.colors.totalOpacityBgColor,
+      calendarBackground: theme.colors.bgColor,
       textSectionTitleColor: theme.colors.fontColor,
     },
     calendar: {
+      margin: 10,
+      shadowRadius: 20,
       borderRadius: 20,
-      padding: 10,
+      elevation: 10,
     },
 
     //timeline
     timeline: {
       flex: 1,
-      padding: 20,
-      marginTop: 10,
+      padding: 30,
+      margin: 10,
       flexDirection: 'row',
-      backgroundColor: theme.colors.timelineBgColor,
+      backgroundColor: theme.colors.bgColor,
       borderRadius: 20,
+      elevation: 10,
     },
     timelineInfo: {
-      flexDirection: 'row', marginRight: 50
+      flexDirection: 'row', marginRight: 50, elevation: 10,
     },
     timelineInfoText: {
       marginLeft: 10,
@@ -159,7 +162,6 @@ const MyCalendar = ({ navigation }) => {
             renderArrow={(direction) => direction === 'left'
               ? <FontAwesome name={"arrow-left"} color={theme.colors.fontColor} size={20} />
               : <FontAwesome name={"arrow-right"} color={theme.colors.fontColor} size={20} />}
-            monthFormat={'yyyy / MM / dd'}
             theme={styles.calendarTheme}
             hideExtraDays={true}
             style={styles.calendar}

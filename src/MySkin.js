@@ -3,6 +3,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
+    Dimensions,
     FlatList,
 } from "react-native";
 import ImgStroage from "./storage/ImgStroage";
@@ -11,8 +12,11 @@ import storage from './storage/MhkvStroge';
 import { PreferencesContext } from "./MyPreferencesContext";
 
 const MySkin = () => {
-    const imgWidth = 190
-    const { mode, setMode, theme, bgImg } = useContext(PreferencesContext)
+    const screenWidth = Dimensions.get("window").width
+    const marginLeft = 5
+
+    const imgWidth = (screenWidth - 10 * 3) / 2
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
     const [data, setData] = useState(Object.keys(ImgStroage))
     const [skin, setSkin] = useState(storage.getString('bgImg'))
 
@@ -28,12 +32,8 @@ const MySkin = () => {
                     <TouchableOpacity onPress={() => {
                         let current = rowData.item === skin ? '' : rowData.item
                         setSkin(current)
+                        setBgImg(current)
                         storage.set('bgImg', current)
-                        if (current === null || current === undefined || current === '') {
-                            storage.set('theme', 'light')
-                        } else {
-                            storage.set('theme', 'light-with-image')
-                        }
                     }}>
                         <View>
                             <ImageBackground
@@ -44,9 +44,6 @@ const MySkin = () => {
                                 style={{
                                     width: imgWidth,
                                     height: 16 / 9 * imgWidth,
-                                    padding: 10,
-                                    marginRight: 5,
-                                    marginLeft: 5,
                                     marginBottom: 5,
                                     marginTop: 5,
                                     justifyContent: 'center',
@@ -63,17 +60,24 @@ const MySkin = () => {
 
     return (
         <>
-            <View>
-                <View style={{ flexDirection: 'column', alignItems: 'center', padding: 5 }}>
-                    <FlatList
-                        renderItem={renderRow}
-                        data={data}
-                        keyExtractor={keyExtractor}
-                        numColumns={2}
-                        horizontal={false}
-                    />
-                </View>
-            </View>
+            <ImageBackground
+                source={ImgStroage[bgImg]}
+                resizeMode='stretch'
+                style={{
+                    flex: 1,
+                    padding: 10,
+                    flexDirection: 'column',
+                    backgroundColor: theme.colors.totalOpacityBgColor
+                }}>
+                <FlatList
+                    renderItem={renderRow}
+                    data={data}
+                    keyExtractor={keyExtractor}
+                    numColumns={2}
+                    horizontal={false}
+                    columnWrapperStyle={{ justifyContent: 'space-around' }}
+                />
+            </ImageBackground>
         </>
     )
 }

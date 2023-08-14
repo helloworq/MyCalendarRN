@@ -35,8 +35,7 @@ const keyExtractor = (item, index) => {
 
 const MyMomentUploader = ({ route, navigation }) => {
     const { datas } = route.params
-    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
-    const { mode, setMode, theme } = useContext(PreferencesContext)
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
     const [text, onChangeText] = useState()
     const [tags, setTags] = useState([{}])
     const [data, setData] = useState(datas)
