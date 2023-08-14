@@ -23,5 +23,7 @@ import Root from './src/router/Root'
 import MyLogin from './src/login/MyLogin';
 import BestGameEver from './src/utilCodeBlock/game/gameEngine/indexs'
 import GamePadController from './src/utilCodeBlock/game/gameEngine/GamePadController';
+import MyShadow from './src/utilCodeBlock/MyShadow';
+import MySkin from './src/MySkin';
 
 AppRegistry.registerComponent(appName, () => Rooter);

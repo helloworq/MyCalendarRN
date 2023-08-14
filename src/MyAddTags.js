@@ -46,7 +46,7 @@ const MyAddTags = () => {
             <ImageBackground
                 source={ImgStroage[bgImg]}
                 resizeMode='stretch'
-                style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
+                style={{ flex: 1, padding: 10, flexDirection: 'column', backgroundColor: theme.colors.totalOpacityBgColor }}>
                 <ScrollView>
                     <View style={{
                         marginBottom: 10,

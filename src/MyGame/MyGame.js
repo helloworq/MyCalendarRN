@@ -359,7 +359,7 @@ const BestGameEver = () => {
     <ImageBackground
       source={ImgStroage[bgImg]}
       resizeMode='stretch'
-      style={{ flex: 1, padding: 10, flexDirection: 'column' }}>
+      style={{ flex: 1, padding: 10, flexDirection: 'column', backgroundColor: theme.colors.totalOpacityBgColor }}>
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           {pokerA}

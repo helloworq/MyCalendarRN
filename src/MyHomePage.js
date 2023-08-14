@@ -21,6 +21,7 @@ import { Chip, FAB } from "react-native-paper";
 import storage, { getTagsByStroage, getTodayTagByStroage, statisticsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 import MyModalPicker from "./compoment/MyModalPicker";
+import { useIsFocused } from "@react-navigation/native";
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -32,9 +33,9 @@ const chartConfig = {
 }
 
 const MyHomePage = ({ navigation }) => {
-    const { mode, setMode, theme } = useContext(PreferencesContext)
+    const { mode, setMode, theme, bgImg } = useContext(PreferencesContext)
 
-    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
+    //const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const screenHeight = Dimensions.get("window").height - 20
     const screenWidth = Dimensions.get("window").width
     const split = 10;
@@ -45,6 +46,8 @@ const MyHomePage = ({ navigation }) => {
     const iconFontSize = 13
     const tinyIconSize = 18
     const tinyIconFontSize = 10
+    const isFocused = useIsFocused();
+    const [refresh, setRefresh] = useState(true)
 
     const year = dayjs().year();
     const [tags, setTags] = useState([])
@@ -55,6 +58,8 @@ const MyHomePage = ({ navigation }) => {
         data: [0, 0, 0, 0],
         colors: ['#4dff4d', 'blue', 'yellow', 'green']
     })
+
+    useEffect(() => { setRefresh(!refresh) }, [isFocused]);
 
     useEffect(() => {
         //加载tag数据
@@ -85,6 +90,7 @@ const MyHomePage = ({ navigation }) => {
 
     const styles = StyleSheet.create({
         progress: {
+            elevation: 10,
             borderRadius: borderRadius,
             width: fullBlockLength,
             flexDirection: 'column',
@@ -95,6 +101,7 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor,
         },
         info: {
+            elevation: 10,
             width: fullBlockLength,
             borderRadius: borderRadius,
             height: 250,
@@ -106,6 +113,7 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         photo: {
+            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength,
@@ -115,6 +123,7 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         camera: {
+            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength,
@@ -124,6 +133,7 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         night: {
+            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength,
@@ -133,6 +143,7 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         tag: {
+            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength / 2 - 5,
@@ -144,6 +155,7 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         calendar: {
+            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength / 2 - 5,
@@ -204,7 +216,7 @@ const MyHomePage = ({ navigation }) => {
                 <ImageBackground
                     source={ImgStroage[bgImg]}
                     resizeMode='stretch'
-                    style={{ flex: 1, }}
+                    style={{ flex: 1, backgroundColor: theme.colors.totalOpacityBgColor }}
                 >
 
                     <View style={{ height: screenHeight, flexDirection: 'column', }}>
@@ -298,7 +310,8 @@ const MyHomePage = ({ navigation }) => {
                                 marginLeft: split,
                                 marginRight: split,
                                 marginBottom: split,
-                                backgroundColor: theme.colors.bgColor
+                                backgroundColor: theme.colors.bgColor,
+                                elevation: 10,
                             }}>
                                 <View style={{ padding: 10, }}>
                                     <View style={{ flexDirection: 'column' }}>
@@ -426,6 +439,21 @@ const MyHomePage = ({ navigation }) => {
                                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                     <FontAwesome name={"calendar"} size={tinyIconSize} color={theme.colors.iconColor} />
                                                     <Text style={{ fontWeight: 'bold', fontSize: tinyIconFontSize, color: theme.colors.iconColor }}>日历</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity >
+                                </View>
+
+                                <View>
+                                    < TouchableOpacity onPress={() => {
+                                        navigation.navigate('MySkin')
+                                    }}>
+                                        <View style={styles.calendar}>
+                                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    <FontAwesome name={"calendar"} size={tinyIconSize} color={theme.colors.iconColor} />
+                                                    <Text style={{ fontWeight: 'bold', fontSize: tinyIconFontSize, color: theme.colors.iconColor }}>皮肤</Text>
                                                 </View>
                                             </View>
                                         </View>

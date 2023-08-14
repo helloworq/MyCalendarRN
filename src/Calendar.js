@@ -29,21 +29,18 @@ const MyCalendar = ({ navigation }) => {
 
   const styles = StyleSheet.create({
     imageBg: {
-      flex: 1, padding: 10
+      flex: 1, padding: 10, backgroundColor: theme.colors.totalOpacityBgColor 
     },
     //calendar
     calendarTheme: {
-      textDisabledColor: theme.colors.calendarDayDisableTextColor,
-      dayTextColor: theme.colors.calendarDayTextColor,
-      agendaDayTextColor: theme.colors.calendarAgendaDayTextColor,
-      monthTextColor: theme.colors.calendarMonthTextColor,
+      dayTextColor: theme.colors.fontColor,
+      monthTextColor: theme.colors.fontColor,
       calendarBackground: theme.colors.totalOpacityBgColor,
-      textSectionTitleColor: theme.colors.calendarWeekColor,
+      textSectionTitleColor: theme.colors.fontColor,
     },
     calendar: {
       borderRadius: 20,
       padding: 10,
-      backgroundColor: theme.colors.calendarBgColor
     },
 
     //timeline
@@ -60,7 +57,7 @@ const MyCalendar = ({ navigation }) => {
     },
     timelineInfoText: {
       marginLeft: 10,
-      color: theme.colors.timelineInfoTextColor
+      color: theme.colors.fontColor
     },
     timelineImg: {
       width: 50, height: 50,
@@ -68,7 +65,7 @@ const MyCalendar = ({ navigation }) => {
     timelineTime: {
       textAlign: 'center',
       backgroundColor: theme.colors.timelineTimeBgColor,
-      color: theme.colors.timelineTimeTextColor,
+      color: theme.colors.fontColor,
       padding: 5,
       borderRadius: 5,
     },
@@ -160,8 +157,8 @@ const MyCalendar = ({ navigation }) => {
               return element
             }}
             renderArrow={(direction) => direction === 'left'
-              ? <FontAwesome name={"arrow-left"} color={theme.colors.calendarArrowColor} size={20} />
-              : <FontAwesome name={"arrow-right"} color={theme.colors.calendarArrowColor} size={20} />}
+              ? <FontAwesome name={"arrow-left"} color={theme.colors.fontColor} size={20} />
+              : <FontAwesome name={"arrow-right"} color={theme.colors.fontColor} size={20} />}
             monthFormat={'yyyy / MM / dd'}
             theme={styles.calendarTheme}
             hideExtraDays={true}

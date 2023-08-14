@@ -62,7 +62,7 @@ const MyLogin = ({ navigation }) => {
             <ImageBackground
                 source={ImgStroage[bgImg]}
                 resizeMode='stretch'
-                style={{ flex: 1, padding: 10 }}
+                style={{ flex: 1, padding: 10, backgroundColor: theme.colors.totalOpacityBgColor }}
             >
                 <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <View>
@@ -108,7 +108,7 @@ const MyLogin = ({ navigation }) => {
                         }} onPress={() => { navigation.navigate('MyRegister') }}>注册</Text>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => login()}>
+                        <TouchableOpacity onPress={() =>navigation.navigate('MyHomePage') }>
                             <MaterialCommunityIcons name={"login"} color={theme.colors.bgColor} size={50} />
                         </TouchableOpacity>
                     </View>
