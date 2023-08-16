@@ -5,9 +5,9 @@ import {
     View,
     FlatList,
     TouchableOpacity,
-    Modal,
     Text,
 } from 'react-native'
+import Modal from "react-native-modal";
 
 const MyModalPicker = ({
     data,
@@ -41,15 +41,18 @@ const MyModalPicker = ({
             </TouchableOpacity>
 
             <Modal
-                animationType="fade"
+                style={{ flex: 1 }}
+                useNativeDriver={true}
+                animationIn='fadeInUp'
+                animationOut='fadeOutDown'
                 transparent={true}
-                visible={visible}
-                onRequestClose={() => {
-                    setVisible(false)
-                }}
+                backdropOpacity={0.1}
+                isVisible={visible}
+                onSwipeComplete={() => setVisible(false)}
+                onBackdropPress={() => setVisible(false)}
+                onBackButtonPress={() => setVisible(false)}
             >
                 <View style={{
-                    flex: 1,
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',

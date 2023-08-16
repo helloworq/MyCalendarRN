@@ -113,7 +113,6 @@ const MyMomentViewer = ({ route, navigation }) => {
                             marginBottom: 10,
                             borderRadius: 10,
                             backgroundColor: theme.colors.bgColor,
-                            elevation: 10,
                         }}
                     />
                     <View>

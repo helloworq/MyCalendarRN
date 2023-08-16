@@ -17,11 +17,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import RequestContant from '../constant/RequestContant';
 
 const MyRegister = ({ navigation }) => {
-    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const { mode, setMode, theme } = useContext(PreferencesContext)
-
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
+    
     async function register() {
         if (username === '' || username === null || username === undefined
             || password === '' || password === null || password === undefined) {

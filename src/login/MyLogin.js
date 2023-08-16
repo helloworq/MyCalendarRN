@@ -17,10 +17,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import RequestContant from '../constant/RequestContant';
 
 const MyLogin = ({ navigation }) => {
-    const bgImg = storage.getString('bgImg') ? 'a' : 'a'
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const { mode, setMode, theme } = useContext(PreferencesContext)
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
 
     async function login() {
         if (username === '' || username === null || username === undefined
@@ -109,7 +108,7 @@ const MyLogin = ({ navigation }) => {
                     </View>
                     <View>
                         <TouchableOpacity onPress={() =>navigation.navigate('MyHomePage') }>
-                            <MaterialCommunityIcons name={"login"} color={theme.colors.bgColor} size={50} />
+                            <MaterialCommunityIcons name={"login"} color={theme.colors.iconColor} size={50} />
                         </TouchableOpacity>
                     </View>
                 </View>

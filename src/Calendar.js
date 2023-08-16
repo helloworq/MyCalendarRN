@@ -42,7 +42,6 @@ const MyCalendar = ({ navigation }) => {
       margin: 10,
       shadowRadius: 20,
       borderRadius: 20,
-      elevation: 10,
     },
 
     //timeline
@@ -53,7 +52,6 @@ const MyCalendar = ({ navigation }) => {
       flexDirection: 'row',
       backgroundColor: theme.colors.bgColor,
       borderRadius: 20,
-      elevation: 10,
     },
     timelineInfo: {
       flexDirection: 'row', marginRight: 50, elevation: 10,

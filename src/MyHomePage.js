@@ -12,14 +12,17 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { ProgressChart } from 'react-native-chart-kit';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
 import dayjs from "dayjs";
-import { Chip, FAB } from "react-native-paper";
+import { Chip, FAB, Portal, PaperProvider } from "react-native-paper";
 import storage, { getTagsByStroage, getTodayTagByStroage, statisticsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 import MyModalPicker from "./compoment/MyModalPicker";
 import { useIsFocused } from "@react-navigation/native";
+import Modal from "react-native-modal";
 
 const chartConfig = {
     backgroundGradientFromOpacity: 0,
@@ -45,7 +48,8 @@ const MyHomePage = ({ navigation }) => {
     const tinyIconFontSize = 10
     const isFocused = useIsFocused();
     const [refresh, setRefresh] = useState(true)
-
+    const [open, setOpen] = useState(false);
+    const [visible, setVisible] = useState(false)
     const year = dayjs().year();
     const [tags, setTags] = useState([])
     const [todayTags, setTodayTags] = useState([])
@@ -85,7 +89,6 @@ const MyHomePage = ({ navigation }) => {
 
     const styles = StyleSheet.create({
         progress: {
-            elevation: 10,
             borderRadius: borderRadius,
             width: fullBlockLength,
             flexDirection: 'column',
@@ -96,7 +99,6 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor,
         },
         info: {
-            elevation: 10,
             width: fullBlockLength,
             borderRadius: borderRadius,
             height: 250,
@@ -306,7 +308,6 @@ const MyHomePage = ({ navigation }) => {
                                 marginRight: split,
                                 marginBottom: split,
                                 backgroundColor: theme.colors.bgColor,
-                                elevation: 10,
                             }}>
                                 <View style={{ padding: 10, }}>
                                     <View style={{ flexDirection: 'column' }}>
@@ -323,144 +324,127 @@ const MyHomePage = ({ navigation }) => {
                                 </View>
                             </View>
                         </View>
-                        {/* <FAB
-                            icon="plus"
-                            style={{
-                                position: 'absolute',
-                                margin: 16,
-                                left: 0,
-                                top: 0,
-                            }}
-                            onPress={() =>
-                                //console.log(storage.getString('moment'))
-                                //statisticsV2()
-                                //storage.delete(mo)
-                            }
-                        /> */}
-                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                < TouchableOpacity onPress={() => {
-                                    ImageCropPicker.openPicker({
-                                        multiple: true
-                                    }).then(images => {
-                                        navigation.navigate('MyMomentUploader', {
-                                            'datas': images
-                                        })
-                                    })
-                                }} >
-                                    <View style={styles.photo}>
-                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                            <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: iconFontSize, color: theme.colors.iconColor }}>相册</Text>
-                                            </View>
-                                            <View style={{ alignItems: 'center' }}>
-                                                <FontAwesome name={"photo"} size={iconSize} color={theme.colors.iconColor} />
-                                            </View>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity >
-                            </View>
 
-
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                < TouchableOpacity onPress={() => {
-                                    ImageCropPicker.openCamera({
-                                        width: Dimensions.get('window').width,
-                                        height: Dimensions.get('window').height,
-                                    }).then(images => {
-                                        images = Array.isArray(images) ? images : [images]
-                                        navigation.navigate('MyMomentUploader', {
-                                            'datas': images
-                                        })
-                                    })
-                                }}>
-                                    <View style={styles.camera}>
-                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                            <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: iconFontSize, color: theme.colors.iconColor }}>拍照</Text>
-                                            </View>
-                                            <View style={{ alignItems: 'center' }}>
-                                                <FontAwesome name={"camera"} size={iconSize} color={theme.colors.iconColor} />
-                                            </View>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity >
-                            </View>
-
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                < TouchableOpacity onPress={() => {
-                                    setMode(mode === 'dark' ? 'light' : 'dark')
-                                    storage.set('theme', mode === 'dark' ? 'light' : 'dark')
-                                }}>
-                                    <View style={styles.night}>
-                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                            <View style={{ alignItems: 'center' }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: iconFontSize, color: theme.colors.iconColor }}>夜间模式</Text>
-                                            </View>
-                                            <View style={{ alignItems: 'center' }}>
-                                                <MaterialCommunityIcons
-                                                    color={theme.colors.iconColor}
-                                                    name={"theme-light-dark"}
-                                                    size={iconSize}
-                                                />
-                                            </View>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity >
-                            </View>
-
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                <View>
-                                    < TouchableOpacity onPress={() => {
-                                        navigation.navigate('MyAddTags')
+                        <View style={{
+                            backgroundColor: theme.colors.bgColor,
+                            position: 'absolute',
+                            left: 30,
+                            bottom: 10,
+                            width: 350,
+                            height: 70,
+                            borderRadius: 50,
+                        }}>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around',  }}>
+                                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                    <TouchableOpacity onPress={()=>{
+                                         navigation.navigate('MyHomePage')
                                     }}>
-                                        <View style={styles.tag}>
-                                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                                    <FontAwesome name={"tags"} size={tinyIconSize} color={theme.colors.iconColor} />
-                                                    <Text style={{ fontWeight: 'bold', fontSize: tinyIconFontSize, color: theme.colors.iconColor }}>标签</Text>
-                                                </View>
-                                            </View>
+                                        <View>
+                                            <FontAwesome name="home" size={50} color={theme.colors.iconColor} />
                                         </View>
-                                    </TouchableOpacity >
+                                    </TouchableOpacity>
                                 </View>
-
-                                <View>
-                                    < TouchableOpacity onPress={() => {
-                                        navigation.navigate('Calendar')
+                                <View style={{
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                    <TouchableOpacity onPress={() => {
+                                        setVisible(!visible)
                                     }}>
-                                        <View style={styles.calendar}>
-                                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <FontAwesome name={"calendar"} size={tinyIconSize} color={theme.colors.iconColor} />
-                                                    <Text style={{ fontWeight: 'bold', fontSize: tinyIconFontSize, color: theme.colors.iconColor }}>日历</Text>
-                                                </View>
-                                            </View>
+                                        <View>
+                                            < MaterialIcons name="add-circle" size={50} color={theme.colors.iconColor} />
                                         </View>
-                                    </TouchableOpacity >
+                                        <Modal
+                                            backdropOpacity={0.1}
+                                            style={{ flex: 1 }}
+                                            useNativeDriver={true}
+                                            animationIn='fadeInUp'
+                                            animationOut='fadeOutDown'
+                                            isVisible={visible}
+                                            onSwipeComplete={() => setVisible(false)}
+                                            onBackdropPress={() => setVisible(false)}
+                                            onBackButtonPress={() => setVisible(false)}
+                                        >
+                                            <View style={{ flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
+                                                <TouchableOpacity onPress={() => {
+                                                    setVisible(!visible)
+                                                    navigation.navigate('MySkin')
+                                                }}>
+                                                    <View>
+                                                        < AntDesign name="skin" size={50} color="black" />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => {
+                                                    setVisible(!visible)
+                                                    ImageCropPicker.openPicker({
+                                                        multiple: true
+                                                    }).then(images => {
+                                                        navigation.navigate('MyMomentUploader', {
+                                                            'datas': images
+                                                        })
+                                                    })
+                                                }}>
+                                                    <View>
+                                                        < MaterialIcons name="photo" size={50} color="black" />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => {
+                                                    setVisible(!visible)
+                                                    ImageCropPicker.openCamera({
+                                                        width: Dimensions.get('window').width,
+                                                        height: Dimensions.get('window').height,
+                                                    }).then(images => {
+                                                        images = Array.isArray(images) ? images : [images]
+                                                        navigation.navigate('MyMomentUploader', {
+                                                            'datas': images
+                                                        })
+                                                    })
+                                                }}>
+                                                    <View>
+                                                        < MaterialIcons name="camera-alt" size={50} color="black" />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => {
+                                                    setVisible(!visible)
+                                                    setMode(mode === 'dark' ? 'light' : 'dark')
+                                                    storage.set('theme', mode === 'dark' ? 'light' : 'dark')
+                                                }}>
+                                                    <View >
+                                                        < MaterialCommunityIcons name="theme-light-dark" size={50} color="black" />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => {
+                                                    setVisible(!visible)
+                                                    navigation.navigate('MyAddTags')
+                                                }}>
+                                                    <View>
+                                                        < MaterialIcons name="tag" size={50} color="black" />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => {
+                                                    setVisible(!visible)
+                                                    navigation.navigate('Calendar')
+                                                }}>
+                                                    <View>
+                                                        < MaterialCommunityIcons name="calendar-month" size={50} color="black" />
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </Modal>
+                                    </TouchableOpacity>
                                 </View>
-
-                                <View>
-                                    < TouchableOpacity onPress={() => {
-                                        navigation.navigate('MySkin')
-                                    }}>
-                                        <View style={styles.calendar}>
-                                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <FontAwesome name={"calendar"} size={tinyIconSize} color={theme.colors.iconColor} />
-                                                    <Text style={{ fontWeight: 'bold', fontSize: tinyIconFontSize, color: theme.colors.iconColor }}>皮肤</Text>
-                                                </View>
-                                            </View>
+                                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                    <TouchableOpacity>
+                                        <View>
+                                            <FontAwesome name="user" size={50} color={theme.colors.iconColor} />
                                         </View>
-                                    </TouchableOpacity >
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
-
-
                     </View>
-
-                </ImageBackground>
+                </ImageBackground >
             </View >
         </>
     )
