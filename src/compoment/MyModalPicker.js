@@ -7,8 +7,6 @@ import {
     TouchableOpacity,
     Text,
 } from 'react-native'
-import Modal from "react-native-modal";
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 
 const MyModalPicker = ({
@@ -19,18 +17,19 @@ const MyModalPicker = ({
     style,
 }) => {
     const [visible, setVisible] = useState(false)
-    const [value, selectValue] = useState("标签")
+    const [value, selectValue] = useState("选择标签")
 
-    function renderItem() {
-        return data?.map(e =>
-            <MenuItem
-                textStyle={{ textAlign: 'center' }}
-                onPress={() => {
-                    setVisible(!visible)
-                    callback(e)
-                }}>
-                {e}
-            </MenuItem>
+    function renderItem(item) {
+        return (
+            <TouchableOpacity onPress={() => {
+                setVisible(!visible)
+                callback(item.item)
+                selectValue(item.item)
+            }}>
+                <View style={{ padding: 10 }}>
+                    <Text>{item.item}</Text>
+                </View>
+            </TouchableOpacity>
         )
     }
 
@@ -38,12 +37,18 @@ const MyModalPicker = ({
         <>
             <Menu
                 visible={visible}
-                style={{ backgroundColor: 'rgba(255,255,255,0.8)', borderRadius: 20 }}
-                anchor={<Text onPress={() => setVisible(!visible)}>选择标签</Text>}
+                style={{ backgroundColor: 'rgba(255,255,255,0.8)', borderRadius: 20, height: 300 }}
+                anchor={<Text onPress={() => setVisible(!visible)}>{value}</Text>}
                 onRequestClose={() => setVisible(!visible)}
             >
-                {renderItem()}
-            </Menu>
+                <FlatList
+                    renderItem={renderItem}
+                    data={data}
+                    keyExtractor={(item, index) => item.path + index}
+                    numColumns={1}
+                    horizontal={false}
+                />
+            </Menu >
         </>
     )
 }

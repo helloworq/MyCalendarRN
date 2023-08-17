@@ -3,7 +3,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import storage,{ uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
+import storage, { uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 
 import {
@@ -17,7 +17,8 @@ import {
     Modal,
     Button,
     ToastAndroid,
-    ImageBackground
+    ImageBackground,
+    ScrollView
 } from 'react-native'
 
 const screenW = Dimensions.get('window').width;
@@ -126,7 +127,7 @@ const MyMomentUploader = ({ route, navigation }) => {
                         }}
                     />
                 </View>
-                <View style={{ flex: 1 }}>
+                <ScrollView style={{ flex: 1, marginBottom: 20 }}>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                         {renderTag()}
                     </View>
@@ -137,7 +138,7 @@ const MyMomentUploader = ({ route, navigation }) => {
                         numColumns={cols}
                         horizontal={false}
                     />
-                </View>
+                </ScrollView>
                 <View>
                     <Button onPress={() => {
                         const _tags = Object.values(tags).filter((e) => e[2] === true)

@@ -7,7 +7,8 @@ import {
     ImageBackground,
     FlatList,
     StyleSheet,
-    RefreshControl
+    RefreshControl,
+    ScrollView
 } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { ProgressChart } from 'react-native-chart-kit';
@@ -301,7 +302,7 @@ const MyHomePage = ({ navigation }) => {
                             <View style={{
                                 width: fullBlockLength,
                                 borderRadius: borderRadius,
-                                height: 150,
+                                height: 200,
                                 flexDirection: 'column',
                                 backgroundColor: 'white',
                                 marginLeft: split,
@@ -310,17 +311,16 @@ const MyHomePage = ({ navigation }) => {
                                 backgroundColor: theme.colors.bgColor,
                             }}>
                                 <View style={{ padding: 10, }}>
-                                    <View style={{ flexDirection: 'column' }}>
-                                        <Text style={{
-                                            color: theme.colors.fontColor,
-                                            fontSize: 15,
-                                            fontWeight: 'bold',
-                                        }}>What You Have Done Today {dayjs().format('MM-DD')}</Text>
-                                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, marginLeft: 5 }}>
+                                    <Text style={{
+                                        color: theme.colors.fontColor,
+                                        fontSize: 15,
+                                        fontWeight: 'bold',
+                                    }}>What You Have Done Today {dayjs().format('MM-DD')}</Text>
+                                    <ScrollView style={{ flexDirection: 'column', height: 160, marginTop: 10 }}>
+                                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: 5 }}>
                                             {renderTag()}
                                         </View>
-                                    </View>
-
+                                    </ScrollView>
                                 </View>
                             </View>
                         </View>

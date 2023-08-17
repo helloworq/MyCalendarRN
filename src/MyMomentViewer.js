@@ -17,7 +17,8 @@ import {
     Modal,
     Text,
     ToastAndroid,
-    ImageBackground
+    ImageBackground,
+    ScrollView
 } from 'react-native'
 
 const screenW = Dimensions.get('window').width;
@@ -115,18 +116,20 @@ const MyMomentViewer = ({ route, navigation }) => {
                             backgroundColor: theme.colors.bgColor,
                         }}
                     />
-                    <View>
+                    <ScrollView>
                         <View>
                             <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                                 {renderTag()}
                             </View>
-                            <FlatList
-                                renderItem={renderRow}
-                                data={data.imageUrl}
-                                keyExtractor={keyExtractor}
-                                numColumns={cols}
-                                horizontal={false}
-                            />
+                            <View>
+                                <FlatList
+                                    renderItem={renderRow}
+                                    data={data.imageUrl}
+                                    keyExtractor={keyExtractor}
+                                    numColumns={cols}
+                                    horizontal={false}
+                                />
+                            </View>
                         </View>
                         <View style={{ marginTop: 10, marginRight: 10, alignItems: 'flex-end' }}>
                             <View style={{ flexDirection: 'row' }}>
@@ -140,7 +143,7 @@ const MyMomentViewer = ({ route, navigation }) => {
                             </View>
 
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
             </ImageBackground>
         </>
