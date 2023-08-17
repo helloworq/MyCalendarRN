@@ -8,6 +8,8 @@ import {
     Text,
 } from 'react-native'
 import Modal from "react-native-modal";
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 
 const MyModalPicker = ({
     data,
@@ -19,79 +21,29 @@ const MyModalPicker = ({
     const [visible, setVisible] = useState(false)
     const [value, selectValue] = useState("标签")
 
+    function renderItem() {
+        return data?.map(e =>
+            <MenuItem
+                textStyle={{ textAlign: 'center' }}
+                onPress={() => {
+                    setVisible(!visible)
+                    callback(e)
+                }}>
+                {e}
+            </MenuItem>
+        )
+    }
+
     return (
         <>
-            <TouchableOpacity onPress={() => {
-                setVisible(true)
-            }}>
-                <View style={[{
-                    flexDirection: 'row',
-                    width: 80,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }, style]}>
-                    <View>
-                        <Text style={{ fontSize: 15, color: fontColor }} >{value}</Text>
-                    </View>
-                    <View>
-                        <MaterialCommunityIcons name={"chevron-down"} size={25} />
-                    </View>
-                </View>
-
-            </TouchableOpacity>
-
-            <Modal
-                style={{ flex: 1 }}
-                useNativeDriver={true}
-                animationIn='fadeInUp'
-                animationOut='fadeOutDown'
-                transparent={true}
-                backdropOpacity={0.1}
-                isVisible={visible}
-                onSwipeComplete={() => setVisible(false)}
-                onBackdropPress={() => setVisible(false)}
-                onBackButtonPress={() => setVisible(false)}
+            <Menu
+                visible={visible}
+                style={{ backgroundColor: 'rgba(255,255,255,0.8)', borderRadius: 20 }}
+                anchor={<Text onPress={() => setVisible(!visible)}>选择标签</Text>}
+                onRequestClose={() => setVisible(!visible)}
             >
-                <View style={{
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    <View style={{
-                        alignItems: 'center',
-                        width: 200,
-                        height: 300,
-                        borderRadius: 20,
-                        backgroundColor: fontBgColor
-                    }}>
-                        <FlatList
-                            data={data}
-                            renderItem={(r) => {
-                                return (
-                                    <View style={{
-                                        borderRadius: 20,
-                                        backgroundColor: fontBgColor,
-                                        width: 180,
-                                        padding: 10,
-                                        margin: 10
-                                    }}>
-                                        <TouchableOpacity onPress={() => {
-                                            setVisible(false)
-                                            callback(r.item)
-                                            selectValue(r.item)
-                                        }}>
-                                            <Text style={{ color: fontColor, fontSize: 20, textAlign: 'center' }}>{r.item}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                )
-                            }}
-
-                            numColumns={1}
-                            horizontal={false}
-                        />
-                    </View>
-                </View>
-            </Modal>
+                {renderItem()}
+            </Menu>
         </>
     )
 }

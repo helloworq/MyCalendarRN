@@ -330,14 +330,14 @@ const MyHomePage = ({ navigation }) => {
                             position: 'absolute',
                             left: 30,
                             bottom: 10,
-                            width: 350,
+                            width: screenWidth - 2 * 30,
                             height: 70,
                             borderRadius: 50,
                         }}>
-                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around',  }}>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', }}>
                                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                    <TouchableOpacity onPress={()=>{
-                                         navigation.navigate('MyHomePage')
+                                    <TouchableOpacity onPress={() => {
+                                        navigation.navigate('MyHomePage')
                                     }}>
                                         <View>
                                             <FontAwesome name="home" size={50} color={theme.colors.iconColor} />
@@ -356,8 +356,9 @@ const MyHomePage = ({ navigation }) => {
                                             < MaterialIcons name="add-circle" size={50} color={theme.colors.iconColor} />
                                         </View>
                                         <Modal
-                                            backdropOpacity={0.1}
-                                            style={{ flex: 1 }}
+                                            //backdropOpacity={0.5}
+                                            backdropColor={theme.colors.bgColor}
+                                            style={{ height: 200 }}
                                             useNativeDriver={true}
                                             animationIn='fadeInUp'
                                             animationOut='fadeOutDown'
@@ -366,13 +367,14 @@ const MyHomePage = ({ navigation }) => {
                                             onBackdropPress={() => setVisible(false)}
                                             onBackButtonPress={() => setVisible(false)}
                                         >
-                                            <View style={{ flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center' }}>
+                                            <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                                                 <TouchableOpacity onPress={() => {
                                                     setVisible(!visible)
                                                     navigation.navigate('MySkin')
                                                 }}>
-                                                    <View>
+                                                    <View style={{ flexDirection: 'row' }}>
                                                         < AntDesign name="skin" size={50} color="black" />
+                                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>皮肤</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity onPress={() => {
@@ -385,8 +387,9 @@ const MyHomePage = ({ navigation }) => {
                                                         })
                                                     })
                                                 }}>
-                                                    <View>
+                                                    <View style={{ flexDirection: 'row' }}>
                                                         < MaterialIcons name="photo" size={50} color="black" />
+                                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>从相册选择</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity onPress={() => {
@@ -401,8 +404,9 @@ const MyHomePage = ({ navigation }) => {
                                                         })
                                                     })
                                                 }}>
-                                                    <View>
+                                                    <View style={{ flexDirection: 'row' }}>
                                                         < MaterialIcons name="camera-alt" size={50} color="black" />
+                                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>从相机记录</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity onPress={() => {
@@ -410,24 +414,27 @@ const MyHomePage = ({ navigation }) => {
                                                     setMode(mode === 'dark' ? 'light' : 'dark')
                                                     storage.set('theme', mode === 'dark' ? 'light' : 'dark')
                                                 }}>
-                                                    <View >
+                                                    <View style={{ flexDirection: 'row' }}>
                                                         < MaterialCommunityIcons name="theme-light-dark" size={50} color="black" />
+                                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>夜间模式</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity onPress={() => {
                                                     setVisible(!visible)
                                                     navigation.navigate('MyAddTags')
                                                 }}>
-                                                    <View>
+                                                    <View style={{ flexDirection: 'row' }}>
                                                         < MaterialIcons name="tag" size={50} color="black" />
+                                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>标签</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity onPress={() => {
                                                     setVisible(!visible)
                                                     navigation.navigate('Calendar')
                                                 }}>
-                                                    <View>
+                                                    <View style={{ flexDirection: 'row' }}>
                                                         < MaterialCommunityIcons name="calendar-month" size={50} color="black" />
+                                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>日历</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                             </View>

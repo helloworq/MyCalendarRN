@@ -35,13 +35,14 @@ const MyCalendar = ({ navigation }) => {
     calendarTheme: {
       dayTextColor: theme.colors.fontColor,
       monthTextColor: theme.colors.fontColor,
-      calendarBackground: theme.colors.bgColor,
+      calendarBackground: theme.colors.totalOpacityBgColor, //日期的背景色
       textSectionTitleColor: theme.colors.fontColor,
     },
     calendar: {
       margin: 10,
       shadowRadius: 20,
       borderRadius: 20,
+      backgroundColor:theme.colors.bgColor
     },
 
     //timeline
