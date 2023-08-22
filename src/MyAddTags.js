@@ -30,7 +30,6 @@ const MyAddTags = () => {
                     marginBottom: 10,
                     marginRight: 10,
                     //backgroundColor: theme.colors.bgColor,
-                    //elevation: 10,
                 }}
                 onPress={() => { }}
                 onLongPress={() => {

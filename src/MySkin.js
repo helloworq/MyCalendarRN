@@ -40,7 +40,6 @@ const MySkin = () => {
                                 source={ImgStroage[rowData.item]}
                                 borderRadius={10}
                                 resizeMode='stretch'
-                                elevation={10}
                                 style={{
                                     width: imgWidth,
                                     height: 16 / 9 * imgWidth,

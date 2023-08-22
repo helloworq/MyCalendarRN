@@ -98,7 +98,6 @@ const MyHomePage = ({ navigation }) => {
             marginRight: split,
             marginBottom: split,
             backgroundColor: theme.colors.bgColor,
-            elevation:3,
         },
         info: {
             width: fullBlockLength,
@@ -110,10 +109,8 @@ const MyHomePage = ({ navigation }) => {
             marginRight: split,
             marginBottom: split,
             backgroundColor: theme.colors.bgColor,
-            elevation:3
         },
         photo: {
-            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength,
@@ -123,7 +120,6 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         camera: {
-            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength,
@@ -133,7 +129,6 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         night: {
-            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength,
@@ -143,7 +138,6 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         tag: {
-            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength / 2 - 5,
@@ -155,7 +149,6 @@ const MyHomePage = ({ navigation }) => {
             backgroundColor: theme.colors.bgColor
         },
         calendar: {
-            elevation: 10,
             borderRadius: borderRadius,
             width: blockLength,
             height: blockLength / 2 - 5,
@@ -311,7 +304,6 @@ const MyHomePage = ({ navigation }) => {
                                 marginRight: split,
                                 marginBottom: split,
                                 backgroundColor: theme.colors.bgColor,
-                                elevation:3
                             }}>
                                 <View style={{ padding: 10, }}>
                                     <Text style={{

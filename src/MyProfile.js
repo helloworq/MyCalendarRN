@@ -48,7 +48,7 @@ const MyProfile = ({ navigation }) => {
                                 <View style={{
                                     padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
                                     justifyContent: 'center',
-                                }} elevation={2}>
+                                }}>
                                     <TouchableOpacity onPress={() => navigation.navigate('MySkin')}>
                                         <View style={{ flexDirection: 'row' }}>
                                             < AntDesign name="skin" size={100} color={theme.colors.iconColor} />
@@ -58,7 +58,7 @@ const MyProfile = ({ navigation }) => {
                                 <View style={{
                                     padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
                                     justifyContent: 'center',
-                                }} elevation={2}>
+                                }}>
                                     <TouchableOpacity onPress={() => {
                                         setMode(mode === 'dark' ? 'light' : 'dark')
                                         storage.set('theme', mode === 'dark' ? 'light' : 'dark')
@@ -71,7 +71,7 @@ const MyProfile = ({ navigation }) => {
                                 <View style={{
                                     padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
                                     justifyContent: 'center',
-                                }} elevation={2}>
+                                }}>
                                     <TouchableOpacity onPress={() => navigation.navigate('MyAddTags')}>
                                         <View style={{ flexDirection: 'row' }}>
                                             < MaterialIcons name="tag" size={100} color={theme.colors.iconColor} />
@@ -81,7 +81,7 @@ const MyProfile = ({ navigation }) => {
                                 <View style={{
                                     padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
                                     justifyContent: 'center',
-                                }} elevation={2}>
+                                }}>
                                     <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
                                         <View style={{ flexDirection: 'row' }}>
                                             < MaterialCommunityIcons name="calendar-month" size={100} color={theme.colors.iconColor} />

@@ -55,7 +55,7 @@ const MyCalendar = ({ navigation }) => {
       borderRadius: 20,
     },
     timelineInfo: {
-      flexDirection: 'row', marginRight: 50, elevation: 10,
+      flexDirection: 'row', marginRight: 50,
     },
     timelineInfoText: {
       marginLeft: 10,
