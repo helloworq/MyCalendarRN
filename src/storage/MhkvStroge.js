@@ -203,7 +203,7 @@ export function loadMomentByStroage(ymd, tag) {
     .filter(e => e['date'] === ymd)
     .filter(e => {
       if (tag != null && tag != undefined && tag != '' && tag != '#全部标签') {
-        console.log(tag,e['tags'],e['tags'].some(ele => ele[0] === tag))
+        //console.log(tag,e['tags'],e['tags'].some(ele => ele[0] === tag))
         if (e['tags'].some(ele => ele[0] === tag)) {
           return true 
         }

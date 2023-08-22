@@ -28,7 +28,7 @@ const MyRWMoment = () => {
 
 const tagsPath = RNFS.ExternalDirectoryPath + '/Extra/tags.txt'  
 const extraPath = tagsPath.slice(0,tagsPath.lastIndexOf('/'))
-console.log(extraPath)
+
 RNFS.exists(extraPath).then((r) => { console.log(r) })
 
 

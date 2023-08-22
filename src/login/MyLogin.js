@@ -40,7 +40,6 @@ const MyLogin = ({ navigation }) => {
             })
         }).then((r) => r.json())
             .then((r) => {
-                console.log(r)
                 const responseStatus = r['status']
                 const responseMsg = r['message']
                 const responseData = r['data']

@@ -42,19 +42,13 @@ const MyContritutionGraph = (data) => {
                 showOutOfRangeDays={false}
                 chartConfig={chartConfig}
                 onDayPress={(num, date) => {
-                    console.log(screenWidth)
-                    console.log(coefficient)
-                    console.log(num)
-                    console.log(Math.round(17.45))
                 }}
             />
             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 30 }}>
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-start' }}>
                     <FontAwesome onPress={() => {
-                        console.log('-------------')
                         const newValue = dayjs(current).subtract(7, 'day').toDate()
                         setCurrent(newValue)
-                        console.log('历史', newValue)
                     }} name="long-arrow-left" size={20} color="#110" />
                     <Text> 历史</Text>
                 </View>
@@ -63,10 +57,8 @@ const MyContritutionGraph = (data) => {
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text onPress={() => console.log(66)}>前进 </Text>
                         <FontAwesome onPress={() => {
-                            console.log('-------------')
                             const newValue = dayjs(current).add(7, 'day').toDate()
                             setCurrent(newValue)
-                            console.log('前进', newValue)
                         }} name="long-arrow-right" size={20} color="#110" />
                     </View>
                 </View>

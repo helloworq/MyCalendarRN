@@ -72,23 +72,23 @@ const Rooter = () => {
     const [bgImg, setBgImg] = useState(storage.getString('bgImg'))
     let theme = modeMap[mode]
 
-return (
-    <PreferencesContext.Provider value={{ mode, setMode, theme, bgImg, setBgImg }}>
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="MyLogin" component={MyLogin} options={{ headerShown: false }} />
-                <Stack.Screen name="MyRegister" component={MyRegister} options={{ headerShown: false }} />
-                <Stack.Screen name="MyHomePage" component={MyHomePage} options={{ headerShown: false }} />
-                <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false }} />
-                <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false }} />
-                <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false }} />
-                <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false }} />
-                <Stack.Screen name="BestGameEver" component={BestGameEver} options={{ headerShown: false }} />
-                <Stack.Screen name="MySkin" component={MySkin} options={{ headerShown: false }} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    </PreferencesContext.Provider>
-);
+    return (
+        <PreferencesContext.Provider value={{ mode, setMode, theme, bgImg, setBgImg }}>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen name="MyLogin" component={MyLogin} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="MyRegister" component={MyRegister} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="MyHomePage" component={MyHomePage} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="BestGameEver" component={BestGameEver} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="MySkin" component={MySkin} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </PreferencesContext.Provider>
+    );
 }
 
 export default Rooter

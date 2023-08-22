@@ -50,7 +50,6 @@ const MyStroge = () => {
                     expires: 1000 * 3600,
                 });
 
-                console.log('write ok', datas.length)
             }} />
             <Button title='读取' onPress={() => {
                 // 读取
