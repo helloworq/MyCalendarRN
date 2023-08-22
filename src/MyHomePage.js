@@ -18,7 +18,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
 import dayjs from "dayjs";
-import { Chip, FAB, Portal, PaperProvider } from "react-native-paper";
+import { Chip, FAB, Portal, PaperProvider, Surface } from "react-native-paper";
 import storage, { getTagsByStroage, getTodayTagByStroage, statisticsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 import MyModalPicker from "./compoment/MyModalPicker";
@@ -98,6 +98,7 @@ const MyHomePage = ({ navigation }) => {
             marginRight: split,
             marginBottom: split,
             backgroundColor: theme.colors.bgColor,
+            elevation:3,
         },
         info: {
             width: fullBlockLength,
@@ -108,7 +109,8 @@ const MyHomePage = ({ navigation }) => {
             marginLeft: split,
             marginRight: split,
             marginBottom: split,
-            backgroundColor: theme.colors.bgColor
+            backgroundColor: theme.colors.bgColor,
+            elevation:3
         },
         photo: {
             elevation: 10,
@@ -309,6 +311,7 @@ const MyHomePage = ({ navigation }) => {
                                 marginRight: split,
                                 marginBottom: split,
                                 backgroundColor: theme.colors.bgColor,
+                                elevation:3
                             }}>
                                 <View style={{ padding: 10, }}>
                                     <Text style={{
@@ -379,7 +382,7 @@ const MyHomePage = ({ navigation }) => {
                                                     })
                                                 }}>
                                                     <View style={{ flexDirection: 'row' }}>
-                                                        < MaterialIcons name="photo" size={50} color={theme.colors.iconColor}  />
+                                                        < MaterialIcons name="photo" size={50} color={theme.colors.iconColor} />
                                                         <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>从相册选择</Text>
                                                     </View>
                                                 </TouchableOpacity>
@@ -405,7 +408,7 @@ const MyHomePage = ({ navigation }) => {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                    <TouchableOpacity onPress={()=>navigation.navigate('MyProfile')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('MyProfile')}>
                                         <View>
                                             <FontAwesome name="user" size={50} color={theme.colors.iconColor} />
                                         </View>

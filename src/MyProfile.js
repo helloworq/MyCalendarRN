@@ -14,8 +14,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import ImgStroage from "./storage/ImgStroage";
-import storage, { getTagsByStroage, getTodayTagByStroage, statisticsByStroage } from './storage/MhkvStroge';
-import { BlurView } from "@react-native-community/blur";
+import storage from './storage/MhkvStroge';
 
 const MyProfile = ({ navigation }) => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
@@ -36,7 +35,7 @@ const MyProfile = ({ navigation }) => {
                         <Image resizeMode='stretch' source={require('../img/a.jpg')} style={{ width: 200, height: 200, borderRadius: 100 }} />
                         <Text style={{ color: theme.colors.fontColor, fontSize: 40 }}>李白</Text>
                     </View>
-                    
+
                     <View>
                         <FlatList
                             keyExtractor={(item, index) => {
@@ -46,33 +45,49 @@ const MyProfile = ({ navigation }) => {
                             horizontal={false}
                             columnWrapperStyle={{ justifyContent: 'space-evenly' }}
                             data={[
-                                <TouchableOpacity onPress={() => navigation.navigate('MySkin')}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        < AntDesign name="skin" size={50} color={theme.colors.iconColor} />
-                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>皮肤</Text>
-                                    </View>
-                                </TouchableOpacity>,
-                                <TouchableOpacity onPress={() => {
-                                    setMode(mode === 'dark' ? 'light' : 'dark')
-                                    storage.set('theme', mode === 'dark' ? 'light' : 'dark')
-                                }}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        < MaterialCommunityIcons name="theme-light-dark" size={50} color={theme.colors.iconColor} />
-                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>夜间</Text>
-                                    </View>
-                                </TouchableOpacity>,
-                                <TouchableOpacity onPress={() => navigation.navigate('MyAddTags')}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        < MaterialIcons name="tag" size={50} color={theme.colors.iconColor} />
-                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>标签</Text>
-                                    </View>
-                                </TouchableOpacity>,
-                                <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        < MaterialCommunityIcons name="calendar-month" size={50} color={theme.colors.iconColor} />
-                                        <Text style={{ fontSize: 30, color: theme.colors.fontColor }}>日历</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                <View style={{
+                                    padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
+                                    justifyContent: 'center',
+                                }} elevation={2}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('MySkin')}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            < AntDesign name="skin" size={100} color={theme.colors.iconColor} />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>,
+                                <View style={{
+                                    padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
+                                    justifyContent: 'center',
+                                }} elevation={2}>
+                                    <TouchableOpacity onPress={() => {
+                                        setMode(mode === 'dark' ? 'light' : 'dark')
+                                        storage.set('theme', mode === 'dark' ? 'light' : 'dark')
+                                    }}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            < MaterialCommunityIcons name="theme-light-dark" size={100} color={theme.colors.iconColor} />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>,
+                                <View style={{
+                                    padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
+                                    justifyContent: 'center',
+                                }} elevation={2}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('MyAddTags')}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            < MaterialIcons name="tag" size={100} color={theme.colors.iconColor} />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>,
+                                <View style={{
+                                    padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
+                                    justifyContent: 'center',
+                                }} elevation={2}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            < MaterialCommunityIcons name="calendar-month" size={100} color={theme.colors.iconColor} />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             ]}
                             renderItem={(item) => {
                                 return <View
