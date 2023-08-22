@@ -26,5 +26,6 @@ import GamePadController from './src/utilCodeBlock/game/gameEngine/GamePadContro
 import MyShadow from './src/utilCodeBlock/MyShadow';
 import MySkin from './src/MySkin';
 import MyProfile from './src/MyProfile';
+import MyLocation from './src/MyLocation';
 
 AppRegistry.registerComponent(appName, () => Rooter);

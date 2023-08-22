@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { PreferencesContext } from "./MyPreferencesContext";
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import ImgStroage from "./storage/ImgStroage";
@@ -85,6 +86,16 @@ const MyProfile = ({ navigation }) => {
                                     <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
                                         <View style={{ flexDirection: 'row' }}>
                                             < MaterialCommunityIcons name="calendar-month" size={100} color={theme.colors.iconColor} />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>,
+                                <View style={{
+                                    padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('MyLocation')}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            < FontAwesome name="location-arrow" size={100} color={theme.colors.iconColor} />
                                         </View>
                                     </TouchableOpacity>
                                 </View>
