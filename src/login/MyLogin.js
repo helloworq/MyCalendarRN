@@ -106,11 +106,18 @@ const MyLogin = ({ navigation }) => {
                         }} onPress={() => { navigation.navigate('MyRegister') }}>注册</Text>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() =>navigation.navigate('MyHomePage') }>
+                        <TouchableOpacity onPress={() => login()}>
                             <MaterialCommunityIcons name={"login"} color={theme.colors.iconColor} size={50} />
                         </TouchableOpacity>
                     </View>
                 </View>
+
+                <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('MyHomePage')}>
+                        <MaterialCommunityIcons name={'wifi-off'} size={50} />
+                    </TouchableOpacity>
+                </View>
+
             </ImageBackground>
         </>
     )

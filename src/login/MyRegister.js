@@ -97,7 +97,7 @@ const MyRegister = ({ navigation }) => {
                     </View>
                     <View>
                         <TouchableOpacity onPress={() => register()}>
-                            <MaterialCommunityIcons name={"login"} color={theme.colors.bgColor} size={50} />
+                            <MaterialCommunityIcons name={"login"} color={theme.colors.iconColor} size={50} />
                         </TouchableOpacity>
                     </View>
                 </View>
