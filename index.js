@@ -25,5 +25,6 @@ import BestGameEver from './src/utilCodeBlock/game/gameEngine/indexs'
 import GamePadController from './src/utilCodeBlock/game/gameEngine/GamePadController';
 import MyShadow from './src/utilCodeBlock/MyShadow';
 import MySkin from './src/MySkin';
+import MyProfile from './src/MyProfile';
 
 AppRegistry.registerComponent(appName, () => Rooter);

@@ -12,6 +12,7 @@ import BestGameEver from './MyGame/MyGame';
 import MyLogin from './login/MyLogin';
 import MyRegister from './login/MyRegister';
 import MySkin from './MySkin';
+import MyProfile from './MyProfile';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -85,6 +86,7 @@ const Rooter = () => {
                     <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false, animation: 'slide_from_right' }} />
                     <Stack.Screen name="BestGameEver" component={BestGameEver} options={{ headerShown: false, animation: 'slide_from_right' }} />
                     <Stack.Screen name="MySkin" component={MySkin} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name='MyProfile' component={MyProfile} options={{ headerShown: false, animation: 'slide_from_right' }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>
