@@ -58,7 +58,6 @@ const MyAddTags = () => {
                         marginBottom: 10,
                         flexDirection: 'row',
                         borderRadius: 20,
-                        elevation:10,
                         //backgroundColor: theme.colors.bgColor,
                     }}>
                         <TextInput
