@@ -1,16 +1,11 @@
 import RNLocation from 'react-native-location';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, } from 'react';
 import dayjs from 'dayjs';
 import {
   View,
   Button,
-  ImageBackground,
-  Image,
   Text,
-  TouchableOpacity,
   FlatList,
-  ScrollView,
-  StyleSheet,
 } from "react-native";
 
 RNLocation.configure({
@@ -39,7 +34,6 @@ const MyLocation = () => {
         horizontal={false}
         data={data}
         renderItem={(item) => {
-          console.log('sasaas', item)
           return <View
             style={{
             }}
@@ -67,21 +61,13 @@ const MyLocation = () => {
 
         RNLocation.getLatestLocation()
           .then(latestLocation => {
-            // Use the location here
-            console.log("das      ", data, latestLocation)
-
-
             let temp = {}
             temp['longitude'] = latestLocation.longitude
             temp['latitude'] = latestLocation.latitude
             temp['timestamp'] = latestLocation.timestamp
 
-
             let newData = data.concat(temp)
-            console.log("new=>", newData)
             setData(JSON.parse(JSON.stringify(newData)))
-
-
           })
       }} />
     </>

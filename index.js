@@ -27,5 +27,6 @@ import MyShadow from './src/utilCodeBlock/MyShadow';
 import MySkin from './src/MySkin';
 import MyProfile from './src/MyProfile';
 import MyLocation from './src/MyLocation';
+import MyMomentDetail from './src/MyMomentDetail';
 
 AppRegistry.registerComponent(appName, () => Rooter);

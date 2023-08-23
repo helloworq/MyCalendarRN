@@ -14,6 +14,8 @@ import MyRegister from './login/MyRegister';
 import MySkin from './MySkin';
 import MyProfile from './MyProfile';
 import MyLocation from './MyLocation';
+import MyMoment from './MyMoment';
+import MyMomentDetail from './MyMomentDetail';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -35,8 +37,9 @@ const Rooter = () => {
             fontColor: 'white',
 
             //moment
-            bgColor: 'rgba(51,51,76,1)',
-            totalOpacityBgColor: 'rgba(0,0,0,1)'
+            //bgColor: 'rgba(51,51,76,1)',
+            bgColor: 'rgba(0,0,0,1)',
+            totalOpacityBgColor: 'rgba(51,51,76,1)',
         },
     };
 
@@ -55,8 +58,9 @@ const Rooter = () => {
             fontColor: 'black',
 
             //moment
-            bgColor: 'rgba(163,163,194,0.3)',
-            totalOpacityBgColor: 'rgba(255,255,255,0)'
+            //bgColor: 'rgba(163,163,194,0.3)',
+            bgColor: 'rgba(255,255,255,1)',
+            totalOpacityBgColor: 'rgba(163,163,194,0.3)',
         },
     }
 
@@ -89,6 +93,8 @@ const Rooter = () => {
                     <Stack.Screen name="MySkin" component={MySkin} options={{ headerShown: false, animation: 'slide_from_right' }} />
                     <Stack.Screen name='MyProfile' component={MyProfile} options={{ headerShown: false, animation: 'slide_from_right' }} />
                     <Stack.Screen name='MyLocation' component={MyLocation} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name='MyMoment' component={MyMoment} options={{ headerShown: false, animation: 'slide_from_left' }} />
+                    <Stack.Screen name='MyMomentDetail' component={MyMomentDetail} options={{ headerShown: false, animation: 'slide_from_right' }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>

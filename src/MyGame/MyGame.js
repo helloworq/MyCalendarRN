@@ -76,8 +76,8 @@ const BestGameEver = () => {
   const [winner, setWinner] = useState()
   const [userAScores, setUserAScores] = useState(0)
   const [userBScores, setUserBScores] = useState(0)
-  const bgImg = storage.getString('bgImg') ? 'a' : 'a'
-  const { mode, setMode, theme } = useContext(PreferencesContext)
+  //const bgImg = storage.getString('bgImg') ? 'a' : 'a'
+  const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
 
   function getPokers(pokerNameList) {
     return pokerNameList?.map(e =>

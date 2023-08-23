@@ -332,10 +332,10 @@ const MyHomePage = ({ navigation }) => {
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', }}>
                                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                     <TouchableOpacity onPress={() => {
-                                        navigation.navigate('MyHomePage')
+                                        navigation.navigate('MyMoment')
                                     }}>
                                         <View>
-                                            <FontAwesome name="home" size={50} color={theme.colors.iconColor} />
+                                            <MaterialIcons name="camera" size={50} color={theme.colors.iconColor} />
                                         </View>
                                     </TouchableOpacity>
                                 </View>
