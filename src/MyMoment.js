@@ -129,18 +129,18 @@ const MyMoment = ({ navigation }) => {
                                 }}>
                                     <View style={{ flexDirection: 'row', width: imgWidth / 2 }}>
                                         <Image source={item.item.img} style={{
-                                            width: 30,
-                                            height: 30,
-                                            borderRadius: 15,
+                                            width: 24,
+                                            height: 24,
+                                            borderRadius: 12,
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                         }} />
-                                        <Text numberOfLines={1} style={{ color: 'black', fontSize: 18, marginLeft: 5 }}>{item.item.author}</Text>
+                                        <Text numberOfLines={1} style={{ color: 'black', fontSize: 15, marginLeft: 5 }}>{item.item.author}</Text>
                                     </View>
 
-                                    <View style={{ flexDirection: 'row', marginRight: 10, width: imgWidth / 3 }}>
-                                        <MaterialCommunityIcons name={'cards-heart-outline'} size={30} />
-                                        <Text numberOfLines={1} style={{ color: 'black', fontSize: 18 }}>{item.item.like}</Text>
+                                    <View style={{ flexDirection: 'row', marginRight: 10, width: imgWidth / 3, marginRight: 20 }}>
+                                        <MaterialCommunityIcons name={'cards-heart-outline'} size={24} />
+                                        <Text numberOfLines={1} style={{ color: 'black', fontSize: 18, }}>{item.item.like}</Text>
                                     </View>
                                 </View>
                             </View>

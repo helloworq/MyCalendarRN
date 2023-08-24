@@ -34,7 +34,7 @@ const MyMomentDetail = () => {
 
     function _renderItem(item, index) {
         return (
-            <View>
+            <View style={{ alignItems: 'center', justifyContent: "center", marginTop: 10 }}>
                 <Image resizeMode='stretch' source={item.item.img} style={{ width: screenWidth - 50, height: width, borderRadius: 20 }} />
                 <Text>{item.title}</Text>
             </View>
@@ -49,9 +49,9 @@ const MyMomentDetail = () => {
                     data={data}
                     renderItem={_renderItem}
                     sliderWidth={screenWidth}
-                    itemWidth={screenWidth - 50}
+                    itemWidth={screenWidth}
                     hasParallaxImages={true}
-                    inactiveSlideScale={0.5}
+                    inactiveSlideScale={1}
                     inactiveSlideOpacity={0.7}
                     loop={true}
                     onSnapToItem={(index) => setActiveIndex(index)}
