@@ -28,5 +28,6 @@ import MySkin from './src/MySkin';
 import MyProfile from './src/MyProfile';
 import MyLocation from './src/MyLocation';
 import MyMomentDetail from './src/MyMomentDetail';
+import MyAnimation from './src/utilCodeBlock/animation/MyAnimation';
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyAnimation);
