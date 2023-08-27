@@ -1,4 +1,4 @@
-import RNLocation from 'react-native-location';
+//import RNLocation from 'react-native-location';
 import React, { useState, useEffect, useContext } from 'react';
 import dayjs from 'dayjs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'

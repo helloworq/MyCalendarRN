@@ -22,12 +22,12 @@ import Root from './src/router/Root'
 //import BestGameEver from './src/MyGame/MyGame';
 import MyLogin from './src/login/MyLogin';
 import BestGameEver from './src/utilCodeBlock/game/gameEngine/indexs'
-import GamePadController from './src/utilCodeBlock/game/gameEngine/GamePadController';
+//import GamePadController from './src/utilCodeBlock/game/gameEngine/GamePadController';
 import MyShadow from './src/utilCodeBlock/MyShadow';
 import MySkin from './src/MySkin';
 import MyProfile from './src/MyProfile';
-import MyLocation from './src/MyLocation';
+//import MyLocation from './src/MyLocation';
 import MyMomentDetail from './src/MyMomentDetail';
 import MyAnimation from './src/utilCodeBlock/animation/MyAnimation';
 
-AppRegistry.registerComponent(appName, () => MyAnimation);
+AppRegistry.registerComponent(appName, () => Rooter);

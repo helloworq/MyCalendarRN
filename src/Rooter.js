@@ -13,7 +13,7 @@ import MyLogin from './login/MyLogin';
 import MyRegister from './login/MyRegister';
 import MySkin from './MySkin';
 import MyProfile from './MyProfile';
-import MyLocation from './MyLocation';
+//import MyLocation from './MyLocation';
 import MyMoment from './MyMoment';
 import MyMomentDetail from './MyMomentDetail';
 
@@ -94,7 +94,6 @@ const Rooter = () => {
                     <Stack.Screen name="BestGameEver" component={BestGameEver} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name="MySkin" component={MySkin} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyProfile' component={MyProfile} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
-                    <Stack.Screen name='MyLocation' component={MyLocation} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyMoment' component={MyMoment} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyMomentDetail' component={MyMomentDetail} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                 </Stack.Navigator>

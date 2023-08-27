@@ -163,9 +163,6 @@ dependencies {
     implementation("com.facebook.react:react-android")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
-
-    implementation project(':react-native-location')
-
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'
@@ -179,7 +176,7 @@ dependencies {
     }
 }
 project.ext.vectoricons = [
-    iconFontNames: [ 'MaterialCommunityIcons.ttf','Ionicons.ttf','FontAwesome.ttf','MaterialIcons.ttf', 'EvilIcons.ttf' ] // Name of the font files you want to copy
+    iconFontNames: [ 'AntDesign.ttf','MaterialCommunityIcons.ttf','Ionicons.ttf','FontAwesome.ttf','MaterialIcons.ttf', 'EvilIcons.ttf' ] // Name of the font files you want to copy
 ]
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
