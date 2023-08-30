@@ -13,16 +13,27 @@ import Video from 'react-native-video';
 import { PreferencesContext } from "./MyPreferencesContext";
 // At the top where our imports are...
 import VideoPlayer from 'react-native-media-console';
-//import VideoPlayer from "react-native-video-controls"
 import Orientation from 'react-native-orientation-locker';
+import RNFS from 'react-native-fs'
+import { FFmpegKit } from 'ffmpeg-kit-react-native';
+import { LogLevel, RNFFmpeg } from 'react-native-ffmpeg';
 
 const MyVideo = () => {
     const portraitHeight = 300
     const fullScreenHeight = '100%'
     const [isFullscreen, setIsFullScreen] = useState(false)
+    const videopath = '/千万别模仿.flv'
+
 
     return (
         <>
+            <Button title='Click Me' onPress={() => {
+                const path = RNFS.ExternalDirectoryPath
+                console.log(path)
+
+                FFmpegKit.execute(` -i ${path + videopath} -y -vcodec copy -acodec copy ${path + '/output.mp4'}`)
+
+            }} />
             <View style={{ flex: 1, }}>
                 <Button title='11' />
                 <VideoPlayer
