@@ -35,8 +35,10 @@
     "react-native-lightbox": "^0.8.1",
     "react-native-linear-gradient": "^2.7.3",
     "react-native-material-menu": "^2.0.0",
+    "react-native-media-console": "^2.0.7",
     "react-native-mmkv": "^2.10.1",
     "react-native-modal": "^13.0.1",
+    "react-native-orientation-locker": "github:pawlitos/react-native-orientation-locker",
     "react-native-paper": "^5.8.0",
     "react-native-popup-menu": "^0.16.1",
     "react-native-reanimated": "^3.4.2",
@@ -46,7 +48,9 @@
     "react-native-storage": "^1.0.1",
     "react-native-svg": "^13.9.0",
     "react-native-timeline-flatlist": "^0.8.0",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "react-native-video": "^5.2.1",
+    "react-native-video-controls": "^2.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

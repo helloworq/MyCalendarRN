@@ -29,5 +29,6 @@ import MyProfile from './src/MyProfile';
 //import MyLocation from './src/MyLocation';
 import MyMomentDetail from './src/MyMomentDetail';
 import MyAnimation from './src/utilCodeBlock/animation/MyAnimation';
+import MyVideo from './src/MyVideo';
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyVideo);
