@@ -30,5 +30,6 @@ import MyProfile from './src/MyProfile';
 import MyMomentDetail from './src/MyMomentDetail';
 import MyAnimation from './src/utilCodeBlock/animation/MyAnimation';
 import MyVideo from './src/MyVideo';
+import MyTab from './src/utilCodeBlock/layout/MyTab';
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyTab);
