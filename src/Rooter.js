@@ -16,6 +16,7 @@ import MyProfile from './MyProfile';
 //import MyLocation from './MyLocation';
 import MyMoment from './MyMoment';
 import MyMomentDetail from './MyMomentDetail';
+import MyVideo from './MyVideo';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -96,6 +97,7 @@ const Rooter = () => {
                     <Stack.Screen name='MyProfile' component={MyProfile} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyMoment' component={MyMoment} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyMomentDetail' component={MyMomentDetail} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyVideo' component={MyVideo} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>

@@ -31,4 +31,4 @@ import MyMomentDetail from './src/MyMomentDetail';
 import MyAnimation from './src/utilCodeBlock/animation/MyAnimation';
 import MyVideo from './src/MyVideo';
 
-AppRegistry.registerComponent(appName, () => MyVideo);
+AppRegistry.registerComponent(appName, () => Rooter);
