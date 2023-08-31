@@ -39,6 +39,8 @@ const MyVideo = () => {
                     source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
                     //isFullscreen={true}
                     //toggleResizeModeOnFullscreen={true}  //画面是否伸缩
+                    navigator={() => { }}
+                    onBack={() => { }}
                     pan={{ horizontal: false, inverted: true }}
                     onPlay={() => console.log('播放')}
                     onPause={() => {
@@ -81,7 +83,7 @@ const MyVideo = () => {
                     }).promise.then(e => {
                         console.log('done', e)
                         setProgress(1)
-                    }).catch(e=>console.log(e))
+                    }).catch(e => console.log(e))
 
 
                 }} />
