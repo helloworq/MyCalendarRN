@@ -89,6 +89,7 @@ const MyTab = () => {
                         marginLeft: 10,
                         marginBottom: 10,
                         borderRadius: 10,
+                        marginTop: 10,
                         height: '96%'
                     }} >
 
@@ -96,8 +97,16 @@ const MyTab = () => {
                             renderItem={(row) => {
                                 const e = <Text>{row.item.name}</Text>
                                 let element = <>
-                                    <View style={{ marginBottom: 10 }}>
-                                        <Button onPress={() => setRightComp(e)} title={row.item.name} style={{ borderRadius: 10 }} />
+                                    <View style={{ marginBottom: 30, flexDirection: 'row' }}>
+                                        {/* <Button onPress={() => setRightComp(e)} title={row.item.name} style={{ borderRadius: 10 }} /> */}
+                                        <Image source={require('../../../img/a.jpg')} style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: 15,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }} />
+                                        <Text numberOfLines={1}>软软碎冰冰</Text>
                                     </View>
                                 </>
                                 return element
@@ -105,7 +114,7 @@ const MyTab = () => {
                             keyExtractor={(item, index) => {
                                 return item.path + index
                             }}
-
+                            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
                             data={data}
                             horizontal={false}
                             numColumns={1}
@@ -127,25 +136,20 @@ const MyTab = () => {
                                 return (
                                     <>
                                         <View style={{ margin: 10 }} >
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Image source={require('../../../img/a.jpg')} style={{
-                                                    width: 30,
-                                                    height: 30,
-                                                    borderRadius: 15,
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                }} />
-                                                <Text style={{ color: 'black', fontSize: 15, marginLeft: 5 }}>测试用户</Text>
+                                            <View style={{ marginBottom:10, }}>
+                                                <Text style={{ color: 'black', fontSize: 15, marginLeft: 5 }}>碎碎冰月亮</Text>
+                                                <Text style={{ color: 'black', fontSize: 15, marginLeft: 5 }}>ASMR</Text>
                                             </View>
                                             <View>
                                                 <VideoPlayer
-                                                    source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
+                                                    source={require('../../../img/aa.mp4')}
                                                     //isFullscreen={true}
                                                     //toggleResizeModeOnFullscreen={true}  //画面是否伸缩
                                                     navigator={() => { }}
                                                     onBack={() => { }}
                                                     paused={true}
-                                                    pan={{ horizontal: false, inverted: true }}
+                                                    
+                                                    //pan={{ horizontal: false, inverted: true }}
                                                     onPlay={() => console.log('播放')}
                                                     onPause={() => {
                                                         //const initial = Orientation.getInitialOrientation();
@@ -173,7 +177,7 @@ const MyTab = () => {
                                 return item.path + index
                             }}
 
-                            data={[{},{},{},{},{}]}
+                            data={[{}, {}, {}, {}, {}]}
                             horizontal={false}
                             numColumns={1}
                         />
