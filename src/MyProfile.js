@@ -103,7 +103,7 @@ const MyProfile = ({ navigation }) => {
                                     padding: 10, borderRadius: 20, backgroundColor: theme.colors.bgColor, alignItems: 'center',
                                     justifyContent: 'center',
                                 }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('MyVideo')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('MyTab')}>
                                         <View style={{ flexDirection: 'row' }}>
                                             < FontAwesome name="video-camera" size={100} color={theme.colors.iconColor} />
                                         </View>
