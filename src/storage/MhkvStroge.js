@@ -35,7 +35,7 @@ export function getTodayTagByStroage() {
 
   if (allMomentStr != null || allMomentStr != undefined || allMomentStr.length != 0) {
     let curDayTag = {}
-    curMonth.filter(e => e != null)
+    curMonth?.filter(e => e != null)
       .filter((e) => dayjs().format('YYYY-MM-DD') === e['date'])
       .map((e) => e['tags'])
       .flat()

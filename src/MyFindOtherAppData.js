@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     Button,
+    Image,
     ImageBackground,
     TouchableOpacity,
     Dimensions,
@@ -14,6 +15,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { FFmpegKit } from 'ffmpeg-kit-react-native';
 import { ProgressBar, MD3Colors } from 'react-native-paper';
 
+
+const biliPath = RNFS.ExternalStorageDirectoryPath + '/Android/data/tv.danmaku.bili/download'
+const localSavePath = RNFS.ExternalDirectoryPath + '/bilibili/'
+
 async function readAllFiles(path, data) {
     const dirs = await RNFS.readDir(path)
     dirs.forEach(e => {
@@ -25,20 +30,26 @@ async function readAllFiles(path, data) {
     })
 }
 
-async function mergeVideoAudio(video, audio) {
-    const newPath = video.substring(0, video.lastIndexOf('/'))
-    const order = ` -i ${video} -i ${audio} -vcodec copy -acodec copy ${newPath}/new.mp4`
+async function mergeVideoAudio(video, audio, savePath, saveValue) {
+    const appPath = localSavePath + savePath
+    RNFS.mkdir(appPath)
+    const saveVideoPath = appPath + '/' + savePath
+
+    const order = ` -i ${video} -i ${audio} -vcodec copy -acodec copy ${saveVideoPath}.mp4`
+
+    RNFS.writeFile(saveVideoPath + '.json', saveValue)
     await FFmpegKit.execute(order)
 }
 
+
 const MyFindOtherAppData = () => {
-    const bilibiliPath = RNFS.ExternalDirectoryPath + '/download'
-    const [exist, setExist] = useState(false)
     const [fileList, setFileList] = useState([])
+    const [localFile, setLocalFile] = useState([])
     const [data, setData] = useState([])
 
     useEffect(() => {
-        readAllFiles(bilibiliPath, fileList)
+        readAllFiles(biliPath, fileList)
+        RNFS.readdir(localSavePath).then(e => setLocalFile(e))
     }, [])
 
     async function readFileInfo() {
@@ -48,7 +59,7 @@ const MyFindOtherAppData = () => {
                 if (e.endsWith('index.json') || e.endsWith('.xml')) {
                     return
                 }
-                const key = e.replace(bilibiliPath, '')
+                const key = e.replace(biliPath, '')
                 const secondSplit = key.indexOf('/', 1)
 
                 let saved = dataMap[key.substring(1, secondSplit)]
@@ -77,25 +88,28 @@ const MyFindOtherAppData = () => {
 
     return (
         <>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            {/* <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <Button title='是否存在文件' onPress={() => {
-                    RNFS.exists(bilibiliPath).then(e => {
-                        setExist(e ? true : false)
+                    RNFS.exists(biliPath).then(e => {
+                        setExist(e)
                     })
+                    RNFS.readDir(biliPath).then(r => console.log(r))
                 }} />
                 {
                     exist ? <FontAwesome name='check' size={30} color={'green'} /> : <FontAwesome name='remove' size={30} color={'red'} />
                 }
-            </View>
+            </View> */}
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Button title='查看全部文件' onPress={() => readFileInfo()} />
+                <TouchableOpacity onPress={() => readFileInfo()}>
+                    <FontAwesome name='refresh' size={50} />
+                </TouchableOpacity>
             </View>
             <View>
                 <FlatList
                     data={data}
                     renderItem={(row) => {
                         const videoPath = row.item.videoPath
-                        const newPath = videoPath.substring(0, videoPath.lastIndexOf('/')) + '.mp4'
+                        const audioPath = row.item.audioPath
                         const videoInfo = JSON.parse(row.item.videoInfo)
                         const title = videoInfo['title']
                         const cover = videoInfo['cover']
@@ -104,22 +118,39 @@ const MyFindOtherAppData = () => {
                         const author = videoInfo['owner_name']
                         const avatar = videoInfo['owner_avatar']
 
+                        let warningColor = localFile.includes(bvid) ? 'green' : 'red'
+
                         return (
-                            <TouchableOpacity onPress={() => mergeVideoAudio(row.item.videoPath, row.item.audioPath)}>
-                                <View>
-                                    <View style={{ backgroundColor: 'green', margin: 10, borderRadius: 10, }}>
+                            <View style={{ flex: 5, flexDirection: 'row', margin: 10, alignItems: 'center', justifyContent: 'space-evenly' }}>
+                                <View style={{ flex: 4, flexDirection: 'row', borderRadius: 10, }}>
+                                    <View style={{ flex: 2, margin: 5 }} >
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+                                            <Image source={{ uri: avatar }} style={{ width: 30, height: 30, borderRadius: 15 }} />
+                                            <Text style={{ fontSize: 20, fontWeight: 'bold' }} >{author}</Text>
+                                        </View>
+
                                         <Text>{title}</Text>
-                                        <Text>{author}</Text>
                                         <Text>{quality}</Text>
                                         <Text>{bvid}</Text>
                                     </View>
+                                    <View style={{ flex: 2 }} >
+                                        <Image source={{ uri: cover }} style={{ borderRadius: 10, width: '100%', height: '100%', }} />
+                                    </View>
                                 </View>
-                            </TouchableOpacity>
+                                <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <TouchableOpacity>
+                                        <FontAwesome name='warning' size={45} color={warningColor} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => {
+                                        mergeVideoAudio(videoPath, audioPath, bvid, row.item.videoInfo)
+                                    }}>
+                                        <FontAwesome name='download' size={45} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
                         )
                     }}
-                    keyExtractor={(item, index) => {
-                        return item.path + index
-                    }}
+                    keyExtractor={(item, index) => item.path}
                     numColumns={1}
                 />
             </View>

@@ -18,6 +18,7 @@ import MyMoment from './MyMoment';
 import MyMomentDetail from './MyMomentDetail';
 import MyVideo from './MyVideo';
 import MyTab from './MyTab';
+import MyFindOtherAppData from './MyFindOtherAppData';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -99,6 +100,7 @@ const Rooter = () => {
                     <Stack.Screen name='MyMoment' component={MyMoment} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyMomentDetail' component={MyMomentDetail} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyTab' component={MyTab} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyFindOtherAppData' component={MyFindOtherAppData} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>
