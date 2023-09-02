@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Text,
 } from "react-native";
 import dayjs from 'dayjs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { PreferencesContext } from "./MyPreferencesContext";
-import { Text } from 'react-native-paper';
 import Timeline from 'react-native-timeline-flatlist'
 import storage, { loadMomentByStroage, getMarkedDatesByStroage, getTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";

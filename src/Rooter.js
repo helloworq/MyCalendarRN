@@ -13,12 +13,17 @@ import MyLogin from './login/MyLogin';
 import MyRegister from './login/MyRegister';
 import MySkin from './MySkin';
 import MyProfile from './MyProfile';
-import MyLocation from './MyLocation';
+//import MyLocation from './MyLocation';
 import MyMoment from './MyMoment';
 import MyMomentDetail from './MyMomentDetail';
+import MyVideo from './MyVideo';
+import MyTab from './MyTab';
+import MyFindOtherAppData from './MyFindOtherAppData';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
+    const animation = 'slide_from_right'
+    const animationDuration = 100
 
     //状态-白天模式和黑暗模式
     //
@@ -82,19 +87,20 @@ const Rooter = () => {
         <PreferencesContext.Provider value={{ mode, setMode, theme, bgImg, setBgImg }}>
             <NavigationContainer>
                 <Stack.Navigator>
-                    <Stack.Screen name="MyLogin" component={MyLogin} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="MyRegister" component={MyRegister} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="MyHomePage" component={MyHomePage} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="BestGameEver" component={BestGameEver} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name="MySkin" component={MySkin} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name='MyProfile' component={MyProfile} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name='MyLocation' component={MyLocation} options={{ headerShown: false, animation: 'slide_from_right' }} />
-                    <Stack.Screen name='MyMoment' component={MyMoment} options={{ headerShown: false, animation: 'slide_from_left' }} />
-                    <Stack.Screen name='MyMomentDetail' component={MyMomentDetail} options={{ headerShown: false, animation: 'slide_from_right' }} />
+                    <Stack.Screen name="MyLogin" component={MyLogin} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="MyRegister" component={MyRegister} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="MyHomePage" component={MyHomePage} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="Calendar" component={Calendar} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="MyMomentUploader" component={MyMomentUploader} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="MyMomentViewer" component={MyMomentViewer} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="MyAddTags" component={MyAddTags} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="BestGameEver" component={BestGameEver} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name="MySkin" component={MySkin} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyProfile' component={MyProfile} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyMoment' component={MyMoment} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyMomentDetail' component={MyMomentDetail} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyTab' component={MyTab} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyFindOtherAppData' component={MyFindOtherAppData} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>
