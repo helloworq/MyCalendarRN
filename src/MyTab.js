@@ -38,6 +38,7 @@ const MyTab = () => {
 
     async function readFileInfo() {
         let dataMap = {}
+
         if (fileList.length > 0) {
             fileList.forEach(e => {
                 const key = e.replace(localSavePath, '')
@@ -51,18 +52,20 @@ const MyTab = () => {
                 }
             })
         }
-        let newData = []
 
-        Object.keys(dataMap).forEach(e => {
+        let pList = []
+        Object.keys(dataMap).map(e => {
             const videoInfoPath = dataMap[e].filter(e => e.includes('json'))[0]
-            RNFS.readFile(videoInfoPath).then(ele => {
-                let temp = {}
-                temp['videoInfo'] = ele
-                temp['videoPath'] = dataMap[e].filter(e => e.includes('mp4'))[0]
-                newData.push(temp)
-            })
+            const videoPath = dataMap[e].filter(e => e.includes('mp4'))[0]
+            pList.push(RNFS.readFile(videoInfoPath)
+                .then(ele => {
+                    let temp = {}
+                    temp['videoInfo'] = ele
+                    temp['videoPath'] = videoPath
+                    return temp
+                }))
         })
-        setData(newData)
+        Promise.all(pList).then(e => setData(e))
     }
 
     return (
@@ -75,7 +78,7 @@ const MyTab = () => {
                     height: '5%',
                 }}>
                     <TouchableOpacity onPress={() => {
-                        setSelectTab(!selectTab)
+                        //setSelectTab(!selectTab)
                         readFileInfo()
                     }}>
                         <View style={{
@@ -91,7 +94,10 @@ const MyTab = () => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => setSelectTab(!selectTab)}>
+                    <TouchableOpacity onPress={() => {
+                        // setSelectTab(!selectTab)
+                        // readFileInfo()
+                    }}>
                         <View style={{
                             borderRightWidth: 1,
                             borderTopWidth: 1,
