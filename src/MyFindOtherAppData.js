@@ -5,8 +5,11 @@ import {
     Image,
     ImageBackground,
     TouchableOpacity,
+    PermissionsAndroid,
     Dimensions,
+    ToastAndroid,
     FlatList,
+    TextInput,
 } from "react-native";
 import DocumentPicker from 'react-native-document-picker'
 import RNFS from 'react-native-fs'
@@ -15,8 +18,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { FFmpegKit } from 'ffmpeg-kit-react-native';
 import { ProgressBar, MD3Colors } from 'react-native-paper';
 
-
-const biliPath = RNFS.ExternalStorageDirectoryPath + '/Android/data/tv.danmaku.bili/download'
+const biliPath = RNFS.ExternalDirectoryPath + '/Download'
 const localSavePath = RNFS.ExternalDirectoryPath + '/bilibili/'
 
 async function readAllFiles(path, data) {
@@ -88,17 +90,6 @@ const MyFindOtherAppData = () => {
 
     return (
         <>
-            {/* <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Button title='是否存在文件' onPress={() => {
-                    RNFS.exists(biliPath).then(e => {
-                        setExist(e)
-                    })
-                    RNFS.readDir(biliPath).then(r => console.log(r))
-                }} />
-                {
-                    exist ? <FontAwesome name='check' size={30} color={'green'} /> : <FontAwesome name='remove' size={30} color={'red'} />
-                }
-            </View> */}
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                 <TouchableOpacity onPress={() => readFileInfo()}>
                     <FontAwesome name='refresh' size={50} />
