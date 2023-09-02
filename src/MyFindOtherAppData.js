@@ -91,7 +91,7 @@ const MyFindOtherAppData = () => {
 
     return (
         <>
-            <View style={{ alignItems: 'center' }} >
+            <View style={{ alignItems: 'center', height: '10%' }} >
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Bilibili视频转码工具</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => {
@@ -102,7 +102,7 @@ const MyFindOtherAppData = () => {
                     <Text>加载视频</Text>
                 </View>
             </View>
-            <View>
+            <View style={{ height: '88%' }}>
                 <FlatList
                     data={data}
                     renderItem={(row) => {
