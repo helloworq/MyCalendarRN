@@ -116,21 +116,28 @@ const MyFindOtherAppData = () => {
                         const avid = videoInfo['avid']
                         const author = videoInfo['owner_name']
                         const avatar = videoInfo['owner_avatar']
+                        const size = (videoInfo['total_bytes'] / 1024 / 1024).toFixed(2)
+                        const time = (videoInfo['total_time_milli'] / 1000 / 60).toFixed(2)
 
                         let warningColor = localFile.includes(bvid) ? 'green' : 'red'
 
                         return (
-                            <View style={{ flex: 5, flexDirection: 'row', margin: 10, }}>
+                            <View style={{ flex: 5, flexDirection: 'row', margin: 5, }}>
                                 <View style={{ flex: 4, flexDirection: 'row', borderRadius: 10, }}>
                                     <View style={{ flex: 2, margin: 5 }} >
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
                                             <Image source={{ uri: avatar }} style={{ width: 30, height: 30, borderRadius: 15 }} />
                                             <Text style={{ fontSize: 20, fontWeight: 'bold' }} >{author}</Text>
                                         </View>
-
                                         <Text>{title}</Text>
-                                        <Text>{quality}</Text>
-                                        <Text>{bvid}</Text>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <Text>{bvid}</Text>
+                                            <Text>{quality}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <Text>{size}Mb</Text>
+                                            <Text>{time}min</Text>
+                                        </View>
                                     </View>
                                     <View style={{ flex: 2 }} >
                                         <Image source={{ uri: cover }} style={{ borderRadius: 10, width: '100%', height: '100%', }} />

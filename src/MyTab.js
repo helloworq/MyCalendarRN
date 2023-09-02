@@ -162,22 +162,28 @@ const MyTab = () => {
                             renderItem={(row) => {
                                 const videoPath = row.item.videoPath
                                 const videoInfo = JSON.parse(row.item.videoInfo)
+                                const cover = videoInfo['cover']
                                 const title = videoInfo['title']
                                 const quality = videoInfo['quality_pithy_description']
                                 const bvid = videoInfo['bvid']
                                 const author = videoInfo['owner_name']
+                                const size = (videoInfo['total_bytes'] / 1024 / 1024).toFixed(2)
+                                const time = (videoInfo['total_time_milli'] / 1000 / 60).toFixed(2)
+
                                 return (
                                     <>
                                         <View style={{ margin: 10 }} >
-                                            <View style={{ marginBottom: 10, }}>
+                                            <View style={{ }}>
                                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                                     <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 15, marginLeft: 5 }}>{author}</Text>
                                                     <FontAwesome name='warning' size={20} color={'green'} />
                                                 </View>
-                                                <Text style={{ color: 'black', fontSize: 12, marginLeft: 5 }}>{title}</Text>
-                                                <View style={{ flexDirection: 'row' }}>
-                                                    <Text style={{ color: 'black', fontSize: 12, marginLeft: 5 }}>{bvid}</Text>
-                                                    <Text style={{ color: 'black', fontSize: 12, marginLeft: 5 }}>{quality}</Text>
+                                                <Text style={{ color: 'black', fontSize: 12, }}>{title}</Text>
+                                                <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{bvid}</Text>
+                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{quality}</Text>
+                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{size}Mb</Text>
+                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{time}min</Text>
                                                 </View>
                                             </View>
                                             <View>
@@ -185,6 +191,7 @@ const MyTab = () => {
                                                     source={{ uri: videoPath }}
                                                     //isFullscreen={true}
                                                     //toggleResizeModeOnFullscreen={true}  //画面是否伸缩
+                                                    poster={cover}
                                                     navigator={() => { }}
                                                     onBack={() => { }}
                                                     paused={true}
