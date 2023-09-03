@@ -324,9 +324,9 @@ const MyHomePage = ({ navigation }) => {
                             backgroundColor: theme.colors.bgColor,
                             position: 'absolute',
                             left: 30,
-                            bottom: 10,
+                            bottom: 0,
                             width: screenWidth - 2 * 30,
-                            height: 70,
+                            height: 60,
                             borderRadius: 50,
                         }}>
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', }}>

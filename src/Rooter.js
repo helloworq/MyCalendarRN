@@ -64,8 +64,8 @@ const Rooter = () => {
 
             //moment
             //bgColor: 'rgba(163,163,194,0.3)',
-            bgColor: 'rgba(255,255,255,1)',
-            totalOpacityBgColor: 'rgba(163,163,194,0.3)',
+            bgColor: 'rgba(255,255,255,0.5)',
+            totalOpacityBgColor: 'rgba(163,163,194,0)',
         },
     }
 
