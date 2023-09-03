@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
     Text,
     TouchableOpacity,
@@ -7,11 +7,14 @@ import {
     FlatList,
     Image,
     Modal,
+    ImageBackground,
 } from "react-native";
 import VideoPlayer from 'react-native-media-console';
 import Orientation from 'react-native-orientation-locker';
 import RNFS from 'react-native-fs'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import ImgStroage from "./storage/ImgStroage";
+import { PreferencesContext } from "./MyPreferencesContext";
 
 async function readAllFiles(path, data) {
     const dirs = await RNFS.readDir(path)
@@ -51,6 +54,7 @@ const MyTab = () => {
     const [modalVideo, setModalVideo] = useState('')
     const [modalVisiable, setModalVisiable] = useState(false)
     const [videoList, setVideoList] = useState()
+    const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
 
     useEffect(() => {
         readAllFiles(localSavePath, fileList)
@@ -90,194 +94,204 @@ const MyTab = () => {
 
     return (
         <>
-            <View style={{ flex: 1 }}>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={modalVisiable}
-                    onRequestClose={() => {
-                        setModalVisiable(false)
-                        Orientation.lockToPortrait()
-                    }}
-                >
-                    <VideoPlayer
-                        source={{ uri: modalVideo }}
-                        onBack={() => {
+            <ImageBackground
+                source={ImgStroage[bgImg]}
+                resizeMode='stretch'
+                style={{
+                    flex: 1,
+                    backgroundColor: theme.colors.totalOpacityBgColor
+                }}>
+                <View style={{ flex: 1 }}>
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={modalVisiable}
+                        statusBarTranslucent={true}
+                        hardwareAccelerated={true}
+                        onRequestClose={() => {
                             setModalVisiable(false)
                             Orientation.lockToPortrait()
                         }}
-                        onEnterFullscreen={() => {
-                            Orientation.lockToLandscape()
-                        }}
-                        onExitFullscreen={() => {
-                            Orientation.lockToPortrait()
-                        }}
-                    />
-                </Modal>
-                <View style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    height: '5%',
-                }}>
-                    <TouchableOpacity onPress={() => {
-                        //setSelectTab(!selectTab)
-                        readFileInfo()
-                    }}>
-                        <View style={{
-                            borderLeftWidth: 1,
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderTopLeftRadius: 5,
-                            borderBottomLeftRadius: 5,
-                            width: 100,
-                            backgroundColor: selectTab ? 'white' : 'gray'
-                        }}>
-                            <Text style={{ textAlign: 'center' }}>视频</Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => {
-                        // setSelectTab(!selectTab)
-                        // readFileInfo()
-                    }}>
-                        <View style={{
-                            borderRightWidth: 1,
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderLeftWidth: 1,
-                            borderTopRightRadius: 5,
-                            borderBottomRightRadius: 5,
-                            width: 100,
-                            backgroundColor: selectTab ? 'gray' : 'white'
-                        }}>
-                            <Text style={{ textAlign: 'center' }}>音乐</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View >
-                <View style={{ flexDirection: 'row' }}>
-                    <View style={{
-                        width: '20%',
-                        marginLeft: 10,
-                        marginBottom: 10,
-                        borderRadius: 10,
-                        marginTop: 10,
-                        height: '96%'
-                    }} >
-
-                        <FlatList
-                            renderItem={(row) => {
-                                const videoInfo = JSON.parse(row.item.videoInfo)
-                                const authorId = videoInfo['owner_id']
-                                const author = videoInfo['owner_name']
-                                const avatar = videoInfo['owner_avatar']
-                                let element = <>
-                                    <TouchableOpacity onPress={() => {
-                                        let newData = data?.filter(e => {
-                                            const videoInfo = JSON.parse(e['videoInfo'])
-                                            const userId = videoInfo['owner_id']
-                                            const userName = videoInfo['owner_name']
-                                            if (authorId === userId && author === userName) {
-                                                return true
-                                            }
-                                        })
-
-                                        setVideoList(newData)
-                                    }} >
-                                        <View style={{ marginBottom: 30, flexDirection: 'row' }}>
-                                            <Image source={{ uri: avatar }} style={{
-                                                width: 20,
-                                                height: 20,
-                                                borderRadius: 15,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                            }} />
-                                            <Text numberOfLines={1}>{author}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </>
-                                return element
+                    >
+                        <VideoPlayer
+                            source={{ uri: modalVideo }}
+                            onBack={() => {
+                                setModalVisiable(false)
+                                Orientation.lockToPortrait()
                             }}
-                            keyExtractor={(item, index) => {
-                                return item.path + index
+                            onEnterFullscreen={() => {
+                                Orientation.lockToLandscape()
                             }}
-                            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                            data={distinctByKey(data, 'owner_name', 'owner_id')}
-                            horizontal={false}
-                            numColumns={1}
+                            onExitFullscreen={() => {
+                                Orientation.lockToPortrait()
+                            }}
                         />
-                    </View>
-
+                    </Modal>
                     <View style={{
-                        width: '73%',
-                        marginLeft: 10,
-                        marginBottom: 10,
-                        borderRadius: 10,
-                        height: '96%'
-                    }} >
-                        <FlatList
-                            renderItem={(row) => {
-                                const videoPath = row.item.videoPath
-                                const videoInfo = JSON.parse(row.item.videoInfo)
-                                const cover = videoInfo['cover']
-                                const title = videoInfo['title']
-                                const quality = videoInfo['quality_pithy_description']
-                                const bvid = videoInfo['bvid']
-                                const author = videoInfo['owner_name']
-                                const userId = videoInfo['owner_id']
-                                const size = (videoInfo['total_bytes'] / 1024 / 1024).toFixed(2)
-                                const time = (videoInfo['total_time_milli'] / 1000 / 60).toFixed(2)
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        height: '5%',
+                    }}>
+                        <TouchableOpacity onPress={() => {
+                            //setSelectTab(!selectTab)
+                            readFileInfo()
+                        }}>
+                            <View style={{
+                                borderLeftWidth: 1,
+                                borderTopWidth: 1,
+                                borderBottomWidth: 1,
+                                borderTopLeftRadius: 5,
+                                borderBottomLeftRadius: 5,
+                                width: 100,
+                                backgroundColor: selectTab ? 'white' : 'gray'
+                            }}>
+                                <Text style={{ textAlign: 'center' }}>视频</Text>
+                            </View>
+                        </TouchableOpacity>
 
-                                return (
-                                    <>
-                                        <View style={{ margin: 10 }} >
-                                            <View style={{}}>
-                                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 15, marginLeft: 5 }}>{author}</Text>
-                                                    <FontAwesome name='warning' size={20} color={'green'} />
-                                                </View>
-                                                <Text style={{ color: 'black', fontSize: 12, }}>{title}</Text>
-                                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                                    <Text style={{ color: 'black', fontSize: 12, }}>{bvid}</Text>
-                                                    <Text style={{ color: 'black', fontSize: 12, }}>{quality}</Text>
-                                                    <Text style={{ color: 'black', fontSize: 12, }}>{size}Mb</Text>
-                                                    <Text style={{ color: 'black', fontSize: 12, }}>{time}min</Text>
-                                                </View>
+                        <TouchableOpacity onPress={() => {
+                            // setSelectTab(!selectTab)
+                            // readFileInfo()
+                        }}>
+                            <View style={{
+                                borderRightWidth: 1,
+                                borderTopWidth: 1,
+                                borderBottomWidth: 1,
+                                borderLeftWidth: 1,
+                                borderTopRightRadius: 5,
+                                borderBottomRightRadius: 5,
+                                width: 100,
+                                backgroundColor: selectTab ? 'gray' : 'white'
+                            }}>
+                                <Text style={{ textAlign: 'center' }}>音乐</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View >
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{
+                            width: '20%',
+                            marginLeft: 10,
+                            marginBottom: 10,
+                            borderRadius: 10,
+                            marginTop: 10,
+                            height: '96%'
+                        }} >
+
+                            <FlatList
+                                renderItem={(row) => {
+                                    const videoInfo = JSON.parse(row.item.videoInfo)
+                                    const authorId = videoInfo['owner_id']
+                                    const author = videoInfo['owner_name']
+                                    const avatar = videoInfo['owner_avatar']
+                                    let element = <>
+                                        <TouchableOpacity onPress={() => {
+                                            let newData = data?.filter(e => {
+                                                const videoInfo = JSON.parse(e['videoInfo'])
+                                                const userId = videoInfo['owner_id']
+                                                const userName = videoInfo['owner_name']
+                                                if (authorId === userId && author === userName) {
+                                                    return true
+                                                }
+                                            })
+
+                                            setVideoList(newData)
+                                        }} >
+                                            <View style={{ marginBottom: 30, flexDirection: 'row' }}>
+                                                <Image source={{ uri: avatar }} style={{
+                                                    width: 20,
+                                                    height: 20,
+                                                    borderRadius: 15,
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                }} />
+                                                <Text numberOfLines={1}>{author}</Text>
                                             </View>
-                                            <View>
-                                                <VideoPlayer
-                                                    source={{ uri: videoPath }}
-                                                    poster={cover}
-                                                    navigator={() => { }}
-                                                    onBack={() => { }}
-                                                    paused={true}
-                                                    showOnStart={false}
-                                                    onEnterFullscreen={() => {
-                                                        setModalVisiable(true)
-                                                        setModalVideo(videoPath)
-                                                    }}
-                                                    disableBack={true}
-                                                    containerStyle={{
-                                                        width: '100%',
-                                                        height: portraitHeight,
-                                                    }}
-                                                />
-                                            </View>
-                                        </View>
+                                        </TouchableOpacity>
                                     </>
-                                )
-                            }}
-                            keyExtractor={(item, index) => {
-                                return item.path + index
-                            }}
-                            //data={data}
-                            data={videoList}
-                            horizontal={false}
-                            numColumns={1}
-                        />
+                                    return element
+                                }}
+                                keyExtractor={(item, index) => {
+                                    return item.path + index
+                                }}
+                                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                                data={distinctByKey(data, 'owner_name', 'owner_id')}
+                                horizontal={false}
+                                numColumns={1}
+                            />
+                        </View>
+
+                        <View style={{
+                            width: '77%',
+                            marginLeft: 10,
+                            marginBottom: 10,
+                            borderRadius: 10,
+                            height: '96%'
+                        }} >
+                            <FlatList
+                                renderItem={(row) => {
+                                    const videoPath = row.item.videoPath
+                                    const videoInfo = JSON.parse(row.item.videoInfo)
+                                    const cover = videoInfo['cover']
+                                    const title = videoInfo['title']
+                                    const quality = videoInfo['quality_pithy_description']
+                                    const bvid = videoInfo['bvid']
+                                    const author = videoInfo['owner_name']
+                                    const userId = videoInfo['owner_id']
+                                    const size = (videoInfo['total_bytes'] / 1024 / 1024).toFixed(2)
+                                    const time = (videoInfo['total_time_milli'] / 1000 / 60).toFixed(2)
+
+                                    return (
+                                        <>
+                                            <View style={{ margin: 10 }} >
+                                                <View style={{}}>
+                                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 15, marginLeft: 5 }}>{author}</Text>
+                                                        <FontAwesome name='warning' size={20} color={'green'} />
+                                                    </View>
+                                                    <Text style={{ color: 'black', fontSize: 12, }}>{title}</Text>
+                                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                        <Text style={{ color: 'black', fontSize: 12, }}>{bvid}</Text>
+                                                        <Text style={{ color: 'black', fontSize: 12, }}>{quality}</Text>
+                                                        <Text style={{ color: 'black', fontSize: 12, }}>{size}Mb</Text>
+                                                        <Text style={{ color: 'black', fontSize: 12, }}>{time}min</Text>
+                                                    </View>
+                                                </View>
+                                                <View>
+                                                    <VideoPlayer
+                                                        source={{ uri: videoPath }}
+                                                        poster={cover}
+                                                        navigator={() => { }}
+                                                        onBack={() => { }}
+                                                        paused={true}
+                                                        showOnStart={false}
+                                                        onEnterFullscreen={() => {
+                                                            setModalVisiable(true)
+                                                            setModalVideo(videoPath)
+                                                        }}
+                                                        disableBack={true}
+                                                        containerStyle={{
+                                                            width: '100%',
+                                                            height: portraitHeight,
+                                                        }}
+                                                    />
+                                                </View>
+                                            </View>
+                                        </>
+                                    )
+                                }}
+                                keyExtractor={(item, index) => {
+                                    return item.path + index
+                                }}
+                                //data={data}
+                                data={videoList}
+                                horizontal={false}
+                                numColumns={1}
+                            />
+                        </View>
                     </View>
-                </View>
-            </View >
+                </View >
+            </ImageBackground>
         </>
     );
 };
