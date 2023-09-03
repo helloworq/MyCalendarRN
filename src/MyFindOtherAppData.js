@@ -126,8 +126,8 @@ const MyFindOtherAppData = () => {
                         let warningColor = localFile.includes(bvid) ? 'green' : 'red'
 
                         return (
-                            <View style={{ flex: 5, flexDirection: 'row', margin: 5, }}>
-                                <View style={{ flex: 4, flexDirection: 'row', borderRadius: 10, }}>
+                            <View style={{ flex: 8, flexDirection: 'row', margin: 5, }}>
+                                <View style={{ flex: 7, flexDirection: 'row', borderRadius: 10, }}>
                                     <View style={{ flex: 2, margin: 5 }} >
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
                                             <Image source={{ uri: avatar }} style={{ width: 30, height: 30, borderRadius: 15 }} />
@@ -147,7 +147,7 @@ const MyFindOtherAppData = () => {
                                         <Image source={{ uri: cover }} style={{ borderRadius: 10, width: '100%', height: '100%', }} />
                                     </View>
                                 </View>
-                                <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                                <View style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>
                                     <TouchableOpacity onPress={() => {
                                         ToastAndroid.show(warningColor == 'green' ? '已合并转码至本地' : '未处理至本地', ToastAndroid.SHORT)
                                     }}>

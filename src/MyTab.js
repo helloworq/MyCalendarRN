@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     Text,
     TouchableOpacity,
@@ -6,6 +6,7 @@ import {
     Button,
     FlatList,
     Image,
+    Modal,
 } from "react-native";
 import VideoPlayer from 'react-native-media-console';
 import Orientation from 'react-native-orientation-locker';
@@ -26,11 +27,11 @@ async function readAllFiles(path, data) {
 const localSavePath = RNFS.ExternalDirectoryPath + '/bilibili/'
 const MyTab = () => {
     const [selectTab, setSelectTab] = useState(true)
-    const portraitHeight = 300
-    const fullScreenHeight = '100%'
-    const [isFullscreen, setIsFullScreen] = useState(false)
+    const portraitHeight = 250
     const [fileList, setFileList] = useState([])
     const [data, setData] = useState([])
+    const [modalVideo, setModalVideo] = useState('')
+    const [modalVisiable, setModalVisiable] = useState(false)
 
     useEffect(() => {
         readAllFiles(localSavePath, fileList)
@@ -71,6 +72,29 @@ const MyTab = () => {
     return (
         <>
             <View style={{ flex: 1 }}>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisiable}
+                    onRequestClose={() => {
+                        setModalVisiable(false)
+                        Orientation.lockToPortrait()
+                    }}
+                >
+                    <VideoPlayer
+                        source={{ uri: modalVideo }}
+                        onBack={()=>{
+                            setModalVisiable(false)
+                            Orientation.lockToPortrait()
+                        }}
+                        onEnterFullscreen={() => {
+                            Orientation.lockToLandscape()
+                        }}
+                        onExitFullscreen={() => {
+                            Orientation.lockToPortrait()
+                        }}
+                    />
+                </Modal>
                 <View style={{
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -173,40 +197,35 @@ const MyTab = () => {
                                 return (
                                     <>
                                         <View style={{ margin: 10 }} >
-                                            <View style={{ }}>
+                                            <View style={{}}>
                                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                                     <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 15, marginLeft: 5 }}>{author}</Text>
                                                     <FontAwesome name='warning' size={20} color={'green'} />
                                                 </View>
                                                 <Text style={{ color: 'black', fontSize: 12, }}>{title}</Text>
-                                                <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
-                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{bvid}</Text>
-                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{quality}</Text>
-                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{size}Mb</Text>
-                                                    <Text style={{ color: 'black', fontSize: 12,  }}>{time}min</Text>
+                                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                    <Text style={{ color: 'black', fontSize: 12, }}>{bvid}</Text>
+                                                    <Text style={{ color: 'black', fontSize: 12, }}>{quality}</Text>
+                                                    <Text style={{ color: 'black', fontSize: 12, }}>{size}Mb</Text>
+                                                    <Text style={{ color: 'black', fontSize: 12, }}>{time}min</Text>
                                                 </View>
                                             </View>
                                             <View>
                                                 <VideoPlayer
                                                     source={{ uri: videoPath }}
-                                                    //isFullscreen={true}
-                                                    //toggleResizeModeOnFullscreen={true}  //画面是否伸缩
                                                     poster={cover}
                                                     navigator={() => { }}
                                                     onBack={() => { }}
                                                     paused={true}
                                                     showOnStart={false}
                                                     onEnterFullscreen={() => {
-                                                        setIsFullScreen(true)
-                                                        Orientation.lockToLandscape()
+                                                        setModalVisiable(true)
+                                                        setModalVideo(videoPath)
                                                     }}
-                                                    onExitFullscreen={() => {
-                                                        setIsFullScreen(false)
-                                                        Orientation.lockToPortrait()
-                                                    }}
+                                                    disableBack={true}
                                                     containerStyle={{
                                                         width: '100%',
-                                                        height: isFullscreen ? fullScreenHeight : portraitHeight,
+                                                        height: portraitHeight,
                                                     }}
                                                 />
                                             </View>
