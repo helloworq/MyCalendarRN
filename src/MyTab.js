@@ -24,6 +24,24 @@ async function readAllFiles(path, data) {
     })
 }
 
+function distinctByKey(array, key, key2) {
+    if (array != null && array != undefined && array.length > 0) {
+        let temp = {}
+        array.forEach(e => {
+            const videoInfo = JSON.parse(e['videoInfo'])
+            const userId = videoInfo[key] + videoInfo[key2]
+            const value = temp[userId]
+            if (!value) {
+                temp[userId] = [e] //不解析成对象
+            }
+        })
+        console.log('aaaaaa', Object.values(temp).flat())
+        return Object.values(temp).flat()
+    }
+
+    return array
+}
+
 const localSavePath = RNFS.ExternalDirectoryPath + '/bilibili/'
 const MyTab = () => {
     const [selectTab, setSelectTab] = useState(true)
@@ -32,6 +50,7 @@ const MyTab = () => {
     const [data, setData] = useState([])
     const [modalVideo, setModalVideo] = useState('')
     const [modalVisiable, setModalVisiable] = useState(false)
+    const [videoList, setVideoList] = useState()
 
     useEffect(() => {
         readAllFiles(localSavePath, fileList)
@@ -83,7 +102,7 @@ const MyTab = () => {
                 >
                     <VideoPlayer
                         source={{ uri: modalVideo }}
-                        onBack={()=>{
+                        onBack={() => {
                             setModalVisiable(false)
                             Orientation.lockToPortrait()
                         }}
@@ -149,19 +168,33 @@ const MyTab = () => {
                         <FlatList
                             renderItem={(row) => {
                                 const videoInfo = JSON.parse(row.item.videoInfo)
+                                const authorId = videoInfo['owner_id']
                                 const author = videoInfo['owner_name']
                                 const avatar = videoInfo['owner_avatar']
                                 let element = <>
-                                    <View style={{ marginBottom: 30, flexDirection: 'row' }}>
-                                        <Image source={{ uri: avatar }} style={{
-                                            width: 20,
-                                            height: 20,
-                                            borderRadius: 15,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                        }} />
-                                        <Text numberOfLines={1}>{author}</Text>
-                                    </View>
+                                    <TouchableOpacity onPress={() => {
+                                        let newData = data?.filter(e => {
+                                            const videoInfo = JSON.parse(e['videoInfo'])
+                                            const userId = videoInfo['owner_id']
+                                            const userName = videoInfo['owner_name']
+                                            if (authorId === userId && author === userName) {
+                                                return true
+                                            }
+                                        })
+
+                                        setVideoList(newData)
+                                    }} >
+                                        <View style={{ marginBottom: 30, flexDirection: 'row' }}>
+                                            <Image source={{ uri: avatar }} style={{
+                                                width: 20,
+                                                height: 20,
+                                                borderRadius: 15,
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                            }} />
+                                            <Text numberOfLines={1}>{author}</Text>
+                                        </View>
+                                    </TouchableOpacity>
                                 </>
                                 return element
                             }}
@@ -169,7 +202,7 @@ const MyTab = () => {
                                 return item.path + index
                             }}
                             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                            data={data}
+                            data={distinctByKey(data, 'owner_name', 'owner_id')}
                             horizontal={false}
                             numColumns={1}
                         />
@@ -191,6 +224,7 @@ const MyTab = () => {
                                 const quality = videoInfo['quality_pithy_description']
                                 const bvid = videoInfo['bvid']
                                 const author = videoInfo['owner_name']
+                                const userId = videoInfo['owner_id']
                                 const size = (videoInfo['total_bytes'] / 1024 / 1024).toFixed(2)
                                 const time = (videoInfo['total_time_milli'] / 1000 / 60).toFixed(2)
 
@@ -236,7 +270,8 @@ const MyTab = () => {
                             keyExtractor={(item, index) => {
                                 return item.path + index
                             }}
-                            data={data}
+                            //data={data}
+                            data={videoList}
                             horizontal={false}
                             numColumns={1}
                         />
