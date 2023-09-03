@@ -36,7 +36,7 @@ const MyTab = () => {
         readAllFiles(localSavePath, fileList)
     }, [])
 
-    async function readFileInfo() {
+    function readFileInfo() {
         let dataMap = {}
 
         if (fileList.length > 0) {

@@ -15,18 +15,6 @@ import { FFmpegKit } from 'ffmpeg-kit-react-native';
 const biliPath = RNFS.ExternalDirectoryPath + '/Download'
 const localSavePath = RNFS.ExternalDirectoryPath + '/bilibili/'
 
-async function readAllFiles(path, data) {
-    const dirs = await RNFS.readDir(path)
-    dirs.forEach(e => {
-        if (e.isDirectory()) {
-            readAllFiles(e.path, data)
-        } else {
-            data.push(e.path)
-        }
-    })
-    return data
-}
-
 async function mergeVideoAudio(video, audio, savePath, saveValue) {
     const appPath = localSavePath + savePath
     RNFS.mkdir(appPath)
@@ -38,18 +26,30 @@ async function mergeVideoAudio(video, audio, savePath, saveValue) {
     await FFmpegKit.execute(order)
 }
 
-
 const MyFindOtherAppData = () => {
     const [fileList, setFileList] = useState([])
     const [localFile, setLocalFile] = useState([])
     const [data, setData] = useState([])
+
+    function readAllFiles(path, data) {
+        RNFS.readDir(path).then(e=>{
+            e.forEach(e => {
+                if (e.isDirectory()) {
+                    readAllFiles(e.path, data)
+                } else {
+                    data.push(e.path)
+                }
+            })
+        })
+        setFileList(data)
+    }
 
     useEffect(() => {
         readAllFiles(biliPath, fileList)
         RNFS.readdir(localSavePath).then(e => setLocalFile(e))
     }, [])
 
-    async function readFileInfo() {
+    function readFileInfo() {
         //重新读取本地文件
         RNFS.readdir(localSavePath).then(e => setLocalFile(e))
 
@@ -85,8 +85,8 @@ const MyFindOtherAppData = () => {
                     temp['audioPath'] = audioPath
                     return temp
                 }))
-            Promise.all(pList).then(e => setData(e))
         })
+        Promise.all(pList).then(e => setData(e))
     }
 
     return (
@@ -95,6 +95,9 @@ const MyFindOtherAppData = () => {
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Bilibili视频转码工具</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => {
+                        let temp = []
+                        readAllFiles(biliPath, temp)
+                        setFileList(temp)
                         readFileInfo()
                     }}>
                         <FontAwesome name='refresh' size={50} />
@@ -104,6 +107,7 @@ const MyFindOtherAppData = () => {
             </View>
             <View style={{ height: '88%' }}>
                 <FlatList
+                    initialNumToRender={data.length}//修复不显示剩余数据问题
                     data={data}
                     renderItem={(row) => {
                         const videoPath = row.item.videoPath
