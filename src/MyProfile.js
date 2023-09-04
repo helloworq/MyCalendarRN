@@ -35,6 +35,11 @@ const MyProfile = ({ navigation }) => {
                 <ScrollView>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', width: '95%', marginTop: 10, }}>
                         <View style={{ marginRight: 10 }}>
+                            <TouchableOpacity onPress={() => navigation.navigate('MyDevice')}>
+                                <FontAwesome name="mobile-phone" size={35} color={theme.colors.iconColor} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginRight: 10 }}>
                             <TouchableOpacity onPress={() => {
                                 setMode(mode === 'dark' ? 'light' : 'dark')
                                 storage.set('theme', mode === 'dark' ? 'light' : 'dark')
@@ -127,10 +132,10 @@ const MyProfile = ({ navigation }) => {
                                     <Text style={{ color: theme.colors.fontColor }}>在线</Text>
                                 </View>
                                 <View style={{ alignItems: 'center', }}>
-                                    <TouchableOpacity onPress={() =>  navigation.navigate('MyDevice')}>
-                                        <FontAwesome name="mobile-phone" size={50} color={theme.colors.iconColor} />
+                                    <TouchableOpacity onPress={() => navigation.navigate('MyDone')}>
+                                        <MaterialIcons name="done-all" size={50} color={theme.colors.iconColor} />
                                     </TouchableOpacity>
-                                    <Text style={{ color: theme.colors.fontColor }}>本机信息</Text>
+                                    <Text style={{ color: theme.colors.fontColor }}>已完成</Text>
                                 </View>
                             </View>
                         </View>

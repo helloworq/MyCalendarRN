@@ -22,6 +22,7 @@ import MyFindOtherAppData from './MyFindOtherAppData';
 import MyChart from './MyChart';
 import MyFriends from './MyFriends';
 import MyDevice from './MyDevice';
+import MyDone from './MyDone';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -107,6 +108,7 @@ const Rooter = () => {
                     <Stack.Screen name='MyChart' component={MyChart} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyFriends' component={MyFriends} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyDevice' component={MyDevice} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyDone' component={MyDone} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>

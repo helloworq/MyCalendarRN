@@ -10,29 +10,24 @@ const MyDevice = () => {
         <>
             <View style={{ alignItems: 'center' }}>
                 <Text>手机信息</Text>
-                <Text>{DeviceInfo.getApplicationName()}</Text>
-                <Text>{DeviceInfo.getBrand()}</Text>
-                <Text>{DeviceInfo.getBundleId()}</Text>
-                <Text>{DeviceInfo.getDeviceId()}</Text>
-                <Text>{DeviceInfo.getDeviceType()}</Text>
-                <Text>{DeviceInfo.getModel()}</Text>
-                <Text>{DeviceInfo.getReadableVersion()}</Text>
-                <Text>{DeviceInfo.getSystemName()}</Text>
-                <Text>{DeviceInfo.getSystemVersion()}</Text>
-                <Text>{DeviceInfo.getVersion()}</Text>
-                <Text>{DeviceInfo.getCarrierSync()}</Text>
-                <Text>{DeviceInfo.getBatteryLevelSync()}</Text>
-                <Text>{DeviceInfo.getBootloaderSync()}</Text>
-                <Text>{DeviceInfo.getBaseOsSync()}</Text>
-                <Text>{DeviceInfo.getDeviceNameSync()}</Text>
-                <Text>{DeviceInfo.getMacAddressSync()}</Text>
-                <Text>{DeviceInfo.getIncrementalSync()}</Text>
-                <Text>{DeviceInfo.getHostSync()}</Text>
-                <Text>{DeviceInfo.isCameraPresentSync()}</Text>
-                <Text>{DeviceInfo.isLocationEnabledSync()}</Text>
-                <Text>{DeviceInfo.getApiLevelSync()}</Text>
-                <Text>{DeviceInfo.getCodenameSync()}</Text>
-                <Text>{DeviceInfo.getIpAddressSync()}</Text>
+                <Text>getApplicationName   {DeviceInfo.getApplicationName()}</Text>
+                <Text>getSystemName   {DeviceInfo.getSystemName()}</Text>
+                <Text>getSystemVersion   {DeviceInfo.getSystemVersion()}</Text>
+                <Text>getBrand   {DeviceInfo.getBrand()}</Text>
+                <Text>getBundleId   {DeviceInfo.getBundleId()}</Text>
+                <Text>getDeviceId   {DeviceInfo.getDeviceId()}</Text>
+                <Text>getDeviceType   {DeviceInfo.getDeviceType()}</Text>
+                <Text>getModel    {DeviceInfo.getModel()}</Text>
+                <Text>getReadableVersion    {DeviceInfo.getReadableVersion()}</Text>
+                <Text>getIpAddressSync    {DeviceInfo.getIpAddressSync()}</Text>
+                <Text>getHardwareSync   {DeviceInfo.getHardwareSync()}</Text>
+                <Text>getDisplaySync  {DeviceInfo.getDisplaySync()}</Text>
+                <Text>getDeviceSync   {DeviceInfo.getDeviceSync()}</Text>
+                <Text>getDeviceNameSync   {DeviceInfo.getDeviceNameSync()}</Text>
+                <Text>getCarrierSync    {DeviceInfo.getCarrierSync()}</Text>
+                <Text>getBuildIdSync     {DeviceInfo.getBuildIdSync()}</Text>
+                <Text>getManufacturerSync    {DeviceInfo.getManufacturerSync()}</Text>
+                <Text>getPreviewSdkIntSync    {DeviceInfo.getPreviewSdkIntSync()}</Text>
             </View>
         </>
     )
