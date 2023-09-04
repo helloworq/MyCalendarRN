@@ -19,6 +19,9 @@ import MyMomentDetail from './MyMomentDetail';
 import MyVideo from './MyVideo';
 import MyTab from './MyTab';
 import MyFindOtherAppData from './MyFindOtherAppData';
+import MyChart from './MyChart';
+import MyFriends from './MyFriends';
+import MyDevice from './MyDevice';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -65,7 +68,7 @@ const Rooter = () => {
             //moment
             //bgColor: 'rgba(163,163,194,0.3)',
             bgColor: 'rgba(255,255,255,0.5)',
-            totalOpacityBgColor: 'rgba(163,163,194,0)',
+            totalOpacityBgColor: 'rgba(163,163,194,0.3)',
         },
     }
 
@@ -101,6 +104,9 @@ const Rooter = () => {
                     <Stack.Screen name='MyMomentDetail' component={MyMomentDetail} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyTab' component={MyTab} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyFindOtherAppData' component={MyFindOtherAppData} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyChart' component={MyChart} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyFriends' component={MyFriends} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyDevice' component={MyDevice} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>

@@ -115,22 +115,22 @@ const MyProfile = ({ navigation }) => {
                                     <Text style={{ color: theme.colors.fontColor }}>转码</Text>
                                 </View>
                                 <View style={{ alignItems: 'center', }}>
-                                    <TouchableOpacity onPress={() => ToastAndroid.show('待开发', ToastAndroid.SHORT)}>
-                                        <FontAwesome name="google" size={50} color={theme.colors.iconColor} />
+                                    <TouchableOpacity onPress={() => navigation.navigate('MyChart')}>
+                                        <FontAwesome name="bar-chart" size={50} color={theme.colors.iconColor} />
                                     </TouchableOpacity>
-                                    <Text style={{ color: theme.colors.fontColor }}>待开发</Text>
+                                    <Text style={{ color: theme.colors.fontColor }}>统计</Text>
                                 </View>
                                 <View style={{ alignItems: 'center', }}>
-                                    <TouchableOpacity onPress={() => ToastAndroid.show('待开发', ToastAndroid.SHORT)}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('MyFriends')}>
                                         <FontAwesome name="gitlab" size={50} color={theme.colors.iconColor} />
                                     </TouchableOpacity>
-                                    <Text style={{ color: theme.colors.fontColor }}>待开发</Text>
+                                    <Text style={{ color: theme.colors.fontColor }}>在线</Text>
                                 </View>
                                 <View style={{ alignItems: 'center', }}>
-                                    <TouchableOpacity onPress={() => ToastAndroid.show('待开发', ToastAndroid.SHORT)}>
-                                        <FontAwesome name="slack" size={50} color={theme.colors.iconColor} />
+                                    <TouchableOpacity onPress={() =>  navigation.navigate('MyDevice')}>
+                                        <FontAwesome name="mobile-phone" size={50} color={theme.colors.iconColor} />
                                     </TouchableOpacity>
-                                    <Text style={{ color: theme.colors.fontColor }}>待开发</Text>
+                                    <Text style={{ color: theme.colors.fontColor }}>本机信息</Text>
                                 </View>
                             </View>
                         </View>

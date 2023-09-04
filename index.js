@@ -33,5 +33,6 @@ import MyVideo from './src/MyVideo';
 import MyTab from './src/MyTab';
 import MyFindOtherAppData from './src/MyFindOtherAppData';
 import MyListView from './src/utilCodeBlock/MyListView'
+import MyChart from './src/MyChart'
 
-AppRegistry.registerComponent(appName, () => MyListView);
+AppRegistry.registerComponent(appName, () => Rooter);
