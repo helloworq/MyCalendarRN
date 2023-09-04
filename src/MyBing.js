@@ -7,12 +7,15 @@ import {
     FlatList,
     Button,
     Modal,
+    ToastAndroid,
     Image,
     ImageBackground,
 } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ImgStroage from "./storage/ImgStroage";
 import { PreferencesContext } from "./MyPreferencesContext";
+import { CameraRoll } from "@react-native-camera-roll/camera-roll";
+import RNFS from 'react-native-fs'
 
 const EXT = 'jpg'
 const DOMAIN = 'https://cn.bing.com'
@@ -34,20 +37,40 @@ const HD = [
     "320x240",
     "240x320"
 ]
+
 const MyBing = ({ navigation }) => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
-    const sliceSize = 100
+    const sliceSize = 5
     const [canLoadMore, setCanLoadMore] = useState(true)
     const [index, setIndex] = useState(0)
     const [picJson, setPicJson] = useState()
     const [data, setData] = useState([])
-    const [hd, setHd] = useState(HD[11])
+    const [hd, setHd] = useState(HD[0])
     const screenWidth = Dimensions.get("window").width
     const screenHeight = Dimensions.get("window").height
     const imgWidth = screenWidth / 3 - 10
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
     //"https://{domain}{data.urlbase}_{hd}.{ext}&{query}",
+
+    async function saveToRoll(img) {
+        RNFS.mkdir(RNFS.ExternalDirectoryPath + '/image/')
+        const savePath = RNFS.ExternalDirectoryPath + `/image/${new Date().getTime()}.${EXT}`
+        RNFS.downloadFile({
+            fromUrl: img,
+            toFile: savePath,
+            background: true,
+            begin: (res) => {
+                ToastAndroid.show(`开始下载`, ToastAndroid.SHORT)
+            },
+        }).promise.then(e => {
+            CameraRoll.save(savePath)
+                .then(e => RNFS.unlink(savePath))
+                .catch(e => {
+                    ToastAndroid.show(`保存失败${e}`, ToastAndroid.SHORT)
+                })
+        }).catch(e => ToastAndroid.show(`下载失败${e}`, ToastAndroid.SHORT))
+    }
 
     return (
         <>
@@ -72,7 +95,11 @@ const MyBing = ({ navigation }) => {
                         setClose(false)
                     }}
                 >
-                    <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
+                    <ImageViewer
+                        onSave={() => saveToRoll(currImg)}
+                        imageUrls={[{ url: currImg }]}
+                        menuContext={{ "saveToLocal": "保存到相册", "cancel": "取消" }}
+                        useNativeDriver={true} />
                 </Modal>
                 <View style={{ height: screenHeight - 90 }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
@@ -90,28 +117,26 @@ const MyBing = ({ navigation }) => {
                         data={data}
                         onEndReached={() => {
                             if (canLoadMore) {
-                                console.log('before', index * sliceSize, (index + 1) * sliceSize)
                                 const indexTemp = index + 1
-
                                 const overload = ((indexTemp + 1) * sliceSize) >= picJson['Total']
                                 const secondSize = overload ? picJson['Total'] : ((indexTemp + 1) * sliceSize)
                                 let temp = data.concat(picJson.data.slice(indexTemp * sliceSize, secondSize))
                                 setData(temp)
                                 setIndex((indexTemp + 2))
                                 setCanLoadMore(overload ? false : true)
-                                console.log('after', indexTemp * sliceSize, (indexTemp + 1) * sliceSize)
                             }
                         }}
                         renderItem={(row) => {
+                            const img = `${DOMAIN}/${row.item.urlbase}_${hd}.${EXT}`
                             return (
                                 <>
                                     <TouchableOpacity
                                         onPress={() => {
                                             setClose(true)
-                                            setCurrImg(`${DOMAIN}/${row.item.urlbase}_${HD[0]}.${EXT}&pid=hp`)
+                                            setCurrImg(img)
                                         }}
                                     >
-                                        <Image source={{ uri: `${DOMAIN}/${row.item.urlbase}_${hd}.${EXT}&pid=hp` }} style={{ width: imgWidth, height: imgWidth }} />
+                                        <Image source={{ uri: img }} style={{ width: imgWidth, height: imgWidth }} />
                                     </TouchableOpacity>
                                 </>
                             )
