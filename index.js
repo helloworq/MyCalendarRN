@@ -32,5 +32,6 @@ import MyAnimation from './src/utilCodeBlock/animation/MyAnimation';
 import MyVideo from './src/MyVideo';
 import MyTab from './src/MyTab';
 import MyFindOtherAppData from './src/MyFindOtherAppData';
+import MyListView from './src/utilCodeBlock/MyListView'
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyListView);
