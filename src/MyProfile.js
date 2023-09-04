@@ -47,9 +47,14 @@ const MyProfile = ({ navigation }) => {
                                 <MaterialCommunityIcons name="theme-light-dark" size={30} color={theme.colors.iconColor} />
                             </TouchableOpacity>
                         </View>
-                        <View style={{}}>
+                        <View style={{marginRight: 10}}>
                             <TouchableOpacity onPress={() => navigation.navigate('MySkin')}>
                                 <AntDesign name="skin" size={30} color={theme.colors.iconColor} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{}}>
+                            <TouchableOpacity onPress={() => navigation.navigate('MySkin')}>
+                                <AntDesign name="setting" size={30} color={theme.colors.iconColor} />
                             </TouchableOpacity>
                         </View>
                     </View>

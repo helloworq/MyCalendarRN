@@ -47,7 +47,7 @@ const MyHomePage = ({ navigation }) => {
                 >
                     <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
                 </NativeModal>
-                <View style={{ marginTop: 10, marginRight: 10, marginLeft: 10, height: '92%', }}>
+                <View style={{ marginTop: 10, marginRight: 10, marginLeft: 10, height: screenHeight-60, }}>
                     <FlatList
                         data={[
                             {
@@ -146,7 +146,9 @@ const MyHomePage = ({ navigation }) => {
                                                     </View>
                                                 </View>
                                             </View>
-                                            <FontAwesome name='angle-down' size={20} color={theme.colors.iconColor} />
+                                            <TouchableOpacity>
+                                                <FontAwesome name='angle-down' size={20} color={theme.colors.iconColor} />
+                                            </TouchableOpacity>
                                         </View>
                                         <Text style={{ fontSize: 17, color: theme.colors.fontColor }}>{row.item.content}</Text>
 
