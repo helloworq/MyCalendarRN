@@ -38,7 +38,6 @@ function distinctByKey(array, key, key2) {
                 temp[userId] = [e] //不解析成对象
             }
         })
-        console.log('aaaaaa', Object.values(temp).flat())
         return Object.values(temp).flat()
     }
 

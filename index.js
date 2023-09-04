@@ -35,5 +35,6 @@ import MyFindOtherAppData from './src/MyFindOtherAppData';
 import MyListView from './src/utilCodeBlock/MyListView'
 import MyChart from './src/MyChart'
 import MyDone from './src/MyDone'
+import MyBing from './src/MyBing'
 
 AppRegistry.registerComponent(appName, () => Rooter);

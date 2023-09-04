@@ -35,6 +35,11 @@ const MyProfile = ({ navigation }) => {
                 <ScrollView>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', width: '95%', marginTop: 10, }}>
                         <View style={{ marginRight: 10 }}>
+                            <TouchableOpacity onPress={() => navigation.navigate('MyBing')}>
+                                <MaterialCommunityIcons name="microsoft-bing" size={35} color={theme.colors.iconColor} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginRight: 10 }}>
                             <TouchableOpacity onPress={() => navigation.navigate('MyDevice')}>
                                 <FontAwesome name="mobile-phone" size={35} color={theme.colors.iconColor} />
                             </TouchableOpacity>
@@ -47,7 +52,7 @@ const MyProfile = ({ navigation }) => {
                                 <MaterialCommunityIcons name="theme-light-dark" size={30} color={theme.colors.iconColor} />
                             </TouchableOpacity>
                         </View>
-                        <View style={{marginRight: 10}}>
+                        <View style={{ marginRight: 10 }}>
                             <TouchableOpacity onPress={() => navigation.navigate('MySkin')}>
                                 <AntDesign name="skin" size={30} color={theme.colors.iconColor} />
                             </TouchableOpacity>

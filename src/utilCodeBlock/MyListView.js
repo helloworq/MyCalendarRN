@@ -78,7 +78,6 @@ const MyListView = () => {
                     numColumns={1}
                     onEndReached={()=>{
                         setData(data.concat(data))
-                        console.log(data.length,)
                     }}
                     data={data}
                     renderItem={(row) => {

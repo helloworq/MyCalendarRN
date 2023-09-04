@@ -14,7 +14,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import ImageCropPicker from 'react-native-image-crop-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
-import { getTodayTagByStroage, } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 import Modal from "react-native-modal";
 import ImageViewer from 'react-native-image-zoom-viewer';

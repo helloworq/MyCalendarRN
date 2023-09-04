@@ -30,7 +30,6 @@ const MyVideo = () => {
         <>
             <Button title='视频转换' onPress={() => {
                 const path = RNFS.ExternalDirectoryPath
-                console.log(path)
 
                 FFmpegKit.execute(` -i ${path + videopath} -y -vcodec copy -acodec copy ${path + '/output.mp4'}`)
             }} />
@@ -72,18 +71,14 @@ const MyVideo = () => {
                         fromUrl: 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
                         toFile: path + '/test.mp4',
                         background: true,
-                        begin: (res) => {
-                            console.log('begin', res);
-                            console.log('contentLength:', res.contentLength / 1024 / 1024, 'M');
-                        },
+                        begin: (res) => {     },
                         progress: (res) => {
                             let pro = res.bytesWritten / res.contentLength;
                             setProgress(pro)
                         }
                     }).promise.then(e => {
-                        console.log('done', e)
                         setProgress(1)
-                    }).catch(e => console.log(e))
+                    })//.catch(e => console.log(e))
 
 
                 }} />

@@ -23,6 +23,7 @@ import MyChart from './MyChart';
 import MyFriends from './MyFriends';
 import MyDevice from './MyDevice';
 import MyDone from './MyDone';
+import MyBing from './MyBing';
 
 const Rooter = () => {
     const Stack = createNativeStackNavigator()
@@ -109,6 +110,7 @@ const Rooter = () => {
                     <Stack.Screen name='MyFriends' component={MyFriends} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyDevice' component={MyDevice} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                     <Stack.Screen name='MyDone' component={MyDone} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
+                    <Stack.Screen name='MyBing' component={MyBing} options={{ headerShown: false, animation: animation, animationDuration: animationDuration }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </PreferencesContext.Provider>
