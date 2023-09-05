@@ -36,5 +36,6 @@ import MyListView from './src/utilCodeBlock/MyListView'
 import MyChart from './src/MyChart'
 import MyDone from './src/MyDone'
 import MyBing from './src/MyBing'
+import MyAnimatedModal from './src/utilCodeBlock/animation/MyAnimatedModal';
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyAnimatedModal);
