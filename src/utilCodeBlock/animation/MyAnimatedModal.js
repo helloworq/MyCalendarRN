@@ -13,6 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 const MyAnimatedModal = () => {
     let radius = 100
+    const animationDuration = 500
     const fadeAnim = useRef(new Animated.Value(0)).current
     const height = useRef(new Animated.Value(radius)).current
     const [open, setOpen] = useState(false)
@@ -39,34 +40,46 @@ const MyAnimatedModal = () => {
                             alignSelf: 'center'
                         }}>
                             <TouchableOpacity onPress={() => {
-                                setOpen(!open)
-                                if (!open) {
+                                const doOpen = !open
+                                setOpen(doOpen)
+                                if (!doOpen) {
+                                    //如果是关闭组件，则立即去掉额外组件
                                     setRestCompoment(<></>)
                                 }
+                                setTimeout(() => {
+                                    //默认组件一定加载成功，将处理事件放在这里而不是.start()回调事件
+                                    //加载完成事件判断是否需要设置剩余组件
+                                    setRestCompoment(
+                                        doOpen ? <>
+                                            <TouchableOpacity onPress={() => {
+                                                setRestCompoment(<></>)
+                                                setOpen(false)
+                                                Animated.spring(
+                                                    height,
+                                                    {
+                                                        toValue: radius,
+                                                        duration: animationDuration,
+                                                        useNativeDriver: false,
+                                                    },
+                                                ).start();
+                                            }} >
+                                                <MaterialCommunityIcons
+                                                    name='download'
+                                                    size={radius}
+                                                    color={'yellow'}
+                                                />
+                                            </TouchableOpacity>
+                                        </> : <></>
+                                    )
+                                }, animationDuration / 2)
                                 Animated.spring(
                                     height,
                                     {
-                                        toValue: (open ? 2 * radius : radius),
-                                        duration: 1000,
+                                        toValue: (doOpen ? 2 * radius : radius),
+                                        duration: animationDuration,
                                         useNativeDriver: false,
                                     },
-                                ).start(e => {
-                                    //加载完成才显示剩余组件
-                                    if (e.finished) {
-                                        setRestCompoment(
-                                            open ? <>
-                                                <TouchableOpacity onPress={() => {
-                                                }} >
-                                                    <MaterialCommunityIcons
-                                                        name='download'
-                                                        size={radius}
-                                                        color={'yellow'}
-                                                    />
-                                                </TouchableOpacity>
-                                            </> : <></>
-                                        )
-                                    }
-                                });
+                                ).start();
                             }} >
                                 <AntDesign
                                     name='plus'
