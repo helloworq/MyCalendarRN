@@ -12,10 +12,15 @@ import {
     ImageBackground,
 } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import ImgStroage from "./storage/ImgStroage";
 import { PreferencesContext } from "./MyPreferencesContext";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import RNFS from 'react-native-fs'
+import ImageView from 'react-native-image-viewing'
 
 const EXT = 'jpg'
 const DOMAIN = 'https://cn.bing.com'
@@ -37,7 +42,7 @@ const HD = [
     "320x240",
     "240x320"
 ]
-
+//"https://{domain}{data.urlbase}_{hd}.{ext}&{query}",
 const MyBing = ({ navigation }) => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
     const sliceSize = 5
@@ -48,10 +53,9 @@ const MyBing = ({ navigation }) => {
     const [hd, setHd] = useState(HD[0])
     const screenWidth = Dimensions.get("window").width
     const screenHeight = Dimensions.get("window").height
-    const imgWidth = screenWidth / 3 - 10
+    const imgWidth = screenWidth / 2 - 10
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
-    //"https://{domain}{data.urlbase}_{hd}.{ext}&{query}",
 
     async function saveToRoll(img) {
         RNFS.mkdir(RNFS.ExternalDirectoryPath + '/image/')
@@ -87,7 +91,19 @@ const MyBing = ({ navigation }) => {
                             setData(json.data.slice(index * sliceSize, (index + 1) * sliceSize))//单独存放此变量，防止一次性全部加载
                         })
                 }} />
-                <Modal
+                <ImageView
+                    images={[{ uri: currImg }]}
+                    visible={close}
+                    onRequestClose={() => setClose(false)}
+                    FooterComponent={() => {
+                        return (
+                            <View style={{ alignItems: 'center' }}>
+                                <AntDesign name='download' size={30} color={'white'} />
+                            </View>
+                        )
+                    }}
+                />
+                {/* <Modal
                     animationType="fade"
                     transparent={false}
                     visible={close}
@@ -100,7 +116,7 @@ const MyBing = ({ navigation }) => {
                         imageUrls={[{ url: currImg }]}
                         menuContext={{ "saveToLocal": "保存到相册", "cancel": "取消" }}
                         useNativeDriver={true} />
-                </Modal>
+                </Modal> */}
                 <View style={{ height: screenHeight - 90 }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
                         <View style={{ alignItems: 'center' }} >
@@ -122,12 +138,17 @@ const MyBing = ({ navigation }) => {
                                 const secondSize = overload ? picJson['Total'] : ((indexTemp + 1) * sliceSize)
                                 let temp = data.concat(picJson.data.slice(indexTemp * sliceSize, secondSize))
                                 setData(temp)
-                                setIndex((indexTemp + 2))
+                                setIndex((indexTemp + 1))
                                 setCanLoadMore(overload ? false : true)
                             }
                         }}
                         renderItem={(row) => {
                             const img = `${DOMAIN}/${row.item.urlbase}_${hd}.${EXT}`
+                            //如果是uhd 默认比例为  16:9
+                            const resolution = hd === HD[0] ? '16x9' : hd
+                            const width = imgWidth
+                            const height = resolution.split('x')[1] * width / resolution.split('x')[0]
+
                             return (
                                 <>
                                     <TouchableOpacity
@@ -136,12 +157,24 @@ const MyBing = ({ navigation }) => {
                                             setCurrImg(img)
                                         }}
                                     >
-                                        <Image source={{ uri: img }} style={{ width: imgWidth, height: imgWidth }} />
+                                        <View>
+                                            <Image source={{ uri: img }} style={{ width: width, height: height }} />
+                                            <View style={{
+                                                position: 'absolute',
+                                                bottom: 5,
+                                                left: 5,
+                                                right: 5,
+                                            }}>
+                                                <Text style={{ fontSize: 20, color: 'white', }}>{row.item.title}</Text>
+                                                <Text style={{ fontSize: 10, color: 'white', }}>{row.item.copyright}</Text>
+                                            </View>
+
+                                        </View>
                                     </TouchableOpacity>
                                 </>
                             )
                         }}
-                        numColumns={3}
+                        numColumns={2}
                         keyExtractor={(item, index) => item['hsh']}
                         columnWrapperStyle={{ justifyContent: 'space-around' }}
                         ItemSeparatorComponent={() => <View style={{ height: 10 }}></View>}
