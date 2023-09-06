@@ -37,5 +37,6 @@ import MyChart from './src/MyChart'
 import MyDone from './src/MyDone'
 import MyBing from './src/MyBing'
 import MyAnimatedModal from './src/utilCodeBlock/animation/MyAnimatedModal';
+import MyAnimatedMenu from './src/compoment/MyAnimatedMenu'
 
-AppRegistry.registerComponent(appName, () => MyAnimatedModal);
+AppRegistry.registerComponent(appName, () => Rooter);

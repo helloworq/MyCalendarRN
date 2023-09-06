@@ -11,11 +11,7 @@ import {
     Image,
     ImageBackground,
 } from 'react-native'
-import ImageViewer from 'react-native-image-zoom-viewer';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import ImgStroage from "./storage/ImgStroage";
 import { PreferencesContext } from "./MyPreferencesContext";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
@@ -103,20 +99,6 @@ const MyBing = ({ navigation }) => {
                         )
                     }}
                 />
-                {/* <Modal
-                    animationType="fade"
-                    transparent={false}
-                    visible={close}
-                    onRequestClose={() => {
-                        setClose(false)
-                    }}
-                >
-                    <ImageViewer
-                        onSave={() => saveToRoll(currImg)}
-                        imageUrls={[{ url: currImg }]}
-                        menuContext={{ "saveToLocal": "保存到相册", "cancel": "取消" }}
-                        useNativeDriver={true} />
-                </Modal> */}
                 <View style={{ height: screenHeight - 90 }} >
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
                         <View style={{ alignItems: 'center' }} >
