@@ -1,8 +1,7 @@
 # MyCalendarRN
 
 # Thanks JetBrain
-
-![img]()
+### ![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_ga=2.266088143.178988165.1694098162-1917990089.1657344789&_gl=1*5vo7l5*_ga*MTkxNzk5MDA4OS4xNjU3MzQ0Nzg5*_ga_9J976DJZ68*MTY5NDA5ODE2MS4xMC4xLjE2OTQwOTg0NTguMC4wLjA.)
 
 # App ScreenShoot
 
