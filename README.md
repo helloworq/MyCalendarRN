@@ -1,5 +1,11 @@
 # MyCalendarRN
+
+# Thanks JetBrain
+
+![img]()
+
 # App ScreenShoot
+
 ![7b0df2278895e7e691113847ab53cd4](https://github.com/helloworq/MyCalendarRN/assets/26016637/665547c1-6f99-4655-a588-242b35071be9)
 ![0ba624c451d5cac42ddad64d74d50f3](https://github.com/helloworq/MyCalendarRN/assets/26016637/31c24e94-45aa-4d93-aa84-729eb6ec05a6)
 ![f970c83b37d29f039800faa0480caba](https://github.com/helloworq/MyCalendarRN/assets/26016637/7ab38c57-2924-4f5c-9e36-e4711b87d16d)
