@@ -17,6 +17,8 @@ import { PreferencesContext } from "./MyPreferencesContext";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import RNFS from 'react-native-fs'
 import ImageView from 'react-native-image-viewing'
+import { Dropdown } from 'react-native-element-dropdown'
+import SelectDropdown from 'react-native-select-dropdown'
 
 const EXT = 'jpg'
 const DOMAIN = 'https://cn.bing.com'
@@ -105,11 +107,33 @@ const MyBing = ({ navigation }) => {
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }} >总数量</Text>
                             <Text style={{ fontSize: 15 }} >{picJson ? picJson['Total'] : ''}</Text>
                         </View>
+                        <View style={{ alignItems: 'center',  }} >
+                            <SelectDropdown
+                                data={HD}
+                                buttonStyle={{width:150,borderRadius:20}}
+                                dropdownOverlayColor="rgba(255,255,255,0)"
+                                
+                                renderDropdownIcon={()=><AntDesign name='down' />}
+                                //renderCustomizedButtonChild={() => <Text>AAA</Text>}
+                                onSelect={(selectedItem, index) => {
+                                    console.log(selectedItem, index)
+                                }}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    // text represented after item is selected
+                                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                    return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    // text represented for each item in dropdown
+                                    // if data array is an array of objects then return item.property to represent item in dropdown
+                                    return item
+                                }}
+                            />
+                        </View>
                         <View style={{ alignItems: 'center' }} >
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }} >最后更新时间</Text>
                             <Text style={{ fontSize: 15 }} >{picJson ? picJson['LastUpdate'] : ''}</Text>
                         </View>
-
                     </View>
                     <FlatList
                         data={data}
