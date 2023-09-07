@@ -95,9 +95,11 @@ const MyBing = ({ navigation }) => {
                     onRequestClose={() => setClose(false)}
                     FooterComponent={() => {
                         return (
-                            <View style={{ alignItems: 'center' }}>
-                                <AntDesign name='download' size={30} color={'white'} />
-                            </View>
+                            <TouchableOpacity onPress={()=>{}} >
+                                <View style={{ alignItems: 'center' }}>
+                                    <AntDesign name='download' size={30} color={'white'} />
+                                </View>
+                            </TouchableOpacity>
                         )
                     }}
                 />
@@ -107,13 +109,13 @@ const MyBing = ({ navigation }) => {
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }} >总数量</Text>
                             <Text style={{ fontSize: 15 }} >{picJson ? picJson['Total'] : ''}</Text>
                         </View>
-                        <View style={{ alignItems: 'center',  }} >
+                        <View style={{ alignItems: 'center', }} >
                             <SelectDropdown
                                 data={HD}
-                                buttonStyle={{width:150,borderRadius:20}}
+                                buttonStyle={{ width: 150, borderRadius: 20 }}
                                 dropdownOverlayColor="rgba(255,255,255,0)"
-                                
-                                renderDropdownIcon={()=><AntDesign name='down' />}
+
+                                renderDropdownIcon={() => <AntDesign name='down' />}
                                 //renderCustomizedButtonChild={() => <Text>AAA</Text>}
                                 onSelect={(selectedItem, index) => {
                                     console.log(selectedItem, index)
