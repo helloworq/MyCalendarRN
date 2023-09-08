@@ -7,7 +7,6 @@ import {
     FlatList,
     ImageBackground,
     Image,
-    Modal as NativeModal,
     ToastAndroid,
 } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -16,7 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
 import ImgStroage from "./storage/ImgStroage";
 import Modal from "react-native-modal";
-import ImageViewer from 'react-native-image-zoom-viewer';
+import ImageView from 'react-native-image-viewing'
 
 const MyHomePage = ({ navigation }) => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
@@ -36,17 +35,13 @@ const MyHomePage = ({ navigation }) => {
                 resizeMode='stretch'
                 style={{ flex: 1, backgroundColor: theme.colors.totalOpacityBgColor }}
             >
-                <NativeModal
-                    animationType="fade"
-                    transparent={false}
+                <ImageView
+                    images={[{ uri: currImg }]}
                     visible={close}
-                    onRequestClose={() => {
-                        setClose(false)
-                    }}
-                >
-                    <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
-                </NativeModal>
-                <View style={{ marginTop: 10, marginRight: 10, marginLeft: 10, height: screenHeight-60, }}>
+                    onRequestClose={() => setClose(false)}
+                />
+
+                <View style={{ marginTop: 10, marginRight: 10, marginLeft: 10, height: screenHeight - 60, }}>
                     <FlatList
                         data={[
                             {
@@ -171,7 +166,7 @@ const MyHomePage = ({ navigation }) => {
                                             }}
                                             numColumns={3}
                                             keyExtractor={(item, index) => {
-                                                return item.path + index
+                                                return item + index
                                             }}
                                             horizontal={false}
                                         />
@@ -220,8 +215,7 @@ const MyHomePage = ({ navigation }) => {
                                     < MaterialIcons name="add-circle" size={50} color={theme.colors.iconColor} />
                                 </View>
                                 <Modal
-                                    backdropColor={'black'}
-                                    style={{ height: 200 }}
+                                    backdropColor={'white'}
                                     useNativeDriver={true}
                                     animationIn='fadeInUp'
                                     animationOut='fadeOutDown'

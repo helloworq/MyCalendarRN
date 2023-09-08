@@ -116,7 +116,7 @@ const MyBing = ({ navigation }) => {
                     }}
                 />
                 <View style={{ height: screenHeight - 90 }} >
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,margin:5}} >
                         <View style={{ alignItems: 'center' }} >
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }} >总数量</Text>
                             <Text style={{ fontSize: 15 }} >{picJson ? picJson['Total'] : ''}</Text>

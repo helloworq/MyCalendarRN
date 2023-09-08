@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
-import ImageViewer from 'react-native-image-zoom-viewer';
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import storage, { uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
-
+import ImageView from 'react-native-image-viewing'
 import {
     TextInput,
     View,
@@ -14,7 +12,6 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    Modal,
     Button,
     ToastAndroid,
     ImageBackground,
@@ -74,16 +71,12 @@ const MyMomentUploader = ({ route, navigation }) => {
 
         return (
             <>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
+                <ImageView
+                    images={[{ uri: currImg }]}
                     visible={close}
-                    onRequestClose={() => {
-                        setClose(false)
-                    }}
-                >
-                    <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
-                </Modal>
+                    onRequestClose={() => setClose(false)}
+                />
+
                 <TouchableOpacity
                     onPress={() => {
                         setClose(true)
