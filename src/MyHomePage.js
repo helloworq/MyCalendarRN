@@ -41,7 +41,7 @@ const MyHomePage = ({ navigation }) => {
                     onRequestClose={() => setClose(false)}
                 />
 
-                <View style={{ marginTop: 10, marginRight: 10, marginLeft: 10, height: screenHeight - 60, }}>
+                <View style={{ marginTop: 10, marginRight: 10, marginLeft: 10, height: '92.8%', }}>
                     <FlatList
                         data={[
                             {
@@ -187,11 +187,12 @@ const MyHomePage = ({ navigation }) => {
                 <View style={{
                     backgroundColor: theme.colors.bgColor,
                     position: 'absolute',
-                    left: 30,
+                    left: 0,
                     bottom: 0,
-                    width: screenWidth - 2 * 30,
-                    height: 60,
-                    borderRadius: 50,
+                    width: screenWidth,
+                    height: '6%',
+                    borderTopLeftRadius: 15,
+                    borderTopRightRadius: 15,
                 }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', }}>
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
