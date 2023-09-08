@@ -12,7 +12,7 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    Button,
+    Text,
     ToastAndroid,
     ImageBackground,
     ScrollView
@@ -133,11 +133,20 @@ const MyMomentUploader = ({ route, navigation }) => {
                     />
                 </ScrollView>
                 <View>
-                    <Button onPress={() => {
+                    <TouchableOpacity onPress={() => {
                         const _tags = Object.values(tags).filter((e) => e[2] === true)
                         uploadMomentByStroage(text, data, _tags)
                         ToastAndroid.show('已上传', ToastAndroid.SHORT);
-                    }} title='发表' />
+                    }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', height: 50, backgroundColor: theme.colors.bgColor, borderRadius: 20 }} >
+                            <Text style={{ color: theme.colors.fontColor, fontSize: 20 }} >发表</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {/* <Button onPress={() => {
+                        const _tags = Object.values(tags).filter((e) => e[2] === true)
+                        uploadMomentByStroage(text, data, _tags)
+                        ToastAndroid.show('已上传', ToastAndroid.SHORT);
+                    }} title='发表' /> */}
                 </View>
             </ImageBackground>
         </>

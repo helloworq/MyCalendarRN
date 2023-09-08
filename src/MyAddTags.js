@@ -1,6 +1,15 @@
 //创建tag标签界面
 import React, { useState, useEffect, useContext } from "react";
-import { TextInput, View, Button, ScrollView, ToastAndroid, ImageBackground } from "react-native";
+import {
+    TextInput,
+    Text,
+    View,
+    Button,
+    ScrollView,
+    ToastAndroid,
+    ImageBackground,
+    TouchableOpacity
+} from "react-native";
 import { Chip } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { PreferencesContext } from "./MyPreferencesContext";
@@ -61,7 +70,7 @@ const MyAddTags = () => {
                     }}>
                         <TextInput
                             placeholder="新增tag  (长按tag可删除)"
-                            style={{ flex: 1,  borderRadius: 10,padding:10 }}
+                            style={{ flex: 1, borderRadius: 10, padding: 10 }}
                             maxLength={400}
                             multiline={true}
                             onChangeText={text => setText(text)}
@@ -86,12 +95,15 @@ const MyAddTags = () => {
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                         {renderTag()}
                     </View>
-                    <View style={{}} >
-                        <Button title="保存" onPress={() => {
-                            setTagsByStroage(data)
-                            ToastAndroid.show('已保存', ToastAndroid.SHORT)
-                        }} />
-                    </View>
+
+                    <TouchableOpacity onPress={() => {
+                        setTagsByStroage(data)
+                        ToastAndroid.show('已保存', ToastAndroid.SHORT)
+                    }} >
+                        <View style={{ alignItems: 'center', justifyContent: 'center', height: 40, backgroundColor: theme.colors.bgColor, borderRadius: 20 }} >
+                            <Text style={{ color: theme.colors.fontColor, fontSize: 18 }} >保存</Text>
+                        </View>
+                    </TouchableOpacity>
                 </ScrollView>
             </ImageBackground>
         </>
