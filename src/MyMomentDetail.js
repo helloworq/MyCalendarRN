@@ -51,9 +51,8 @@ const MyMomentDetail = () => {
                     sliderWidth={screenWidth}
                     itemWidth={screenWidth}
                     hasParallaxImages={true}
-                    inactiveSlideScale={1}
                     inactiveSlideOpacity={0.7}
-                    loop={true}
+                    loop={false}
                     onSnapToItem={(index) => setActiveIndex(index)}
                 />
                 <Pagination

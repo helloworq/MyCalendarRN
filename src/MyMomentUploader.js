@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
-import ImageViewer from 'react-native-image-zoom-viewer';
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import storage, { uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
-
+import ImageView from 'react-native-image-viewing'
 import {
     TextInput,
     View,
@@ -14,8 +12,7 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    Modal,
-    Button,
+    Text,
     ToastAndroid,
     ImageBackground,
     ScrollView
@@ -74,16 +71,12 @@ const MyMomentUploader = ({ route, navigation }) => {
 
         return (
             <>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
+                <ImageView
+                    images={[{ uri: currImg }]}
                     visible={close}
-                    onRequestClose={() => {
-                        setClose(false)
-                    }}
-                >
-                    <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
-                </Modal>
+                    onRequestClose={() => setClose(false)}
+                />
+
                 <TouchableOpacity
                     onPress={() => {
                         setClose(true)
@@ -140,11 +133,20 @@ const MyMomentUploader = ({ route, navigation }) => {
                     />
                 </ScrollView>
                 <View>
-                    <Button onPress={() => {
+                    <TouchableOpacity onPress={() => {
                         const _tags = Object.values(tags).filter((e) => e[2] === true)
                         uploadMomentByStroage(text, data, _tags)
                         ToastAndroid.show('已上传', ToastAndroid.SHORT);
-                    }} title='发表' />
+                    }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', height: 50, backgroundColor: theme.colors.bgColor, borderRadius: 20 }} >
+                            <Text style={{ color: theme.colors.fontColor, fontSize: 20 }} >发表</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {/* <Button onPress={() => {
+                        const _tags = Object.values(tags).filter((e) => e[2] === true)
+                        uploadMomentByStroage(text, data, _tags)
+                        ToastAndroid.show('已上传', ToastAndroid.SHORT);
+                    }} title='发表' /> */}
                 </View>
             </ImageBackground>
         </>
