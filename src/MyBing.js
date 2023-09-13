@@ -43,7 +43,7 @@ const HD = [
 //"https://{domain}{data.urlbase}_{hd}.{ext}&{query}",
 const MyBing = ({ navigation }) => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
-    const sliceSize = 5
+    const sliceSize = 20
     const [canLoadMore, setCanLoadMore] = useState(true)
     const [index, setIndex] = useState(0)
     const [picJson, setPicJson] = useState()
@@ -68,6 +68,7 @@ const MyBing = ({ navigation }) => {
         }).promise.then(e => {
             CameraRoll.save(savePath)
                 .then(e => RNFS.unlink(savePath))
+                .then(e => ToastAndroid.show(`下载完成`, ToastAndroid.SHORT))
                 .catch(e => {
                     ToastAndroid.show(`保存失败${e}`, ToastAndroid.SHORT)
                 })
@@ -81,58 +82,65 @@ const MyBing = ({ navigation }) => {
                 resizeMode='stretch'
                 style={{ flex: 1, backgroundColor: theme.colors.totalOpacityBgColor }}
             >
-                <Button title="Fetch" onPress={() => {
+                <TouchableOpacity onPress={() => {
                     fetch(API)
                         .then(json => json.json())
                         .then(json => {
                             setPicJson(json)
                             setData(json.data.slice(index * sliceSize, (index + 1) * sliceSize))//单独存放此变量，防止一次性全部加载
                         })
-                }} />
+                }}>
+                    <View style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 40,
+                        backgroundColor: theme.colors.bgColor,
+                        borderRadius: 20,
+                        margin: 5,
+                    }}>
+                        <Text style={{ fontSize: 20 }}>Bing 壁纸</Text>
+                    </View>
+                </TouchableOpacity>
                 <ImageView
                     images={[{ uri: currImg }]}
                     visible={close}
                     onRequestClose={() => setClose(false)}
                     FooterComponent={() => {
                         return (
-                            <View style={{ alignItems: 'center' }}>
-                                <AntDesign name='download' size={30} color={'white'} />
-                            </View>
+                            <TouchableOpacity onPress={() => { saveToRoll(currImg) }} >
+                                <View style={{ alignItems: 'center' }}>
+                                    <AntDesign name='download' size={30} color={'white'} />
+                                </View>
+                            </TouchableOpacity>
                         )
                     }}
                 />
                 <View style={{ height: screenHeight - 90 }} >
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' ,margin:5}} >
                         <View style={{ alignItems: 'center' }} >
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }} >总数量</Text>
                             <Text style={{ fontSize: 15 }} >{picJson ? picJson['Total'] : ''}</Text>
                         </View>
-                        <View style={{ alignItems: 'center',  }} >
-                            <SelectDropdown
-                                data={HD}
-                                buttonStyle={{width:150,borderRadius:20}}
-                                dropdownOverlayColor="rgba(255,255,255,0)"
-                                
-                                renderDropdownIcon={()=><AntDesign name='down' />}
-                                //renderCustomizedButtonChild={() => <Text>AAA</Text>}
-                                onSelect={(selectedItem, index) => {
-                                    console.log(selectedItem, index)
-                                }}
-                                buttonTextAfterSelection={(selectedItem, index) => {
-                                    // text represented after item is selected
-                                    // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                    return selectedItem
-                                }}
-                                rowTextForSelection={(item, index) => {
-                                    // text represented for each item in dropdown
-                                    // if data array is an array of objects then return item.property to represent item in dropdown
-                                    return item
-                                }}
-                            />
-                        </View>
                         <View style={{ alignItems: 'center' }} >
                             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }} >最后更新时间</Text>
                             <Text style={{ fontSize: 15 }} >{picJson ? picJson['LastUpdate'] : ''}</Text>
+                        </View>
+                        <View style={{ alignItems: 'center', }} >
+                            <SelectDropdown
+                                data={HD}
+                                buttonStyle={{ backgroundColor: "rgba(255,255,255,0)" }}
+                                dropdownOverlayColor="rgba(255,255,255,0)"
+                                renderDropdownIcon={() => <AntDesign size={20} name='down' />}
+                                onSelect={(selectedItem, index) => {
+                                    setHd(selectedItem)
+                                }}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    return item
+                                }}
+                            />
                         </View>
                     </View>
                     <FlatList
