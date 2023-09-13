@@ -8,13 +8,14 @@ import Touch from './reanimated/Touch';
 import Move from './reanimated/Move';
 import ScaleCompoment from './reanimated/ScaleCompoment';
 import MyPullDownCompoment from '../../compoment/MyPullDownCompoment';
+import MyPullDownNative from '../../compoment/MyPullDownNative';
 
 const MyAnimation = () => {
 
     return (
         <>
             <View style={{ flex: 1, }}>
-                <ScaleCompoment pullDownFunc={() => console.log(66666666)}  />
+                <MyPullDownNative mylist={()=>{}} pullDownFunc={() => console.log(66666666)} pullUpFunc={() => console.log(999999999)} />
             </View>
         </>
     );

@@ -39,5 +39,6 @@ import MyBing from './src/MyBing'
 import MyAnimatedModal from './src/utilCodeBlock/animation/MyAnimatedModal';
 import MyAnimatedMenu from './src/compoment/MyAnimatedMenu'
 import MyPullDownCompoment from './src/compoment/MyPullDownCompoment';
+import MyPullDownNative from './src/compoment/MyPullDownNative'
 
-AppRegistry.registerComponent(appName, () => MyPullDownCompoment);
+AppRegistry.registerComponent(appName, () => Rooter);

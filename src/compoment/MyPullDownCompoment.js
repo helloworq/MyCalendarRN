@@ -1,11 +1,12 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, FlatList } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withSpring,
     withTiming,
+    FadeInDown,
     useAnimatedReaction,
     runOnJS,
 } from 'react-native-reanimated';
@@ -38,8 +39,9 @@ const MyPullDownCompoment = ({ pullDownFunc, pullUpFunc }) => {
         circle: {
             height: screenHeight,
             width: screenWidth,
-            //backgroundColor: '#b58df1',
+            backgroundColor: '#b58df1',
             borderRadius: 10,
+            height: '100%',
             cursor: 'grab',
         },
     });
@@ -47,7 +49,7 @@ const MyPullDownCompoment = ({ pullDownFunc, pullUpFunc }) => {
     pullDownFunc = pullDownFunc === undefined ? () => { console.log('下拉') } : pullDownFunc
     pullUpFunc = pullUpFunc === undefined ? () => { console.log('上拉') } : pullUpFunc
 
-    //下拉刷新
+
     const pullDownRefresh = (<>
         <View style={{
             position: 'absolute',
@@ -70,7 +72,6 @@ const MyPullDownCompoment = ({ pullDownFunc, pullUpFunc }) => {
         </View>
     </>)
 
-    //上拉加载
     const pullUpLoad = (<>
         <View style={{
             position: 'absolute',
@@ -113,9 +114,9 @@ const MyPullDownCompoment = ({ pullDownFunc, pullUpFunc }) => {
     const animatedStyles = useAnimatedStyle(() => ({
         transform: [
             // { translateX: offsetX.value },
-            { translateY: offsetY.value / pullSlowDownSpeed },//除10体现更好的组件滑动的速度效果
-            // { scaleX: withTiming(pressed.value ? 2 : 1) },
-            // { scaleY: withTiming(pressed.value ? 2 : 1) },
+           // { translateY: offsetY.value / pullSlowDownSpeed }, //除10体现更好的组件滑动的速度效果
+            //   { scaleX: withTiming(pressed.value ? 2 : 1) },
+            //  { scaleY: withTiming(pressed.value ? 2 : 1) },
         ],
         backgroundColor: 'white'
     }));
@@ -131,13 +132,30 @@ const MyPullDownCompoment = ({ pullDownFunc, pullUpFunc }) => {
 
     return (
         <GestureHandlerRootView style={styles.container}>
-            <View style={styles.container}>
                 {pullDownRefresh}
                 {pullUpLoad}
-                <GestureDetector gesture={pan}>
-                    <Animated.View style={[styles.circle, animatedStyles]} />
+                <GestureDetector gesture={pan} >
+                    <Animated.ScrollView entering={FadeInDown} style={[styles.circle, animatedStyles]} >
+                        <FlatList
+                            data={[
+                                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+                            ]}
+                            renderItem={(row) => {
+                                return (
+                                    <>
+                                        <View style={{ alignItems: 'center', borderRadius: 20 }} >
+                                            <View style={{ height: 100, width: 300, backgroundColor: 'green', margin: 5 }} >
+                                                <Text style={{ fontSize: 30, textAlign: 'center', verticalAlign: 'middle' }} >{row.item}</Text>
+                                            </View>
+                                        </View>
+                                    </>
+                                )
+                            }}
+                            numColumns={1}
+                            horizontal={false}
+                        />
+                    </Animated.ScrollView>
                 </GestureDetector>
-            </View>
         </GestureHandlerRootView>
     );
 }
