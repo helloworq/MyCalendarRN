@@ -180,7 +180,9 @@ const MyHomePage = ({ navigation }) => {
                                             </>
                                         )
                                     }}
-
+                                    onScroll={(e)=>{
+                                        console.log(e.nativeEvent.contentOffset.y)
+                                    }}
                                     keyExtractor={(item, index) => {
                                         return item.path + index
                                     }}

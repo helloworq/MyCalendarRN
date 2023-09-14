@@ -41,4 +41,4 @@ import MyAnimatedMenu from './src/compoment/MyAnimatedMenu'
 import MyPullDownCompoment from './src/compoment/MyPullDownCompoment';
 import MyPullDownNative from './src/compoment/MyPullDownNative'
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MyAnimation);

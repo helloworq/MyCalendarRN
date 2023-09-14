@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Animated, View, StyleSheet, PanResponder, Text, FlatList, Dimensions, runOnJS } from "react-native";
+import { Animated, View, StyleSheet, PanResponder, Text, FlatList, Dimensions, runOnJS, Button } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
@@ -7,19 +7,21 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
     const screenWidth = Dimensions.get("window").width
     const screenHeight = Dimensions.get("window").height - 20
     const pullDownThreshold = 40
-    const pullSlowDownSpeed = 10
+    const pullSlowDownSpeed = 5
+    const offsetHeight = 100
     const [pullDownLength, setPullDownLength] = useState(0)
+    const [scrollable, setScrollable] = useState(false)
+    const [initNum, setInitNum] = useState(0)
 
-    pullDownFunc = pullDownFunc === undefined ? () => {  } : pullDownFunc
-    pullUpFunc = pullUpFunc === undefined ? () => {  } : pullUpFunc
+    pullDownFunc = pullDownFunc === undefined ? () => { } : pullDownFunc
+    pullUpFunc = pullUpFunc === undefined ? () => { } : pullUpFunc
 
     const panResponder = useRef(
         PanResponder.create({
             onMoveShouldSetPanResponder: () => true,
-
             onPanResponderMove: (evt, gestureState) => {
-                let moveX = gestureState.dx / 10
-                let moveY = gestureState.dy / 10
+                let moveX = gestureState.dx / pullSlowDownSpeed
+                let moveY = gestureState.dy / pullSlowDownSpeed
 
                 setPullDownLength(parseInt(moveY))
 
@@ -30,9 +32,8 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
                     dy: new Animated.Value(moveY),
                 }], { useNativeDriver: false })(evt, gestureState)
             },
-
             onPanResponderRelease: (e, gestureState) => {
-                let moveY = gestureState.dy / 10
+                let moveY = gestureState.dy / pullSlowDownSpeed
                 if (moveY >= pullDownThreshold) {
                     pullDownFunc()
                 }
@@ -95,15 +96,14 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
             lineHeight: 24,
             fontWeight: "bold"
         },
-        box: {
-            height: '100%',
-            width: screenWidth,
-            borderRadius: 5
-        }
+
     });
 
 
-    return (
+    return (<>
+        <Button title="Click" onPress={() => {
+            pan.y.setValue(50)
+        }} />
         <View style={styles.container}>
             {pullDownRefresh}
             {pullUpLoad}
@@ -113,17 +113,47 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
                 }}
                 {...panResponder.panHandlers}
             >
-                <View style={styles.box} >
-                    {mylist()}
-                    {/* <FlatList
+                <View style={styles.box}>
+                    {/* {mylist()} */}
+                    <FlatList
                         data={[
                             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
                         ]}
+                        onTouchMove={(e) => {
+                            console.log(scrollable, initNum)
+                            if (initNum === 0) {
+                                setInitNum(e.nativeEvent.pageY)
+                                //setScrollable(false)
+                            } else {
+                                if (e.nativeEvent.pageY - initNum > 0) {
+                                    setTimeout(() => setScrollable(false))
+                                    setInitNum(0)
+                                } else {
+                                    setTimeout(() => setScrollable(true))
+                                    setInitNum(0)
+                                }
+                            }
+                            //console.log(e.nativeEvent.pageY)
+                        }}
+                        //onTouchMove={() => console.log(11111)}
+                        scrollEnabled={scrollable}
+                        onScroll={(event) => {
+                            //console.log("!!!!!!!!!", event.nativeEvent)
+                            let cur = event.nativeEvent.contentOffset.y / pullSlowDownSpeed
+                            //console.log(cur)
+                            if (cur > 0) {
+                                //setReachTop(false)
+                                setTimeout(() => setScrollable(true))
+                            } else {
+                                setTimeout(() => setScrollable(true))
+                            }
+                        }}
+
                         renderItem={(row) => {
                             return (
                                 <>
                                     <View style={{ alignItems: 'center', borderRadius: 20 }} >
-                                        <View style={{ height: 100, width: '100%', backgroundColor: 'gray', margin: 5 }} >
+                                        <View style={{ height: 100, width: 400, backgroundColor: 'gray', margin: 5 }} >
                                             <Text style={{ fontSize: 30, textAlign: 'center', verticalAlign: 'middle' }} >{row.item}</Text>
                                         </View>
                                     </View>
@@ -132,10 +162,11 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
                         }}
                         numColumns={1}
                         horizontal={false}
-                    /> */}
+                    />
                 </View>
             </Animated.View>
         </View>
+    </>
     );
 }
 
