@@ -7,7 +7,7 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
     const screenWidth = Dimensions.get("window").width
     const screenHeight = Dimensions.get("window").height - 20
     const pullDownThreshold = 40
-    const pullSlowDownSpeed = 5
+    const pullSlowDownSpeed = 1
     const offsetHeight = 100
     const [pullDownLength, setPullDownLength] = useState(0)
     const [scrollable, setScrollable] = useState(false)
@@ -18,6 +18,7 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
 
     const panResponder = useRef(
         PanResponder.create({
+            onMoveShouldSetPanResponder: () => true,
             onMoveShouldSetPanResponder: () => true,
             onPanResponderMove: (evt, gestureState) => {
                 let moveX = gestureState.dx / pullSlowDownSpeed
@@ -113,57 +114,56 @@ const MyPullDownNative = ({ pullDownFunc, pullUpFunc, mylist }) => {
                 }}
                 {...panResponder.panHandlers}
             >
-                <View style={styles.box}>
-                    {/* {mylist()} */}
-                    <FlatList
-                        data={[
-                            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
-                        ]}
-                        onTouchMove={(e) => {
-                            console.log(scrollable, initNum)
-                            if (initNum === 0) {
-                                setInitNum(e.nativeEvent.pageY)
-                                //setScrollable(false)
+                <FlatList
+                    data={[
+                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+                    ]}
+                    onTouchMove={(e) => {
+                        console.log(e.nativeEvent.touches)
+                        
+                        // console.log(scrollable, initNum)
+                        if (initNum === 0) {
+                            //setInitNum(e.nativeEvent.pageY)
+                            //setScrollable(false)
+                        } else {
+                            if (e.nativeEvent.pageY - initNum > 0) {
+                                setScrollable(false)
+                                // setInitNum(0)
                             } else {
-                                if (e.nativeEvent.pageY - initNum > 0) {
-                                    setTimeout(() => setScrollable(false))
-                                    setInitNum(0)
-                                } else {
-                                    setTimeout(() => setScrollable(true))
-                                    setInitNum(0)
-                                }
+                                setScrollable(true)
+                                //  setInitNum(0)
                             }
-                            //console.log(e.nativeEvent.pageY)
-                        }}
-                        //onTouchMove={() => console.log(11111)}
-                        scrollEnabled={scrollable}
-                        onScroll={(event) => {
-                            //console.log("!!!!!!!!!", event.nativeEvent)
-                            let cur = event.nativeEvent.contentOffset.y / pullSlowDownSpeed
-                            //console.log(cur)
-                            if (cur > 0) {
-                                //setReachTop(false)
-                                setTimeout(() => setScrollable(true))
-                            } else {
-                                setTimeout(() => setScrollable(true))
-                            }
-                        }}
+                        }
+                        //console.log(e.nativeEvent.pageY)
+                    }}
+                    //onTouchMove={() => console.log(11111)}
+                    scrollEnabled={scrollable}
+                    onScroll={(event) => {
+                        //console.log("!!!!!!!!!", event.nativeEvent)
+                        let cur = event.nativeEvent.contentOffset.y / pullSlowDownSpeed
+                        console.log(cur)
+                        if (cur === 0) {
+                            //setReachTop(false)
+                            setScrollable(false)
+                        } else {
+                            setScrollable(true)
+                        }
+                    }}
 
-                        renderItem={(row) => {
-                            return (
-                                <>
-                                    <View style={{ alignItems: 'center', borderRadius: 20 }} >
-                                        <View style={{ height: 100, width: 400, backgroundColor: 'gray', margin: 5 }} >
-                                            <Text style={{ fontSize: 30, textAlign: 'center', verticalAlign: 'middle' }} >{row.item}</Text>
-                                        </View>
+                    renderItem={(row) => {
+                        return (
+                            <>
+                                <View style={{ alignItems: 'center', borderRadius: 20 }} >
+                                    <View style={{ height: 100, width: 400, backgroundColor: 'gray', margin: 5 }} >
+                                        <Text style={{ fontSize: 30, textAlign: 'center', verticalAlign: 'middle' }} >{row.item}</Text>
                                     </View>
-                                </>
-                            )
-                        }}
-                        numColumns={1}
-                        horizontal={false}
-                    />
-                </View>
+                                </View>
+                            </>
+                        )
+                    }}
+                    numColumns={1}
+                    horizontal={false}
+                />
             </Animated.View>
         </View>
     </>

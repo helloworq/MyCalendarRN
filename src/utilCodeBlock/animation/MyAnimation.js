@@ -15,7 +15,7 @@ const MyAnimation = () => {
     return (
         <>
             <View style={{ flex: 1, }}>
-                <MyPullDownNative mylist={()=>{}} pullDownFunc={() => console.log(66666666)} pullUpFunc={() => console.log(999999999)} />
+                <ScaleCompoment /> 
             </View>
         </>
     );
