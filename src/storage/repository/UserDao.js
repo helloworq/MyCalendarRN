@@ -8,6 +8,7 @@ const user = {
     id: 'id',
     name: 'name',
     age: 'age',
+    sign: 'sign',
     address: 'address',
     password: 'password',
     roleId: 'role_id',
@@ -15,21 +16,16 @@ const user = {
 
 export function updateUserInfo(user) {
     db.transaction(function (txn) {
-        txn.executeSql(`update user set name=:name,age=:age,address=:address,password=:password,role_id=:roleId `,
-            [user.name, user.age, user.address, user.password, user.roleId], function (tx, res) {
+        txn.executeSql(`update user set sign=:sign,name=:name,age=:age,address=:address,password=:password,role_id=:roleId `,
+            [user.sign,user.name, user.age, user.address, user.password, user.roleId], function (tx, res) {
                 console.log('影响行=> ', res.rowsAffected)
             })
     })
 }
 
-export function selectAllUser() {
-    console.log('try....')
+export function selectAllUser(callback) {
     db.transaction(function (txn) {
-        txn.executeSql(`select * from ${table} `, [], function (tx, res) {
-            for (let i = 0; i < res.rows.length; ++i) {
-                console.log('item:', res.rows.item(i))
-            }
-        })
+        txn.executeSql(`select * from ${table} `, [], (tx, res) => callback(res))
     })
 }
 

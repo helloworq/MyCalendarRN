@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import {
     View,
     Button,
@@ -24,11 +24,17 @@ const MyProfileDetail = () => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
     const [editable, setEditable] = useState(false)
     const form = {
-        "用户名": "周显昱",
-        "一句话介绍": "危楼高百尺，手可摘星辰",
-        "R龄": 22,
-        "性别": "男",
+        "NAME": ["用户名", "周显昱"],
+        "SIGN": ["一句话介绍", "危楼高百尺，手可摘星辰"],
+        "AGE": ["R龄", 22],
+        "MALE": ["性别", "男"],
     }
+    const [user, setUser] = useState()
+
+    const updateUser = useCallback((e) => {
+        console.log('11', e.rows.item(0))
+        setUser(e.rows.item(0))
+    }, [user])
 
     const InfoBlock = ({ title, info }) => {
         return (
@@ -40,13 +46,11 @@ const MyProfileDetail = () => {
                     <View>
                         {/* <TextInput style={{ color: 'black', fontSize: 18 }}>{info}</TextInput> */}
                         <TextInput
-                            placeholder="新增tag  (长按tag可删除)"
+                            //  placeholder="新增tag  (长按tag可删除)"
                             editable={editable}
-                            maxLength={400}
-                            multiline={true}
                             fontSize={18}
-                        // onChangeText={text => setText(text)}
-                        // value={text}
+                            // onChangeText={text => setText(text)}
+                            value={user['AGE']}
                         />
                     </View>
                 </View>
@@ -79,8 +83,9 @@ const MyProfileDetail = () => {
                             <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>基本资料</Text>
                             <TouchableOpacity onPress={() => {
                                 setEditable(!editable)
-                                
-                                
+                                //selectAllUser((e) => setUser(e))
+                                //selectAllUser((e) => updateUser(e))
+                                console.log('???',user['AGE'])
                             }}>
                                 <FontAwesome name={editable ? 'save' : 'edit'} size={30} color={'black'} />
                             </TouchableOpacity>
@@ -93,22 +98,14 @@ const MyProfileDetail = () => {
                                 </TouchableOpacity>
                             </View>
                         </View>
- 
                         {
-                           Object.keys(form).map(key => 
+                            Object.keys(form).map(key =>
                                 <>
                                     <InfoBlock title={key} info={form[key]} />
                                     <Divider />
                                 </>
                             )
                         }
-                        {/* <InfoBlock title={'用户名'} info={'周显昱'} />
-                        <Divider />
-                        <InfoBlock title={'一句话介绍'} info={'危楼高百尺，手可摘星辰'} />
-                        <Divider />
-                        <InfoBlock title={'R龄'} info={22} />
-                        <Divider />
-                        <InfoBlock title={'性别'} info={'男'} /> */}
                     </View>
                 </ScrollView>
             </ImageBackground>

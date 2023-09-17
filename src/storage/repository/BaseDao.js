@@ -7,10 +7,11 @@ const momentDropSql = 'DROP TABLE IF EXISTS MOMENT'
 
 const userCreatSql = 'CREATE TABLE USER ( '
     + 'ID     INTEGER PRIMARY KEY AUTOINCREMENT ,'
-    + 'NAME          TEXT              ,'
+    + 'NAME          VARCHAR(8)        ,'
     + 'AGE           INT               ,'
-    + 'ADDRESS       TEXT              ,'
-    + 'PASSWORD      TEXT              ,'
+    + 'SIGN          VARCHAR(16)       ,'
+    + 'ADDRESS       VARCHAR(16)       ,'
+    + 'PASSWORD      VARCHAR(16)       ,'
     + 'ROLE_ID       INTEGER            '
     + ')'
 const momentCreatSql = 'CREATE TABLE MOMENT ( '
@@ -34,7 +35,7 @@ function init() {
         txn.executeSql(userCreatSql, [])
         txn.executeSql(momentCreatSql, [])
 
-        txn.executeSql("INSERT INTO User (id,name,age,address,password,role_id) VALUES (1,'',0,'','',0)", [])
+        txn.executeSql("INSERT INTO User (id,name,age,sign,address,password,role_id) VALUES (1,'',0,'','','',0)", [])
     }, (e) => console.log(e), (e) => console.log(e))
 }
 
