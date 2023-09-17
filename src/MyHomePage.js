@@ -16,6 +16,7 @@ import { PreferencesContext } from "./MyPreferencesContext";
 import ImgStroage from "./storage/ImgStroage";
 import Modal from "react-native-modal";
 import ImageView from 'react-native-image-viewing'
+import MyPullDownNative from "./compoment/MyPullDownNative";
 
 const MyHomePage = ({ navigation }) => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
@@ -42,6 +43,7 @@ const MyHomePage = ({ navigation }) => {
                 />
 
                 <View style={{ marginTop: 10, marginRight: 10, marginLeft: 10, height: '92.8%', }}>
+
                     <FlatList
                         data={[
                             {
@@ -174,7 +176,9 @@ const MyHomePage = ({ navigation }) => {
                                 </>
                             )
                         }}
-
+                        onScroll={(e) => {
+                            console.log(e.nativeEvent.contentOffset.y)
+                        }}
                         keyExtractor={(item, index) => {
                             return item.path + index
                         }}
