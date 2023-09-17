@@ -41,5 +41,6 @@ import MyAnimatedMenu from './src/compoment/MyAnimatedMenu'
 import MyPullDownCompoment from './src/compoment/MyPullDownCompoment';
 import MyPullDownNative from './src/compoment/MyPullDownNative'
 import MySqlite from './src/utilCodeBlock/MySqlite'
+import MyProfileDetail from './src/MyProfileDetail'
 
-AppRegistry.registerComponent(appName, () => MySqlite);
+AppRegistry.registerComponent(appName, () => MyProfileDetail);
