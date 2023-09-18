@@ -42,5 +42,6 @@ import MyPullDownCompoment from './src/compoment/MyPullDownCompoment';
 import MyPullDownNative from './src/compoment/MyPullDownNative'
 import MySqlite from './src/utilCodeBlock/MySqlite'
 import MyProfileDetail from './src/MyProfileDetail'
+import MySvg from './src/utilCodeBlock/svg/MySvg'
 
-AppRegistry.registerComponent(appName, () => MyProfileDetail);
+AppRegistry.registerComponent(appName, () => MySvg);
