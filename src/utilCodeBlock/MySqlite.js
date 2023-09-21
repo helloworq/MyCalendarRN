@@ -12,7 +12,8 @@ import { execInitSql } from '../storage/repository/BaseDao';
 import {
     selectAllUser,
     selectCurUserInfo,
-    updateUserInfo
+    updateUserInfo,
+    selectCurUserMoment
 } from '../storage/repository/UserDao';
 import {
     selectAllMoment,
@@ -35,8 +36,8 @@ const MySqlite = () => {
                     selectCurUserInfo()
                 }} title="查看当前用户" />
                 <Button onPress={() => {
-
-                }} title="查询用户" />
+                    selectCurUserMoment()
+                }} title="查询用户动态" />
             </View>
         </>
     )

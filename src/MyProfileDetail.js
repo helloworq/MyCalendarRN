@@ -18,45 +18,19 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import ImgStroage from "./storage/ImgStroage";
 import storage from './storage/MhkvStroge';
-import { selectAllUser, selectCurUserInfo } from './storage/repository/UserDao';
+import { selectAllUser, selectCurUserInfo, updateUserInfo } from './storage/repository/UserDao';
 
 const MyProfileDetail = () => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
     const [editable, setEditable] = useState(false)
     const form = {
-        "NAME": ["用户名", "周显昱"],
-        "SIGN": ["一句话介绍", "危楼高百尺，手可摘星辰"],
-        "AGE": ["R龄", 22],
-        "MALE": ["性别", "男"],
+        "用户名": ["NAME", "周显昱"],
+        "一句话介绍": ["SIGN", "危楼高百尺，手可摘星辰"],
+        "R龄": ["AGE", 22],
+        "性别": ["MALE", "男"],
+        "住址": ["ADDRESS", "长安"]
     }
-    const [user, setUser] = useState()
-
-    const updateUser = useCallback((e) => {
-        console.log('11', e.rows.item(0))
-        setUser(e.rows.item(0))
-    }, [user])
-
-    const InfoBlock = ({ title, info }) => {
-        return (
-            <>
-                <View style={{ flexDirection: 'row', margin: 10 }}>
-                    <View style={{ width: '35%', justifyContent: 'center' }}>
-                        <Text style={{ color: 'gray', fontSize: 20 }}>{title}</Text>
-                    </View>
-                    <View>
-                        {/* <TextInput style={{ color: 'black', fontSize: 18 }}>{info}</TextInput> */}
-                        <TextInput
-                            //  placeholder="新增tag  (长按tag可删除)"
-                            editable={editable}
-                            fontSize={18}
-                            // onChangeText={text => setText(text)}
-                            value={user['AGE']}
-                        />
-                    </View>
-                </View>
-            </>
-        )
-    }
+    const [user, setUser] = useState({})
 
     const Divider = () => {
         return (
@@ -65,6 +39,10 @@ const MyProfileDetail = () => {
             </>
         )
     }
+
+    useEffect(()=>{
+        selectCurUserInfo((e) => setUser(e))
+    },[])
 
     return (
         <>
@@ -83,9 +61,11 @@ const MyProfileDetail = () => {
                             <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>基本资料</Text>
                             <TouchableOpacity onPress={() => {
                                 setEditable(!editable)
-                                //selectAllUser((e) => setUser(e))
-                                //selectAllUser((e) => updateUser(e))
-                                console.log('???',user['AGE'])
+                                if (editable) {
+                                    updateUserInfo(user)
+                                } else {
+                                    selectCurUserInfo((e) => setUser(e))
+                                }
                             }}>
                                 <FontAwesome name={editable ? 'save' : 'edit'} size={30} color={'black'} />
                             </TouchableOpacity>
@@ -98,10 +78,29 @@ const MyProfileDetail = () => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+
                         {
                             Object.keys(form).map(key =>
                                 <>
-                                    <InfoBlock title={key} info={form[key]} />
+                                    <View style={{ flexDirection: 'row', margin: 10 }}>
+                                        <View style={{ width: '35%', justifyContent: 'center' }}>
+                                            <Text style={{ color: 'gray', fontSize: 20 }}>{key}</Text>
+                                        </View>
+                                        <View>
+                                            <TextInput
+                                                placeholder="新增tag  (长按tag可删除)"
+                                                editable={editable}
+                                                color={'black'}
+                                                fontSize={18}
+                                                onChangeText={text => {
+                                                    let userNew = JSON.parse(JSON.stringify(user))
+                                                    userNew[form[key][0]] = text
+                                                    setUser(userNew)
+                                                }}
+                                                value={user[form[key][0]] + ''}
+                                            />
+                                        </View>
+                                    </View>
                                     <Divider />
                                 </>
                             )

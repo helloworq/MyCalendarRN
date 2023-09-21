@@ -12,7 +12,8 @@ const userCreatSql = 'CREATE TABLE USER ( '
     + 'SIGN          VARCHAR(16)       ,'
     + 'ADDRESS       VARCHAR(16)       ,'
     + 'PASSWORD      VARCHAR(16)       ,'
-    + 'ROLE_ID       INTEGER            '
+    + 'MALE          VARCHAR(4)        ,'
+    + 'ROLE_ID       INTEGER           '
     + ')'
 const momentCreatSql = 'CREATE TABLE MOMENT ( '
     + 'ID     INTEGER PRIMARY KEY AUTOINCREMENT ,'
@@ -35,7 +36,8 @@ function init() {
         txn.executeSql(userCreatSql, [])
         txn.executeSql(momentCreatSql, [])
 
-        txn.executeSql("INSERT INTO User (id,name,age,sign,address,password,role_id) VALUES (1,'',0,'','','',0)", [])
+        txn.executeSql("INSERT INTO User (id,name,age,sign,address,password,male,role_id) VALUES (1,'李白',99,'危楼高百尺，手可摘星辰','长安','','男',0)", [])
+        txn.executeSql("INSERT INTO Moment (id,user_id,content,images,tags,device,edited) VALUES (1,1,'将进酒，杯莫停','','','','')", [])
     }, (e) => console.log(e), (e) => console.log(e))
 }
 

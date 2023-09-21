@@ -5,36 +5,46 @@ const db = getDBConnection()
 const table = 'user'
 
 const user = {
-    id: 'id',
-    name: 'name',
-    age: 'age',
-    sign: 'sign',
-    address: 'address',
-    password: 'password',
-    roleId: 'role_id',
+    id: 'ID',
+    name: 'NAME',
+    age: 'AGE',
+    sign: 'SIGN',
+    address: 'ADDRESS',
+    password: 'PASSWORD',
+    roleId: 'ROLE_ID',
+    male: 'MALE'
 }
 
 export function updateUserInfo(user) {
     db.transaction(function (txn) {
-        txn.executeSql(`update user set sign=:sign,name=:name,age=:age,address=:address,password=:password,role_id=:roleId `,
-            [user.sign,user.name, user.age, user.address, user.password, user.roleId], function (tx, res) {
+        txn.executeSql(`update user set sign=:sign,name=:name,age=:age,address=:address,male=:male `,
+            [user['SIGN'], user['NAME'], user['AGE'], user['ADDRESS'], user['MALE']], function (tx, res) {
                 console.log('影响行=> ', res.rowsAffected)
             })
-    })
+    }, (e) => console.log(e), (e) => console.log(e))
 }
 
 export function selectAllUser(callback) {
     db.transaction(function (txn) {
-        txn.executeSql(`select * from ${table} `, [], (tx, res) => callback(res))
+        txn.executeSql(`select * from ${table} `, [], (tx, res) => {
+            callback(res.rows["_array"][0])
+        })
     })
 }
 
-export function selectCurUserInfo() {
+export function selectCurUserInfo(callback) {
     db.transaction(function (txn) {
-        txn.executeSql(`select * from ${table} where id = ${stroge.getNumber('id')} `, [], function (tx, res) {
-            for (let i = 0; i < res.rows.length; ++i) {
-                console.log('item:', res.rows.item(i))
-            }
+        txn.executeSql(`select * from ${table} where id = ${stroge.getNumber('id')} `, [], (tx, res) => {
+            callback(res.rows["_array"][0])
+        })
+    }, (e) => console.log(e), (e) => console.log(e))
+}
+
+export function selectCurUserMoment() {
+    db.transaction(function (txn) {
+        txn.executeSql(`select * from user u inner join moment m on u.id = m.user_id 
+         where u.id = ${stroge.getNumber('id')} `, [], (tx, res) => {
+            console.log(JSON.stringify(res))
         })
     }, (e) => console.log(e), (e) => console.log(e))
 }
