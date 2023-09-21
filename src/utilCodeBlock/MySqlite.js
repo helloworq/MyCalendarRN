@@ -21,8 +21,14 @@ import {
     saveMoment,
     updateMoment,
 } from '../storage/repository/MomentDao';
+import RNFS from 'react-native-fs'
 
 const MySqlite = () => {
+
+    function readTrunk(position, length) {
+
+    }
+
     return (
         <>
             <View style={{ marginTop: 10 }}>
@@ -38,6 +44,22 @@ const MySqlite = () => {
                 <Button onPress={() => {
                     selectCurUserMoment()
                 }} title="查询用户动态" />
+                <Button onPress={() => {
+                    const base = RNFS.ExternalDirectoryPath + '/region2.sql'
+                    let start = 0
+                    let length = 1000  //10mb
+                    let json
+
+                    RNFS.read(base, length, start).then(e => {
+                        RNFS.read(base, length, length).then((e2) => {
+                            RNFS.read(base, length, length*2).then((e3) => {
+                                RNFS.read(base, length, length*3).then((e4) => {
+                                    console.log(e,e2,e3,e4)
+                                })
+                            })
+                        })
+                    })
+                }} title="读取大文件" />
             </View>
         </>
     )

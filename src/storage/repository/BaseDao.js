@@ -1,9 +1,11 @@
 import { getDBConnection } from '../RNSqlite'
 import stroge from '../MhkvStroge'
+import RNFS from 'react-native-fs'
 
 const db = getDBConnection()
 const userDropSql = 'DROP TABLE IF EXISTS USER'
 const momentDropSql = 'DROP TABLE IF EXISTS MOMENT'
+const regionDropSql = 'DROP TABLE IF EXISTS REGION'
 
 const userCreatSql = 'CREATE TABLE USER ( '
     + 'ID     INTEGER PRIMARY KEY AUTOINCREMENT ,'
@@ -25,6 +27,13 @@ const momentCreatSql = 'CREATE TABLE MOMENT ( '
     + 'EDITED                 INTEGER                ,'
     + 'CREATE_TIME            VARCHAR(24)            ,'
     + 'LAST_UPDATE_TIME       VARCHAR(24)             '
+    + ')'
+const regionCreateSql = 'CREATE TABLE region ( '
+    + 'ID     INTEGER PRIMARY KEY AUTOINCREMENT      ,'
+    + 'REGION_CODE            VARCHAR(10)            ,'
+    + 'PARENT_CODE            VARCHAR(10)            ,'
+    + 'NAME                   VARCHAR(32)            ,'
+    + 'PATH                   TEXT                    '
     + ')'
 
 
