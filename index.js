@@ -45,4 +45,4 @@ import MyProfileDetail from './src/MyProfileDetail'
 import MySvg from './src/utilCodeBlock/svg/MySvg'
 import MySvgChina from './src/utilCodeBlock/svg/MySvgChina'
 
-AppRegistry.registerComponent(appName, () => MySqlite);
+AppRegistry.registerComponent(appName, () => MySvgChina);

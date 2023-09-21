@@ -41,17 +41,51 @@ function init() {
     db.transaction((txn) => {
         txn.executeSql(userDropSql, [])
         txn.executeSql(momentDropSql, [])
+        txn.executeSql(regionDropSql, [])
 
         txn.executeSql(userCreatSql, [])
         txn.executeSql(momentCreatSql, [])
+        txn.executeSql(regionCreateSql, [])
 
         txn.executeSql("INSERT INTO User (id,name,age,sign,address,password,male,role_id) VALUES (1,'李白',99,'危楼高百尺，手可摘星辰','长安','','男',0)", [])
         txn.executeSql("INSERT INTO Moment (id,user_id,content,images,tags,device,edited) VALUES (1,1,'将进酒，杯莫停','','','','')", [])
     }, (e) => console.log(e), (e) => console.log(e))
 }
 
+function insertRegion() {
+    const base = RNFS.ExternalDirectoryPath + '/region.sql'
+    let start = 0
+    let length = 10000000  //10mb
+
+
+    RNFS.read(base, length, start).then(e => {
+        RNFS.read(base, length, length).then((e2) => {
+            RNFS.read(base, length, length * 2).then((e3) => {
+                RNFS.read(base, length, length * 3).then((e4) => {
+                    let json = e + e2 + e3 + e4
+                    let tArray = json.split(';')//3589
+
+                    db.transaction((txn) => {
+                        for (var i = 0; i < tArray.length - 1; i++) {
+                            let sql = tArray[i]
+
+                            txn.executeSql(sql, [])
+
+                            console.log('当前=>  ', i)
+                        }
+                    })
+                    return 1
+                }).then(() => {
+                    console.log('done')
+                })
+            })
+        })
+    })
+}
+
 export function execInitSql() {
     stroge.set('id', 1)
     init()
+    insertRegion()
 }
 
