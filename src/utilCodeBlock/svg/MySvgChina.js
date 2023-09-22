@@ -42,37 +42,30 @@ const MySvgChina = () => {
     const offsetX = useSharedValue(0);
     const offsetY = useSharedValue(0);
 
+    const [zoom, setZoom] = useState(1);
+    const [panMoveX, setPanMoveX] = useState(0)
+    const [panMoveY, setPanMoveY] = useState(0)
     const pan = Gesture.Pan()
         .maxPointers(1)
         .onChange((event) => {
-            offsetX.value += event.changeX;
-            offsetY.value += event.changeY;
+            runOnJS(setPanMoveX)(panMoveX-event.changeX)
+            runOnJS(setPanMoveY)(panMoveY-event.changeY)
+            // offsetX.value += event.changeX;
+            // offsetY.value += event.changeY;
         })
         .onFinalize(() => {
-            offsetX.value = withSpring(offsetX.value);
-            offsetY.value = withSpring(offsetY.value);
+            // offsetX.value = withSpring(offsetX.value);
+            // offsetY.value = withSpring(offsetY.value);
         });
-    const [zoom, setZoom] = useState(1);
     const pinchGesture = Gesture.Pinch()
         .onChange((e) => {
             const { scale } = e;
-            console.log(scale)
-            if (scale < 0.8) {
-                return;
-            }
-            if (scale > 4) {
-                return;
-            }
-            //curScale.value = scale;
+
             runOnJS(setZoom)(scale)
         })
         .onFinalize((e) => {
             const { scale } = e;
-            console.log(scale)
-            if (scale < 0.8) {
-                //curScale.value = withTiming(1);
-                // runOnJS(setZoom)(1)
-            }
+            runOnJS(setZoom)(scale+zoom)
         })
 
     const composed = Gesture.Simultaneous(pinchGesture, pan);
@@ -115,8 +108,7 @@ const MySvgChina = () => {
                                 title='1111'
                                 width={'100%'}
                                 height={'100%'}
-                                viewBox={'0 0 ' + 1000 / zoom + ' ' + 1000 / zoom}
-
+                                viewBox={panMoveX + ' ' + panMoveY + ' ' + screenHeight / zoom + ' ' + screenWidth / zoom}
                             >
                                 {
                                     curRegion.map(e => {
