@@ -9,33 +9,24 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    Animated,
 } from "react-native";
 import { Svg, SvgXml, Path, Circle, Rect, TextPath, TSpan } from 'react-native-svg';
 //const patten = /<path(\b([\s\S]*?))\/>/g
 import { selectProvinceList, selectSubRegion, selectParentRegion, selectParentCode } from '../../storage/repository/RegionDao';
-
-const MySvgMap = ({ id, path, func, select, setSelect }) => {
-    return (<>
-        <Path
-            id={id}
-            fill={select === id ? "green" : "red"}
-            fillOpacity={0.5}
-            fillRule={'evenodd'}
-            stroke="#333"
-            strokeOpacity={1}
-            strokeWidth={1}
-            strokeLinecap={'square'}
-            strokeLinejoin={'miter'}
-            strokeDasharray={1}
-            d={path}
-            onPress={(e) => {
-                setSelect(id)
-
-            }}
-        />
-    </>
-    )
-}
+import  {
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+    withTiming,
+} from 'react-native-reanimated';
+import {
+    Gesture,
+    GestureDetector,
+    GestureHandlerRootView,
+    PanGestureHandler,
+    PinchGestureHandler,
+} from 'react-native-gesture-handler';
 
 const MySvgChina = () => {
     const screenWidth = Dimensions.get("window").width
@@ -54,53 +45,112 @@ const MySvgChina = () => {
     const [curCode, setCurCode] = useState()
     const [scale, setScale] = useState(1)
 
+    const pressed = useSharedValue(false);
+    const offsetX = useSharedValue(0);
+    const offsetY = useSharedValue(0);
+
+
+    const _baseScale = useSharedValue(1);
+    const _pinchScale = useSharedValue(1);
+   // const _scale = Animated.multiply(_baseScale, _pinchScale);
+    const _lastScale = 1;
+    const _onPinchGestureEvent = Animated.event(
+        [{ nativeEvent: { scale: _pinchScale } }],
+        { useNativeDriver: false }
+    );
+
+    const _onPinchHandlerStateChange = (event) => {
+        if (event.nativeEvent.oldState === State.ACTIVE) {
+            _lastScale *= event.nativeEvent.scale;
+            _baseScale.setValue(_lastScale);
+            _pinchScale.setValue(1);
+        }
+    };
+
+    const pan = Gesture.Pan()
+        .onBegin(() => {
+        })
+        .onChange((event) => {
+            offsetX.value += event.changeX;
+            offsetY.value += event.changeY;
+        })
+
+        .onFinalize(() => {
+            offsetX.value = withSpring(offsetX.value);
+            offsetY.value = withSpring(offsetY.value);
+        });
+
+    const animatedStyles = useAnimatedStyle(() => ({
+        transform: [
+            { translateX: offsetX.value },
+            { translateY: offsetY.value },
+        ],
+    }));
+
     return (
         <>
 
-            <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center' }}>
-                    <Button title='加载全国地图' onPress={() => {
-                        selectProvinceList((e) => setCurRegion(e))
-                        setScale(1)
-                    }} />
-                    <Button title='上一级' onPress={() => { 
-                        setScale(scale - 1)
-                        console.log(scale)
-                        selectParentCode(curCode, (e) => setCurCode(e))
-                        selectParentRegion(curCode, (e) => setCurRegion(e))
-                    }} />
-                </View>
-                <Svg
-                    viewBox={'50 110 ' + 400 + ' ' + 200}
-                >
-                    {
-                        curRegion.map(e => {
-                            const id = e['NAME']
-                            const parentCode = e['PARENT_CODE']
-                            const regionCode = e['REGION_CODE']
-                            return <Path
-                                id={id}
-                                fill={select === id ? "green" : "red"}
-                                fillOpacity={0.5}
-                                fillRule={'evenodd'}
-                                stroke="#333"
-                                strokeOpacity={1}
-                                strokeWidth={1}
-                                strokeLinecap={'square'}
-                                strokeLinejoin={'miter'}
-                                strokeDasharray={1}
-                                d={e['PATH']}
-                                onPress={(e) => {
-                                    setScale(scale + 1)
-                                    setCurCode(regionCode)
-                                    selectSubRegion(regionCode, (e) => setCurRegion(e))
-                                }}
-                            />
-                        })
-                    }
+            <GestureHandlerRootView style={{
+                flex: 1,
+            }}>
+                <View style={{
+                    flex: 1,
+                }}>
 
-                </Svg>
-            </View>
+                    <GestureDetector gesture={pan}>
+                        <PinchGestureHandler
+                            onGestureEvent={_onPinchGestureEvent}
+                            onHandlerStateChange={_onPinchHandlerStateChange}
+                         >
+
+                            <Animated.View style={[animatedStyles]}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                    <Button title='加载全国地图' onPress={() => {
+                                        selectProvinceList((e) => setCurRegion(e))
+                                        setScale(1)
+                                    }} />
+                                    <Button title='上一级' onPress={() => {
+                                        setScale(scale - 1)
+                                        console.log(scale)
+                                        selectParentCode(curCode, (e) => setCurCode(e))
+                                        selectParentRegion(curCode, (e) => setCurRegion(e))
+                                    }} />
+                                </View>
+                                <Svg
+                                    viewBox={'0 0 ' + 1000 + ' ' + 400}
+                                >
+                                    {
+                                        curRegion.map(e => {
+                                            const id = e['NAME']
+                                            const parentCode = e['PARENT_CODE']
+                                            const regionCode = e['REGION_CODE']
+                                            return <Path
+                                                id={id}
+                                                fill={select === id ? "green" : "red"}
+                                                fillOpacity={0.5}
+                                                fillRule={'evenodd'}
+                                                stroke="#333"
+                                                strokeOpacity={1}
+                                                strokeWidth={1}
+                                                strokeLinecap={'square'}
+                                                strokeLinejoin={'miter'}
+                                                strokeDasharray={1}
+                                                d={e['PATH']}
+                                                onPress={(e) => {
+                                                    setScale(scale + 1)
+                                                    setCurCode(regionCode)
+                                                    selectSubRegion(regionCode, (e) => setCurRegion(e))
+                                                }}
+                                            />
+                                        })
+                                    }
+                                </Svg>
+                            </Animated.View>
+                        </PinchGestureHandler>
+                    </GestureDetector>
+
+                </View>
+            </GestureHandlerRootView >
         </>
     )
 }
