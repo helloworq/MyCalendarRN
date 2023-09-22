@@ -71,7 +71,7 @@ const MySvgChina = () => {
             console.log(scale)
             if (scale < 0.8) {
                 //curScale.value = withTiming(1);
-               // runOnJS(setZoom)(1)
+                // runOnJS(setZoom)(1)
             }
         })
 
@@ -84,33 +84,39 @@ const MySvgChina = () => {
         ],
     }));
 
+    useEffect(() => {
+        selectProvinceList((e) => setCurRegion(e))
+        setScale(1)
+    }, [])
+
     return (
         <>
             <GestureHandlerRootView style={{
-                      width:2000,
-                      height:2000,
                 flex: 1,
             }}>
                 <View style={{
-                    width:2000,
-                    height:2000,
                     flex: 1,
                 }}>
-                    <GestureDetector gesture={composed}>
-                        <Animated.View style={[animatedStyles]}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                <Button title='加载全国地图' onPress={() => {
-                                    selectProvinceList((e) => setCurRegion(e))
-                                    setScale(1)
-                                }} />
-                                <Button title='上一级' onPress={() => {
-                                    setScale(scale - 1)
-                                    selectParentCode(curCode, (e) => setCurCode(e))
-                                    selectParentRegion(curCode, (e) => setCurRegion(e))
-                                }} />
-                            </View>
+
+                    <Animated.View style={[{ backgroundColor: 'skyblue' }, animatedStyles]}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <Button title='加载全国地图' onPress={() => {
+                                selectProvinceList((e) => setCurRegion(e))
+                                setScale(1)
+                            }} />
+                            <Button title='上一级' onPress={() => {
+                                setScale(scale - 1)
+                                selectParentCode(curCode, (e) => setCurCode(e))
+                                selectParentRegion(curCode, (e) => setCurRegion(e))
+                            }} />
+                        </View>
+                        <GestureDetector gesture={composed}>
                             <Svg
-                                viewBox={'0 0 ' + 1000 / zoom + ' ' + 400 / zoom}
+                                title='1111'
+                                width={'100%'}
+                                height={'100%'}
+                                viewBox={'0 0 ' + 1000 / zoom + ' ' + 1000 / zoom}
+
                             >
                                 {
                                     curRegion.map(e => {
@@ -119,7 +125,7 @@ const MySvgChina = () => {
                                         const regionCode = e['REGION_CODE']
                                         return <Path
                                             id={id}
-                                            fill={select === id ? "green" : "red"}
+                                            fill={select === id ? "green" : "green"}
                                             fillOpacity={0.5}
                                             fillRule={'evenodd'}
                                             stroke="#333"
@@ -138,8 +144,9 @@ const MySvgChina = () => {
                                     })
                                 }
                             </Svg>
-                        </Animated.View>
-                    </GestureDetector>
+                        </GestureDetector>
+                    </Animated.View>
+
 
                 </View>
             </GestureHandlerRootView >
