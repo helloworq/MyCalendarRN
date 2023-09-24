@@ -17,13 +17,15 @@ import Timeline from 'react-native-timeline-flatlist'
 import storage, { loadMomentByStroage, getMarkedDatesByStroage, getTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 import MyModalPicker from "./compoment/MyModalPicker";
+import { selectAllMomentDates, selectCurMomentInfo } from './storage/repository/MomentDao';
+import { Consumer } from 'react-native-paper/lib/typescript/src/core/settings';
+import { findAllTag } from './storage/repository/TagDao';
 
 const MyCalendar = ({ navigation }) => {
   const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
   const [markedDates, setMarkedDates] = useState()
   const [tags, setTags] = useState([])
   const [selectTag, setSelectTag] = useState()
-  const value = { selected: true, marked: true, selectedColor: '#66ff66' }
   const [data, setData] = useState()
 
   const styles = StyleSheet.create({
@@ -87,25 +89,27 @@ const MyCalendar = ({ navigation }) => {
   }
 
   useEffect(() => {
-    let res = {}
-    const dates = getMarkedDatesByStroage()
-    dates.forEach(e => res[e] = value)
-    setMarkedDates(res)
+    selectAllMomentDates((e) => setMarkedDates(e))
+    // const dates = getMarkedDatesByStroage()
+    // console.log('aaaaaaaaa',dates)
+    // dates.forEach(e => res[e] = value)
+    // setMarkedDates(res)
 
     //tags
-    const tagSaved = getTagsByStroage()
-    tagSaved.unshift(["#全部标签", 'tag', false])
-    setTags(tagSaved.map(e => e[0]))
+    findAllTag((e) => setTags(e))
+    
+    // const tagSaved = getTagsByStroage()
+    // tagSaved.unshift(["#全部标签", 'tag', false])
+    // setTags(tagSaved.map(e => e[0]))
   }, [])
 
   function renderDetail(rowData, sectionID, rowID) {
     var desc = null
-
-    if (rowData.description)
+    if (rowData['CONTENT'])
       desc = (
         <View style={styles.timelineInfo}>
-          <Image source={{ uri: rowData?.imageUrl[0] }} style={styles.timelineImg} />
-          <Text style={styles.timelineInfoText}>{rowData?.description}</Text>
+          <Image source={{ uri: JSON.parse(rowData['IMAGES'])[0] }} style={styles.timelineImg} />
+          <Text style={styles.timelineInfoText}>{rowData['CONTENT']}</Text>
         </View>
       )
 
@@ -166,7 +170,7 @@ const MyCalendar = ({ navigation }) => {
             style={styles.calendar}
             onDayPress={(day) => {
               const param = day.year + '-' + day.month.toString().padStart(2, '0') + '-' + day.day.toString().padStart(2, '0')
-              loadMoment(param, selectTag)
+              selectCurMomentInfo(param, (e) => setData(e))
             }}
             markedDates={markedDates}
           />

@@ -1,5 +1,6 @@
 import { getDBConnection } from '../RNSqlite'
 import stroge from '../MhkvStroge'
+import dayjs from 'dayjs'
 
 const db = getDBConnection()
 const table = 'moment'
@@ -9,21 +10,27 @@ const moment = {
     content: 'content',
     images: 'images',
     tags: 'tags',
-    device: 'device',
     edited: 'edited',
     createTime: 'create_time',
     lastUpdateTime: 'last_update_time',
 }
 
-export function saveMoment(moment) {
+export function saveMoment(text, imgs, tags) {
+    const now = dayjs()
+    const datetime = now.format('YYYY-MM-DD HH:mm:ss')
+    if (text === '' || text === null || text === undefined) {
+        text = '   '
+    }
+    const imageUrl = imgs.map(e => e['path'])
+    const id = stroge.getNumber('id')
+
     db.transaction(function (txn) {
-        txn.executeSql(`insert into moment(user_id,content,images,tags,device,edited,create_time,last_update_time) `
-            + `values(1,:content,:images,:tags,:device,:edited,:create_time,:last_update_time)`,
-            [moment.userId, moment.images, moment.tags, moment.device, moment.edited, moment.create_time,
-            moment.last_update_time], function (tx, res) {
+        txn.executeSql(`insert into moment(user_id,content,images,tags,edited,create_time,last_update_time) `
+            + `values(:id,:content,:images,:tags,:edited,:create_time,:last_update_time)`,
+            [id, text, JSON.stringify(imageUrl), JSON.stringify(tags), 0, datetime, datetime], (tx, res) => {
                 console.log('影响行=> ', res.rowsAffected)
             })
-    })
+    }, (e) => console.log(e), (e) => console.log(e))
 }
 
 export function updateMoment(user) {
@@ -32,25 +39,55 @@ export function updateMoment(user) {
             [user.name, user.age, user.address, user.password, user.roleId], function (tx, res) {
                 console.log('影响行=> ', res.rowsAffected)
             })
-    })
+    }, (e) => console.log(e), (e) => console.log(e))
 }
 
-export function selectAllMoment() {
+export function selectAllMomentDates(callback) {
     db.transaction(function (txn) {
-        txn.executeSql(`SELECT * FROM ${table} `, [], function (tx, res) {
-            for (let i = 0; i < res.rows.length; ++i) {
-                console.log('item:', res.rows.item(i))
-            }
+        txn.executeSql(`SELECT CREATE_TIME FROM ${table} `, [], function (tx, res) {
+            let response = {}
+            const value = { selected: true, marked: true, selectedColor: '#66ff66' }
+            const content = res.rows['_array']
+                .map(e => e['CREATE_TIME'])
+                .filter(e => e != null)
+                .map(e => dayjs(e).format('YYYY-MM-DD'))
+            content.forEach(e => response[e] = value)
+            console.log(content)
+            callback(response)
         })
     })
 }
 
-export function selectCurMomentInfo(id) {
+export function selectAllMomentByTag(callback) {
     db.transaction(function (txn) {
-        txn.executeSql(`SELECT * FROM ${table} where id = :id `, [id], function (tx, res) {
-            for (let i = 0; i < res.rows.length; ++i) {
-                console.log('item:', res.rows.item(i))
-            }
+        txn.executeSql(`SELECT CREATE_TIME FROM ${table}  `, [], function (tx, res) {
+            let response = {}
+            const value = { selected: true, marked: true, selectedColor: '#66ff66' }
+            const content = res.rows['_array']
+                .map(e => e['CREATE_TIME'])
+                .filter(e => e != null)
+                .map(e => dayjs(e).format('YYYY-MM-DD'))
+            content.forEach(e => response[e] = value)
+            console.log(content)
+            callback(response)
         })
     })
+}
+
+export function selectCurMomentInfo(time, callback) {
+    db.transaction(function (txn) {
+        txn.executeSql(`SELECT *,TIME(CREATE_TIME) AS time FROM ${table} where DATE(CREATE_TIME) = :time `, [time], function (tx, res) {
+            //console.log(res.rows['_array'])
+            callback(res.rows['_array'])
+        })
+    }, (e) => console.log(e), (e) => console.log(e))
+}
+
+export function deleteMomentInfo(id) {
+    db.transaction(function (txn) {
+        txn.executeSql(`DELETE FROM ${table} where ID = :id `, [id], function (tx, res) {
+            console.log('影响行=> ', res.rowsAffected)
+            //callback(res.rows['_array'])
+        })
+    }, (e) => console.log(e), (e) => console.log(e))
 }

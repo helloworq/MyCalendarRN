@@ -44,5 +44,6 @@ import MySqlite from './src/utilCodeBlock/MySqlite'
 import MyProfileDetail from './src/MyProfileDetail'
 import MySvg from './src/utilCodeBlock/svg/MySvg'
 import MySvgChina from './src/utilCodeBlock/svg/MySvgChina'
+import MySvgMap from './src/utilCodeBlock/svg/MySvgMap'
 
-AppRegistry.registerComponent(appName, () => MySvgChina);
+AppRegistry.registerComponent(appName, () => Rooter);

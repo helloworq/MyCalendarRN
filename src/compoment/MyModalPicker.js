@@ -20,14 +20,15 @@ const MyModalPicker = ({
     const [value, selectValue] = useState("选择标签")
 
     function renderItem(item) {
+        console.log('aaaa',item)
         return (
             <TouchableOpacity onPress={() => {
                 setVisible(!visible)
-                callback(item.item)
-                selectValue(item.item)
+                callback(item.item['NAME'])
+                selectValue(item.item['NAME'])
             }}>
                 <View style={{ padding: 10 }}>
-                    <Text>{item.item}</Text>
+                    <Text>{item.item['NAME']}</Text>
                 </View>
             </TouchableOpacity>
         )
