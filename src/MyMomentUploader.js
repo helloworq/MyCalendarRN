@@ -153,11 +153,6 @@ const MyMomentUploader = ({ route, navigation }) => {
                             <Text style={{ color: theme.colors.fontColor, fontSize: 20 }} >发表</Text>
                         </View>
                     </TouchableOpacity>
-                    {/* <Button onPress={() => {
-                        const _tags = Object.values(tags).filter((e) => e[2] === true)
-                        uploadMomentByStroage(text, data, _tags)
-                        ToastAndroid.show('已上传', ToastAndroid.SHORT);
-                    }} title='发表' /> */}
                 </View>
             </ImageBackground>
         </>

@@ -17,7 +17,7 @@ import Timeline from 'react-native-timeline-flatlist'
 import storage, { loadMomentByStroage, getMarkedDatesByStroage, getTagsByStroage } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
 import MyModalPicker from "./compoment/MyModalPicker";
-import { selectAllMomentDates, selectCurMomentInfo } from './storage/repository/MomentDao';
+import { selectAllMomentByTag, selectAllMomentDates, selectCurMomentInfo } from './storage/repository/MomentDao';
 import { Consumer } from 'react-native-paper/lib/typescript/src/core/settings';
 import { findAllTag } from './storage/repository/TagDao';
 
@@ -25,7 +25,6 @@ const MyCalendar = ({ navigation }) => {
   const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
   const [markedDates, setMarkedDates] = useState()
   const [tags, setTags] = useState([])
-  const [selectTag, setSelectTag] = useState()
   const [data, setData] = useState()
 
   const styles = StyleSheet.create({
@@ -75,32 +74,13 @@ const MyCalendar = ({ navigation }) => {
     },
   })
 
-  function loadMoment(param, tag) {
-    let r = loadMomentByStroage(param, tag)
-    setData(r)
-  }
-
   function loadMarkedDatesByStroage(tag) {
-    let res = {}
-    const dates = getMarkedDatesByStroage(tag)
-    dates.forEach(e => res[e] = value)
-
-    setMarkedDates(res)
+    selectAllMomentByTag(tag, (e) => setMarkedDates(e))
   }
 
   useEffect(() => {
     selectAllMomentDates((e) => setMarkedDates(e))
-    // const dates = getMarkedDatesByStroage()
-    // console.log('aaaaaaaaa',dates)
-    // dates.forEach(e => res[e] = value)
-    // setMarkedDates(res)
-
-    //tags
     findAllTag((e) => setTags(e))
-    
-    // const tagSaved = getTagsByStroage()
-    // tagSaved.unshift(["#全部标签", 'tag', false])
-    // setTags(tagSaved.map(e => e[0]))
   }, [])
 
   function renderDetail(rowData, sectionID, rowID) {
@@ -153,7 +133,6 @@ const MyCalendar = ({ navigation }) => {
                         data={tags}
                         callback={(val) => {
                           loadMarkedDatesByStroage(val)
-                          setSelectTag(val)
                         }}
                       />
                     </View>

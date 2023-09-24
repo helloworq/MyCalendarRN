@@ -20,7 +20,6 @@ const MyModalPicker = ({
     const [value, selectValue] = useState("选择标签")
 
     function renderItem(item) {
-        console.log('aaaa',item)
         return (
             <TouchableOpacity onPress={() => {
                 setVisible(!visible)

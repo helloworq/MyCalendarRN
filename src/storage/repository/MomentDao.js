@@ -52,15 +52,15 @@ export function selectAllMomentDates(callback) {
                 .filter(e => e != null)
                 .map(e => dayjs(e).format('YYYY-MM-DD'))
             content.forEach(e => response[e] = value)
-            console.log(content)
             callback(response)
         })
     })
 }
 
-export function selectAllMomentByTag(callback) {
+export function selectAllMomentByTag(tag, callback) {
     db.transaction(function (txn) {
-        txn.executeSql(`SELECT CREATE_TIME FROM ${table}  `, [], function (tx, res) {
+        txn.executeSql(`SELECT CREATE_TIME,INSTR(TAGS,:str) AS exist FROM ${table} WHERE exist <> 0`, [tag], function (tx, res) {
+
             let response = {}
             const value = { selected: true, marked: true, selectedColor: '#66ff66' }
             const content = res.rows['_array']
@@ -68,16 +68,14 @@ export function selectAllMomentByTag(callback) {
                 .filter(e => e != null)
                 .map(e => dayjs(e).format('YYYY-MM-DD'))
             content.forEach(e => response[e] = value)
-            console.log(content)
             callback(response)
         })
-    })
+    }, (e) => console.log(e), (e) => console.log(e))
 }
 
 export function selectCurMomentInfo(time, callback) {
     db.transaction(function (txn) {
         txn.executeSql(`SELECT *,TIME(CREATE_TIME) AS time FROM ${table} where DATE(CREATE_TIME) = :time `, [time], function (tx, res) {
-            //console.log(res.rows['_array'])
             callback(res.rows['_array'])
         })
     }, (e) => console.log(e), (e) => console.log(e))
@@ -87,7 +85,6 @@ export function deleteMomentInfo(id) {
     db.transaction(function (txn) {
         txn.executeSql(`DELETE FROM ${table} where ID = :id `, [id], function (tx, res) {
             console.log('影响行=> ', res.rowsAffected)
-            //callback(res.rows['_array'])
         })
     }, (e) => console.log(e), (e) => console.log(e))
 }
