@@ -17,9 +17,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import ImgStroage from "./storage/ImgStroage";
 import storage from './storage/MhkvStroge';
+import { selectAllUser, selectCurUserInfo, updateUserAvatar, updateUserInfo } from './storage/repository/UserDao';
 
 const MyProfile = ({ navigation }) => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        selectCurUserInfo((e) => setUser(e))
+    }, [])
     // /chevron-right
     return (
         <>
@@ -67,13 +73,15 @@ const MyProfile = ({ navigation }) => {
                         <View style={{ backgroundColor: theme.colors.bgColor, justifyContent: 'space-around', width: '95%', height: 200, marginTop: 10, borderRadius: 10, }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', margin: 10 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Image resizeMode='stretch' source={require('../img/a.jpg')} style={{ width: 80, height: 80, borderRadius: 100 }} />
+                                    <Image resizeMode='stretch' source={{ uri: user['AVATAR'] }} style={{ width: 80, height: 80, borderRadius: 100 }} />
                                     <View>
-                                        <Text style={{ color: theme.colors.fontColor, fontSize: 30, marginLeft: 10, fontWeight: 'bold' }}>李白</Text>
-                                        <Text style={{ color: theme.colors.fontColor, fontSize: 15, marginLeft: 10 }}>危楼高百尺，手可摘星辰</Text>
+                                        <Text style={{ color: theme.colors.fontColor, fontSize: 30, marginLeft: 10, fontWeight: 'bold' }}>{user['NAME']}</Text>
+                                        <Text style={{ color: theme.colors.fontColor, fontSize: 15, marginLeft: 10 }}>{user['SIGN']}</Text>
                                     </View>
                                 </View>
-                                <FontAwesome name='chevron-right' size={30} color={theme.colors.iconColor} />
+                                <TouchableOpacity onPress={() => navigation.navigate('MyProfileDetail')} >
+                                    <FontAwesome name='chevron-right' size={30} color={theme.colors.iconColor} />
+                                </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 10 }}>
                                 <View style={{ alignItems: 'center' }}>
@@ -81,16 +89,16 @@ const MyProfile = ({ navigation }) => {
                                     <Text style={{ color: theme.colors.fontColor }}>动态</Text>
                                 </View>
                                 <View style={{ alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 25, color: theme.colors.fontColor, fontWeight: 'bold' }}>25</Text>
-                                    <Text style={{ color: theme.colors.fontColor }}>动态</Text>
+                                    <Text style={{ fontSize: 25, color: theme.colors.fontColor, fontWeight: 'bold' }}>0</Text>
+                                    <Text style={{ color: theme.colors.fontColor }}>收藏</Text>
                                 </View>
                                 <View style={{ alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 25, color: theme.colors.fontColor, fontWeight: 'bold' }}>25</Text>
-                                    <Text style={{ color: theme.colors.fontColor }}>动态</Text>
+                                    <Text style={{ fontSize: 25, color: theme.colors.fontColor, fontWeight: 'bold' }}>0</Text>
+                                    <Text style={{ color: theme.colors.fontColor }}>点赞</Text>
                                 </View>
                                 <View style={{ alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 25, color: theme.colors.fontColor, fontWeight: 'bold' }}>25</Text>
-                                    <Text style={{ color: theme.colors.fontColor }}>动态</Text>
+                                    <Text style={{ fontSize: 25, color: theme.colors.fontColor, fontWeight: 'bold' }}>0</Text>
+                                    <Text style={{ color: theme.colors.fontColor }}>浏览</Text>
                                 </View>
                             </View>
                         </View>

@@ -1,6 +1,7 @@
 import { getDBConnection } from '../RNSqlite'
 import stroge from '../MhkvStroge'
 import dayjs from 'dayjs'
+import DeviceInfo from 'react-native-device-info';
 
 const db = getDBConnection()
 const table = 'moment'
@@ -10,6 +11,7 @@ const moment = {
     content: 'content',
     images: 'images',
     tags: 'tags',
+    device: 'device',
     edited: 'edited',
     createTime: 'create_time',
     lastUpdateTime: 'last_update_time',
@@ -25,9 +27,9 @@ export function saveMoment(text, imgs, tags) {
     const id = stroge.getNumber('id')
 
     db.transaction(function (txn) {
-        txn.executeSql(`insert into moment(user_id,content,images,tags,edited,create_time,last_update_time) `
-            + `values(:id,:content,:images,:tags,:edited,:create_time,:last_update_time)`,
-            [id, text, JSON.stringify(imageUrl), JSON.stringify(tags), 0, datetime, datetime], (tx, res) => {
+        txn.executeSql(`insert into moment(user_id,content,images,tags,edited,device,create_time,last_update_time) `
+            + `values(:id,:content,:images,:tags,:edited,:device,:create_time,:last_update_time)`,
+            [id, text, JSON.stringify(imageUrl), JSON.stringify(tags), 0, DeviceInfo.getDeviceNameSync(), datetime, datetime], (tx, res) => {
                 console.log('影响行=> ', res.rowsAffected)
             })
     }, (e) => console.log(e), (e) => console.log(e))

@@ -19,7 +19,6 @@ import {
     ImageBackground,
     ScrollView
 } from 'react-native'
-import { selectCurUserMoment } from './storage/repository/UserDao';
 import { findAllTag, saveTag } from "./storage/repository/TagDao";
 
 const screenW = Dimensions.get('window').width;
