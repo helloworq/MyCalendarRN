@@ -108,7 +108,7 @@ const MySvgChina = () => {
                                 title='1111'
                                 width={'100%'}
                                 height={'100%'}
-                                viewBox={panMoveX + ' ' + panMoveY + ' ' + screenHeight / zoom + ' ' + screenWidth / zoom}
+                                viewBox={panMoveX + ' ' + panMoveY + ' ' + 1000 / zoom + ' ' + screenWidth / zoom}
                             >
                                 {
                                     curRegion.map(e => {

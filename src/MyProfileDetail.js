@@ -18,7 +18,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import ImgStroage from "./storage/ImgStroage";
 import storage from './storage/MhkvStroge';
-import { selectAllUser, selectCurUserInfo, updateUserInfo } from './storage/repository/UserDao';
+import { selectAllUser, selectCurUserInfo, updateUserAvatar, updateUserInfo } from './storage/repository/UserDao';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import { execInitSql } from './storage/repository/BaseDao';
 
 const MyProfileDetail = () => {
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
@@ -40,9 +42,9 @@ const MyProfileDetail = () => {
         )
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         selectCurUserInfo((e) => setUser(e))
-    },[])
+    }, [])
 
     return (
         <>
@@ -52,13 +54,12 @@ const MyProfileDetail = () => {
                 style={{
                     flex: 1,
                     flexDirection: 'column',
-                    backgroundColor: 'green',
                 }}
             >
                 <ScrollView>
-                    <View style={{ margin: 10, padding: 20, backgroundColor: 'white', borderRadius: 10 }}>
+                    <View style={{ margin: 10, padding: 20, backgroundColor: theme.colors.bgColor, borderRadius: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold' }}>基本资料</Text>
+                            <Text style={{ color: 'black', fontSize: 25, fontWeight: 'bold' }}>基本资料</Text>
                             <TouchableOpacity onPress={() => {
                                 setEditable(!editable)
                                 if (editable) {
@@ -71,9 +72,17 @@ const MyProfileDetail = () => {
                             </TouchableOpacity>
                         </View>
                         <View style={{ alignItems: 'center', margin: 10 }}>
-                            <Image resizeMode='stretch' source={require('../img/a.jpg')} style={{ width: 100, height: 100, borderRadius: 100 }} />
+                            <Image resizeMode='stretch' source={{ uri: user['AVATAR'] }} style={{ width: 100, height: 100, borderRadius: 100 }} />
                             <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, justifyContent: 'center', alignItems: 'center' }}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => {
+                                    ImageCropPicker.openPicker({
+                                        multiple: false
+                                    }).then(images => {
+                                        console.log(images.path)
+                                        updateUserAvatar(images.path)
+                                       
+                                    }).catch(e => ToastAndroid.show('未获取权限', ToastAndroid.SHORT))
+                                }}>
                                     <FontAwesome name='camera' size={40} color={'rgba(255,255,255,0.7)'} />
                                 </TouchableOpacity>
                             </View>

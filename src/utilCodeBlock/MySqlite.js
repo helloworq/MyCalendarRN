@@ -15,19 +15,9 @@ import {
     updateUserInfo,
     selectCurUserMoment
 } from '../storage/repository/UserDao';
-import {
-    selectAllMoment,
-    selectCurMomentInfo,
-    saveMoment,
-    updateMoment,
-} from '../storage/repository/MomentDao';
 import RNFS from 'react-native-fs'
 
 const MySqlite = () => {
-
-    function readTrunk(position, length) {
-
-    }
 
     return (
         <>

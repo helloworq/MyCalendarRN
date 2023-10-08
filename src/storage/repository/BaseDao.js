@@ -6,6 +6,7 @@ const db = getDBConnection()
 const userDropSql = 'DROP TABLE IF EXISTS USER'
 const momentDropSql = 'DROP TABLE IF EXISTS MOMENT'
 const regionDropSql = 'DROP TABLE IF EXISTS REGION'
+const tagDropSql = 'DROP TABLE IF EXISTS TAG'
 
 const userCreatSql = 'CREATE TABLE USER ( '
     + 'ID     INTEGER PRIMARY KEY AUTOINCREMENT ,'
@@ -15,6 +16,9 @@ const userCreatSql = 'CREATE TABLE USER ( '
     + 'ADDRESS       VARCHAR(16)       ,'
     + 'PASSWORD      VARCHAR(16)       ,'
     + 'MALE          VARCHAR(4)        ,'
+    + 'AVATAR        VARCHAR(16)       ,'
+    + 'EXTRA1        VARCHAR(16)       ,'
+    + 'EXTRA2        VARCHAR(16)       ,'
     + 'ROLE_ID       INTEGER           '
     + ')'
 const momentCreatSql = 'CREATE TABLE MOMENT ( '
@@ -28,12 +32,18 @@ const momentCreatSql = 'CREATE TABLE MOMENT ( '
     + 'CREATE_TIME            VARCHAR(24)            ,'
     + 'LAST_UPDATE_TIME       VARCHAR(24)             '
     + ')'
-const regionCreateSql = 'CREATE TABLE region ( '
+const regionCreateSql = 'CREATE TABLE REGION ( '
     + 'ID     INTEGER PRIMARY KEY AUTOINCREMENT      ,'
     + 'REGION_CODE            VARCHAR(10)            ,'
     + 'PARENT_CODE            VARCHAR(10)            ,'
     + 'NAME                   VARCHAR(32)            ,'
     + 'PATH                   TEXT                    '
+    + ')'
+const tagCreateSql = 'CREATE TABLE TAG ( '
+    + 'ID     INTEGER PRIMARY KEY AUTOINCREMENT      ,'
+    + 'NAME                   VARCHAR(32)            ,'
+    + 'ICON_CODE              VARCHAR(10)            ,'
+    + 'NICK                   VARCHAR(32)            '
     + ')'
 
 
@@ -42,13 +52,14 @@ function init() {
         txn.executeSql(userDropSql, [])
         txn.executeSql(momentDropSql, [])
         txn.executeSql(regionDropSql, [])
+        txn.executeSql(tagDropSql, [])
 
         txn.executeSql(userCreatSql, [])
         txn.executeSql(momentCreatSql, [])
         txn.executeSql(regionCreateSql, [])
+        txn.executeSql(tagCreateSql, [])
 
-        txn.executeSql("INSERT INTO User (id,name,age,sign,address,password,male,role_id) VALUES (1,'李白',99,'危楼高百尺，手可摘星辰','长安','','男',0)", [])
-        txn.executeSql("INSERT INTO Moment (id,user_id,content,images,tags,device,edited) VALUES (1,1,'将进酒，杯莫停','','','','')", [])
+        txn.executeSql("INSERT INTO user (id,name,age,sign,address,password,male,role_id) VALUES (1,'李白',99,'危楼高百尺，手可摘星辰','长安','','男',0)", [])
     }, (e) => console.log(e), (e) => console.log(e))
 }
 
@@ -86,6 +97,6 @@ function insertRegion() {
 export function execInitSql() {
     stroge.set('id', 1)
     init()
-    insertRegion()
+    //insertRegion()
 }
 
