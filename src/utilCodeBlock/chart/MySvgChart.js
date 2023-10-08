@@ -91,35 +91,61 @@ const MySvgChart = () => {
     <!-- version: 20090314, original size: 131.75937 42.538872, border: 3% -->
     `
 
+    const radius = 10
+    const left = 10
+    const padding = 5
+    const progressPositionY = 35
+    const progressWidth = 35
+
+    const progressGroup = ({ data }) => {
+
+        let mapData = []
+        for (let i = 0; i < data.length; i++) {
+            let temp = <>
+                <Rect x={left} y={0 * progressPositionY} rx={radius} height={progressWidth} width={data[i].width} fill={data[i].color} />
+                <G x={left + padding} y={padding + progressPositionY * i}>
+                    <SvgXml xml={data[i].xml} />
+                </G>
+                <Text x="80" y="20" fill="#000" fontSize="20"> {data[i].name} </Text>
+            </>
+        }
+
+        return (<>
+            <Svg height="400" width="400">
+
+            </Svg>
+        </>)
+    }
+
     return (
         <>
             <Svg height="400" width="400">
-                <Rect x="10" y="0" rx="11" height="30" width="60" fill="#adebad" />
-                <G x="40" y="3">
+                <Rect x={left} y={0 * progressPositionY} rx={radius} height={progressWidth} width="60" fill="#adebad" />
+                <G x={left + padding} y="5">
                     <SvgXml xml={wechatxml} />
                 </G>
                 <Text x="80" y="20" fill="#000" fontSize="20"> Wechat </Text>
 
-                <Rect x="10" y="35" rx="11" height="30" width="50" fill="skyblue" />
-                <G x="30" y="38">
+                <Rect x={left} y={1 * progressPositionY} rx={radius} height={progressWidth} width="50" fill="skyblue" />
+                <G x={left + padding} y="40">
                     <SvgXml xml={alipayxml} />
                 </G>
-                <Text x="70" y="55" fill="#000" fontSize="20"> Alipay </Text>
+                <Text x="70" y="55" fill="#000" fontSize="20"> Alipay 111 </Text>
 
-                <Rect x="10" y="70" rx="11" height="30" width="90" fill="#ffb3b3" />
-                <G x="70" y="73">
+                <Rect x={left} y={2 * progressPositionY} rx={radius} height={progressWidth} width="90" fill="#ffb3b3" />
+                <G x={left + padding} y="75">
                     <SvgXml xml={icbcxml} />
                 </G>
                 <Text x="110" y="90" fill="#000" fontSize="20"> ICBC </Text>
 
-                <Rect x="10" y="105" rx="11" height="30" width="130" fill="orange" />
-                <G x="110" y="108">
+                <Rect x={left} y={3 * progressPositionY} rx={radius} height={progressWidth} width="130" fill="orange" />
+                <G x={left + padding} y="110">
                     <SvgXml xml={yuebaoxml} />
                 </G>
                 <Text x="150" y="125" fill="#000" fontSize="20"> 余额宝 </Text>
 
-                <Rect x="10" y="140" rx="11" height="30" width="130" fill="skyblue" />
-                <G x="65" y="143">
+                <Rect x={left} y={4 * progressPositionY} rx={radius} height={progressWidth} width="130" fill="skyblue" />
+                <G x={left + padding} y="145">
                     <SvgXml xml={sodexoxml} />
                 </G>
                 <Text x="150" y="165" fill="#000" fontSize="20"> Sodexo </Text>
