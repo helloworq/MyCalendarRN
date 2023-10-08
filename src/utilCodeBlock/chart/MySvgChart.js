@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import {
     StyleSheet,
     View,
+    Button,
     FlatList,
+    TouchableOpacity,
 } from 'react-native'
 import Svg, {
     Circle,
@@ -94,62 +96,99 @@ const MySvgChart = () => {
     const radius = 10
     const left = 10
     const padding = 5
-    const progressPositionY = 35
+    const progressPositionY = 40
     const progressWidth = 35
+    const textInit = 25
 
-    const progressGroup = ({ data }) => {
+    const ProgressGroup = ({ data }) => {
 
         let mapData = []
         for (let i = 0; i < data.length; i++) {
+            const current = data[i]
             let temp = <>
-                <Rect x={left} y={0 * progressPositionY} rx={radius} height={progressWidth} width={data[i].width} fill={data[i].color} />
+                <Rect onPress={() => console.log(current['name'])} x={left} y={i * progressPositionY} rx={radius} height={progressWidth} width={current['width']} fill={current['color']} />
                 <G x={left + padding} y={padding + progressPositionY * i}>
-                    <SvgXml xml={data[i].xml} />
+                    <SvgXml xml={current['xml']} />
                 </G>
-                <Text x="80" y="20" fill="#000" fontSize="20"> {data[i].name} </Text>
+                <Text x={(current['width'] + left) / 2.5} y={textInit + i * progressPositionY} fill="gray" fontSize="15"> {current['name']} </Text>
+                <Text x={(current['width'] + left)} y={textInit + i * progressPositionY} fill="black" fontSize="20"> {current['amount']} </Text>
             </>
+            mapData.push(temp)
         }
 
         return (<>
-            <Svg height="400" width="400">
+            <View style={{ width: 400, height: 300, marginTop: 10 }}>
+                <Svg height="100%" width="100%">
+                    {mapData}
+                </Svg>
+            </View>
 
-            </Svg>
         </>)
     }
 
+    const data = [
+        {
+            width: 100,
+            name: "Wechat",
+            xml: wechatxml,
+            color: '#adebad',
+            amount: 99999,
+        },
+        {
+            width: 150,
+            name: "Alipay",
+            xml: alipayxml,
+            color: 'skyblue',
+            amount: 10000,
+        },
+        {
+            width: 200,
+            name: "ICBC",
+            xml: icbcxml,
+            color: '#ffb3b3',
+            amount: 100000,
+        },
+        {
+            width: 260,
+            name: "余额宝",
+            xml: yuebaoxml,
+            color: 'orange',
+            amount: 88888,
+        },
+        {
+            width: 310,
+            name: "Sodexo",
+            xml: sodexoxml,
+            color: 'skyblue',
+            amount: 66666,
+        },
+        {
+            width: 310,
+            name: "基金",
+            xml: jijinxml,
+            color: 'skyblue',
+            amount: 66666,
+        },
+        {
+            width: 310,
+            name: "余额",
+            xml: yuexml,
+            color: 'skyblue',
+            amount: 66666,
+        },
+    ]
+
+
     return (
         <>
-            <Svg height="400" width="400">
-                <Rect x={left} y={0 * progressPositionY} rx={radius} height={progressWidth} width="60" fill="#adebad" />
-                <G x={left + padding} y="5">
-                    <SvgXml xml={wechatxml} />
-                </G>
-                <Text x="80" y="20" fill="#000" fontSize="20"> Wechat </Text>
-
-                <Rect x={left} y={1 * progressPositionY} rx={radius} height={progressWidth} width="50" fill="skyblue" />
-                <G x={left + padding} y="40">
-                    <SvgXml xml={alipayxml} />
-                </G>
-                <Text x="70" y="55" fill="#000" fontSize="20"> Alipay 111 </Text>
-
-                <Rect x={left} y={2 * progressPositionY} rx={radius} height={progressWidth} width="90" fill="#ffb3b3" />
-                <G x={left + padding} y="75">
-                    <SvgXml xml={icbcxml} />
-                </G>
-                <Text x="110" y="90" fill="#000" fontSize="20"> ICBC </Text>
-
-                <Rect x={left} y={3 * progressPositionY} rx={radius} height={progressWidth} width="130" fill="orange" />
-                <G x={left + padding} y="110">
-                    <SvgXml xml={yuebaoxml} />
-                </G>
-                <Text x="150" y="125" fill="#000" fontSize="20"> 余额宝 </Text>
-
-                <Rect x={left} y={4 * progressPositionY} rx={radius} height={progressWidth} width="130" fill="skyblue" />
-                <G x={left + padding} y="145">
-                    <SvgXml xml={sodexoxml} />
-                </G>
-                <Text x="150" y="165" fill="#000" fontSize="20"> Sodexo </Text>
-            </Svg>
+            <View style={{ flex: 1 }}>
+                <ProgressGroup data={data} />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                    <Button title='明细' />
+                    <Button title='趋势' />
+                    <Button title='修改' />
+                </View>
+            </View>
         </>
     )
 }
