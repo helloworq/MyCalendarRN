@@ -45,5 +45,6 @@ import MyProfileDetail from './src/MyProfileDetail'
 import MySvg from './src/utilCodeBlock/svg/MySvg'
 import MySvgChina from './src/utilCodeBlock/svg/MySvgChina'
 import MySvgMap from './src/utilCodeBlock/svg/MySvgMap'
+import MySvgChart from './src/utilCodeBlock/chart/MySvgChart';
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MySvgChart);
