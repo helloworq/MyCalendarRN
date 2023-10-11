@@ -47,5 +47,6 @@ import MySvgChina from './src/utilCodeBlock/svg/MySvgChina'
 import MySvgMap from './src/utilCodeBlock/svg/MySvgMap'
 import MySvgChart from './src/utilCodeBlock/chart/MySvgChart';
 import MySkiaChart from './src/utilCodeBlock/chart/MySkiaChart';
+import MySkiaChartReanimated from './src/utilCodeBlock/chart/MySkiaChartReanimated';
 
-AppRegistry.registerComponent(appName, () => MySkiaChart);
+AppRegistry.registerComponent(appName, () => MySkiaChartReanimated);
