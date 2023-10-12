@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
     Button,
     Dimensions,
+    View,
+    Text,
+    TouchableOpacity,
 } from 'react-native'
 import Animated, {
     useSharedValue,
@@ -14,7 +17,6 @@ import {
 } from 'react-native-gesture-handler';
 import Svg, {
     Line,
-    Text,
     TSpan,
     Circle,
 } from 'react-native-svg';
@@ -51,7 +53,6 @@ const MySkiaChartReanimated = () => {
     const maxHeight = 100
     const screenWidth = Dimensions.get("window").width
     const split = screenWidth / size
-    const [press, setPress] = useState(true)
     const [block, setBlock] = useState()
     const [xAsix, setXAsix] = useState()
     const offsetX = useSharedValue(0)
@@ -87,9 +88,6 @@ const MySkiaChartReanimated = () => {
             <GestureDetector gesture={pan}>
                 <Svg height={maxHeight + margin * 3} width={screenWidth}>
                     {block}
-                    <Text y={maxHeight + margin * 2} fontSize={8}>
-                        {xAsix}
-                    </Text>
                     <AnimatedCircle
                         cx={offsetX}
                         cy={offsetY}
@@ -100,6 +98,14 @@ const MySkiaChartReanimated = () => {
                 </Svg>
             </GestureDetector>
         </GestureHandlerRootView >
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Day</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Week</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Month</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Year</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Total</Text></View></TouchableOpacity>
+        </View>
 
         <Button title='初始化' onPress={() => {
             let b = []
@@ -128,7 +134,6 @@ const MySkiaChartReanimated = () => {
                 )
             }
             setBlock(b)
-            setPress(!press)
             setXAsix(xA)
         }} />
     </>
