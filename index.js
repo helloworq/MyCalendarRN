@@ -50,5 +50,6 @@ import MyNativeAnimatedChart from './src/utilCodeBlock/chart/MyNativeAnimatedCha
 import MySvgChartReanimated from './src/utilCodeBlock/chart/MySvgChartReanimated';
 import MySkiaReanimatedLine from './src/utilCodeBlock/chart/MySkiaReanimatedLine';
 import MySkiaReanimatedPoints from './src/utilCodeBlock/chart/MySkiaReanimatedPoints';
+import MySkiaReanimatedPath from './src/utilCodeBlock/chart/MySkiaReanimtedPath';
 
-AppRegistry.registerComponent(appName, () => MySkiaReanimatedPoints);
+AppRegistry.registerComponent(appName, () => MySkiaReanimatedPath);
