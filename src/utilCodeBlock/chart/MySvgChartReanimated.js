@@ -46,7 +46,7 @@ const AnimatedLineEle = ({ px1, py1, px2, py2 }) => {
 }
 
 
-const MySkiaChartReanimated = () => {
+const MySvgChartReanimated = () => {
     const size = 31
     const poolSize = 10
     const margin = 20
@@ -140,4 +140,4 @@ const MySkiaChartReanimated = () => {
     );
 }
 
-export default MySkiaChartReanimated
+export default MySvgChartReanimated

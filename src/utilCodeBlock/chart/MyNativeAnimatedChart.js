@@ -63,7 +63,7 @@ const AnimatedLineEle = ({ px1, py1, px2, py2 }) => {
     )
 }
 
-const MySkiaChart = () => {
+const MyNativeAnimatedChart = () => {
     const size = 256;
     const seq = [1, 2, 3, 4, 5, 6]
     const position = useRef(new Animated.Value(0)).current
@@ -115,4 +115,4 @@ const MySkiaChart = () => {
     );
 }
 
-export default MySkiaChart
+export default MyNativeAnimatedChart

@@ -53,6 +53,7 @@
     "react-native-safe-area-context": "^4.5.3",
     "react-native-screens": "^3.21.1",
     "react-native-select-dropdown": "^3.4.0",
+    "react-native-skia": "^0.0.1",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-sqlite-2": "^3.6.2",
     "react-native-storage": "^1.0.1",
