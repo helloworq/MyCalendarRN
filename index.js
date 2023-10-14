@@ -52,4 +52,4 @@ import MySkiaReanimatedLine from './src/utilCodeBlock/chart/MySkiaReanimatedLine
 import MySkiaReanimatedPoints from './src/utilCodeBlock/chart/MySkiaReanimatedPoints';
 import MySkiaReanimatedPath from './src/utilCodeBlock/chart/MySkiaReanimtedPath';
 
-AppRegistry.registerComponent(appName, () => MySkiaReanimatedPath);
+AppRegistry.registerComponent(appName, () => MySvgChartReanimated);

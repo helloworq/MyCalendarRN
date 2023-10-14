@@ -100,11 +100,10 @@ const MySvgChartReanimated = () => {
         </GestureHandlerRootView >
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Day</Text></View></TouchableOpacity>
-            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Week</Text></View></TouchableOpacity>
-            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Month</Text></View></TouchableOpacity>
-            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Year</Text></View></TouchableOpacity>
-            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>Total</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>日</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>周</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>月</Text></View></TouchableOpacity>
+            <TouchableOpacity><View style={{ backgroundColor: 'skyblue', borderRadius: 10, padding: 5 }}><Text>年</Text></View></TouchableOpacity>
         </View>
 
         <Button title='初始化' onPress={() => {
