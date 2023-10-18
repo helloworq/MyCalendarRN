@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
-import ImageViewer from 'react-native-image-zoom-viewer';
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import storage, { uploadMomentByStroage, getTagsByStroage } from './storage/MhkvStroge';
+import storage, { getTagsByStroage } from './storage/MhkvStroge';
+import { saveMoment } from './storage/repository/MomentDao'
+import { execInitSql } from './storage/repository/BaseDao';
 import ImgStroage from "./storage/ImgStroage";
-
+import ImageView from 'react-native-image-viewing'
 import {
     TextInput,
     View,
@@ -14,12 +14,12 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    Modal,
-    Button,
+    Text,
     ToastAndroid,
     ImageBackground,
     ScrollView
 } from 'react-native'
+import { findAllTag, saveTag } from "./storage/repository/TagDao";
 
 const screenW = Dimensions.get('window').width;
 
@@ -43,16 +43,16 @@ const MyMomentUploader = ({ route, navigation }) => {
     const [index, setIndex] = useState(0)
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
+    const [selectTag, setSelectTag] = useState([])
 
     useEffect(() => {
-        const tags = getTagsByStroage()
-        setTags(tags)
+        findAllTag((e) => setTags(e))
     }, [])
 
     function renderTag() {
-        return Object.keys(tags).map(t =>
+        return tags.map(t =>
             <Chip
-                icon={tags[t][2] ? 'check-bold' : tags[t][1]}
+                icon={selectTag.some(e => e['ID'] === t['ID']) ? 'check-bold' : t['ICON_CODE']}
                 textStyle={{ color: theme.colors.fontColor, }}
                 selected={true}
                 selectedColor={'black'}
@@ -62,11 +62,16 @@ const MyMomentUploader = ({ route, navigation }) => {
                     backgroundColor: theme.colors.bgColor
                 }}
                 onPress={() => {
-                    tags[t][2] = !tags[t][2]
-                    let newData = JSON.parse(JSON.stringify(tags))
-                    setTags(newData)
+                    const news = selectTag.filter(e => e['ID'] === t['ID'])
+                    if (news === null || news === undefined || news.length === 0) {
+                        selectTag.push(t)
+                        let newSelectTag = JSON.parse(JSON.stringify(selectTag))
+                        setSelectTag(newSelectTag)
+                    } else {
+                        setSelectTag(selectTag.filter(e => e['ID'] != t['ID']))
+                    }
                 }}
-            >{tags[t][0]}</Chip>
+            >{t['NAME']}</Chip>
         )
     }
 
@@ -74,16 +79,12 @@ const MyMomentUploader = ({ route, navigation }) => {
 
         return (
             <>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
+                <ImageView
+                    images={[{ uri: currImg }]}
                     visible={close}
-                    onRequestClose={() => {
-                        setClose(false)
-                    }}
-                >
-                    <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
-                </Modal>
+                    onRequestClose={() => setClose(false)}
+                />
+
                 <TouchableOpacity
                     onPress={() => {
                         setClose(true)
@@ -140,11 +141,17 @@ const MyMomentUploader = ({ route, navigation }) => {
                     />
                 </ScrollView>
                 <View>
-                    <Button onPress={() => {
-                        const _tags = Object.values(tags).filter((e) => e[2] === true)
-                        uploadMomentByStroage(text, data, _tags)
+                    <TouchableOpacity onPress={() => {
+                        //uploadMomentByStroage(text, data, _tags)
+                        saveMoment(text, data, selectTag)
+                        //execInitSql()
+                        //selectCurUserMoment()
                         ToastAndroid.show('已上传', ToastAndroid.SHORT);
-                    }} title='发表' />
+                    }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', height: 50, backgroundColor: theme.colors.bgColor, borderRadius: 20 }} >
+                            <Text style={{ color: theme.colors.fontColor, fontSize: 20 }} >发表</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </ImageBackground>
         </>

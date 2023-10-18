@@ -1,5 +1,4 @@
 import { Modal } from 'react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
 
 //弹出图片demo
 const images = [{
@@ -19,7 +18,7 @@ const images = [{
 const ImageShow = () => {
     return (
         <Modal visible={true} transparent={true}>
-            <ImageViewer imageUrls={images} />
+            
         </Modal>
     )
 }

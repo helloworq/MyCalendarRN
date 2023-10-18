@@ -1,11 +1,10 @@
 import React, { useState, useContext } from 'react'
-import ImageViewer from 'react-native-image-zoom-viewer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Chip } from 'react-native-paper';
 import { PreferencesContext } from "./MyPreferencesContext";
 import storage, { deleteMoment } from './storage/MhkvStroge';
 import ImgStroage from "./storage/ImgStroage";
-
+import ImageView from 'react-native-image-viewing'
 import {
     TextInput,
     View,
@@ -14,12 +13,12 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    Modal,
     Text,
     ToastAndroid,
     ImageBackground,
     ScrollView
 } from 'react-native'
+import { deleteMomentInfo } from './storage/repository/MomentDao';
 
 const screenW = Dimensions.get('window').width;
 
@@ -36,19 +35,19 @@ const keyExtractor = (item, index) => {
 const MyMomentViewer = ({ route, navigation }) => {
     const { param } = route.params
     const { mode, setMode, theme, bgImg, setBgImg } = useContext(PreferencesContext)
-    const [text, onChangeText] = useState(param.description)
+    const [text, onChangeText] = useState(param['CONTENT'])
     const [data, setData] = useState(param)
     const [index, setIndex] = useState(0)
     const [currImg, setCurrImg] = useState(null)
     const [close, setClose] = useState(false)
 
     function renderTag() {
-        const tags = data.tags
+        const tags = JSON.parse(data['TAGS'])
 
         return tags.map(t =>
             <Chip
-                icon={t[1]}
-                mode={t[2] ? 'flat' : 'outlined'}
+                icon={t['ICON_CODE']}
+                mode={'flat'}
                 textStyle={{ color: theme.colors.fontColor, }}
                 style={{
                     marginBottom: 10,
@@ -56,23 +55,18 @@ const MyMomentViewer = ({ route, navigation }) => {
                     backgroundColor: theme.colors.bgColor,
                 }}
                 onPress={() => { }}
-            >{t[0]}</Chip>
+            >{t['NAME']}</Chip>
         )
     }
 
     function renderRow(rowData) {
         return (
             <>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
+                <ImageView
+                    images={[{ uri: currImg }]}
                     visible={close}
-                    onRequestClose={() => {
-                        setClose(false)
-                    }}
-                >
-                    <ImageViewer imageUrls={[{ url: currImg }]} useNativeDriver={true} />
-                </Modal>
+                    onRequestClose={() => setClose(false)}
+                />
                 <TouchableOpacity
                     onPress={() => {
                         setClose(true)
@@ -124,7 +118,7 @@ const MyMomentViewer = ({ route, navigation }) => {
                             <View>
                                 <FlatList
                                     renderItem={renderRow}
-                                    data={data.imageUrl}
+                                    data={JSON.parse(data['IMAGES'])}
                                     keyExtractor={keyExtractor}
                                     numColumns={cols}
                                     horizontal={false}
@@ -134,10 +128,10 @@ const MyMomentViewer = ({ route, navigation }) => {
                         <View style={{ marginTop: 10, marginRight: 10, alignItems: 'flex-end' }}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ marginRight: 10 }}>
-                                    {param.date + ' ' + param.time}
+                                    {param['LAST_UPDATE_TIME']}
                                 </Text>
                                 <FontAwesome onPress={() => {
-                                    deleteMoment(param.date, param.time)
+                                    deleteMomentInfo(param['ID'])
                                     ToastAndroid.show('已删除，再次进入后将刷新', ToastAndroid.SHORT);
                                 }} name="trash" size={20} color={theme.colors.iconColor} />
                             </View>

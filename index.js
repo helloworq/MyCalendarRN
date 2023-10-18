@@ -38,5 +38,18 @@ import MyDone from './src/MyDone'
 import MyBing from './src/MyBing'
 import MyAnimatedModal from './src/utilCodeBlock/animation/MyAnimatedModal';
 import MyAnimatedMenu from './src/compoment/MyAnimatedMenu'
+import MyPullDownCompoment from './src/compoment/MyPullDownCompoment';
+import MyPullDownNative from './src/compoment/MyPullDownNative'
+import MySqlite from './src/utilCodeBlock/MySqlite'
+import MyProfileDetail from './src/MyProfileDetail'
+import MySvg from './src/utilCodeBlock/svg/MySvg'
+import MySvgChina from './src/utilCodeBlock/svg/MySvgChina'
+import MySvgMap from './src/utilCodeBlock/svg/MySvgMap'
+import MySvgChart from './src/utilCodeBlock/chart/MySvgChart';
+import MyNativeAnimatedChart from './src/utilCodeBlock/chart/MyNativeAnimatedChart';
+import MySvgChartReanimated from './src/utilCodeBlock/chart/MySvgChartReanimated';
+import MySkiaReanimatedLine from './src/utilCodeBlock/chart/MySkiaReanimatedLine';
+import MySkiaReanimatedPoints from './src/utilCodeBlock/chart/MySkiaReanimatedPoints';
+import MySkiaReanimatedPath from './src/utilCodeBlock/chart/MySkiaReanimtedPath';
 
-AppRegistry.registerComponent(appName, () => Rooter);
+AppRegistry.registerComponent(appName, () => MySkiaReanimatedPath);
